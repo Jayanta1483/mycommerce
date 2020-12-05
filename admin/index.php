@@ -1,4 +1,8 @@
 <?php
+session_start();
+if(!empty($_SESSION["login"])){
+    header("location:tables.php");
+}
 require "connection.php";
 
 if (isset($_POST["login"])) {
@@ -33,7 +37,8 @@ if (isset($_POST["login"])) {
     } elseif ($password !== $res_pass) {
         $pass_msg = "Invalid Password";
     } else {
-        
+        $_SESSION["login"] = "yes";
+        $_SESSION["email"] =$email;
         header("location:tables.php");
     }
 }
