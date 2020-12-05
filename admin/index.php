@@ -33,6 +33,7 @@ if (isset($_POST["login"])) {
     } elseif ($password !== $res_pass) {
         $pass_msg = "Invalid Password";
     } else {
+        
         header("location:tables.php");
     }
 }
