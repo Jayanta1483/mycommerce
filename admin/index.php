@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!empty($_SESSION["login"])) {
-    header("location:tables.php");
+    header("location:tables.php?page=catagories");
 }
 require "connection.php";
 
