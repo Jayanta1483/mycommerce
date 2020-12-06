@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!empty($_SESSION["login"])){
+if (!empty($_SESSION["login"])) {
     header("location:tables.php");
 }
 require "connection.php";
@@ -33,13 +33,15 @@ if (isset($_POST["login"])) {
     }
 
     if (empty($res_email)) {
-        $em_msg = "Invalid Email Id";
+        
+        header("location:index.php?e=em");
     } elseif ($password !== $res_pass) {
-        $pass_msg = "Invalid Password";
+       
+        header("location:index.php?e=pw");
     } else {
         $_SESSION["login"] = "yes";
-        $_SESSION["email"] =$email;
-        header("location:tables.php");
+        $_SESSION["email"] = $email;
+        header("location:tables.php?page=catagories");
     }
 }
 
@@ -66,7 +68,8 @@ if (isset($_POST["login"])) {
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body class="bg-gradient-primary">
@@ -92,18 +95,15 @@ if (isset($_POST["login"])) {
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email" required>
                                             <?php
-                                            if (!empty($em_msg)) {
-                                                echo "<p style='color:red;padding-left:14px;'>$em_msg</p>";
-                                            }
+
 
                                             ?>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" name="pwd" required>
+                                        <div class="form-group pv">
+                                            <input type="password" class="form-control form-control-user" id="Password" placeholder="Password" name="pwd" required>
+                                            <span class="p-viewer"><i class="fas fa-eye" id="pwd"></i></span>
                                             <?php
-                                            if (!empty($pass_msg)) {
-                                                echo "<p style='color:red;padding-left:14px;'>$pass_msg</p>";
-                                            }
+
 
                                             ?>
                                         </div>
@@ -117,13 +117,28 @@ if (isset($_POST["login"])) {
                                         <button class="btn btn-primary btn-user btn-block" name="login">
                                             Login
                                         </button>
-                                        <hr>
+                                        <!-- <hr>
                                         <a href="index.html" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Login with Google
                                         </a>
                                         <a href="index.html" class="btn btn-facebook btn-user btn-block">
                                             <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
+                                        </a> -->
+                                        <?php
+                                        if (isset($_GET["e"])) {
+
+                                            if ($_GET["e"] === "em") {
+                                                $em_msg = "Invalid Email Id";
+                                                echo "<p style='color:red;padding-left:14px;text-align:center;'>$em_msg</p>";
+                                            }
+
+                                            if ($_GET["e"] === "pw") {
+                                                $pass_msg = "Invalid Password";
+                                                echo "<p style='color:red;padding-left:14px;text-align:center;'>$pass_msg</p>";
+                                            }
+                                        }
+
+                                        ?>
                                     </form>
                                     <hr>
                                     <div class="text-center">
@@ -143,6 +158,31 @@ if (isset($_POST["login"])) {
         </div>
 
     </div>
+
+
+
+    <script>
+        $(document).ready(function() {
+            function togglePassword(pass) {
+                if (pass.attr("type") === "password") {
+                    pass.attr("type", "text");
+                } else {
+                    pass.attr("type", "password");
+                }
+            }
+
+            let pwd = $("#Password");
+
+            $(".p-viewer").click(() => {
+                $("#pwd").toggleClass("fa-eye fa-eye-slash");
+                togglePassword($(pwd));
+
+            })
+
+
+
+        })
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

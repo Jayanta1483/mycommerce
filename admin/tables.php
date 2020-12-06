@@ -16,23 +16,28 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
         } else {
             $status = 1;
         }
+        if ($_GET["page"] === "catagories") {
+            $update = "UPDATE catagories SET cat_status = ? WHERE cat_id=?";
+            $stmt = mysqli_stmt_init($connect);
+            mysqli_stmt_prepare($stmt, $update);
+            mysqli_stmt_bind_param($stmt, "ii", $status, $id);
+            mysqli_stmt_execute($stmt);
+        }
 
-        $update = "UPDATE catagories SET cat_status = ? WHERE cat_id=?";
-        $stmt = mysqli_stmt_init($connect);
-        mysqli_stmt_prepare($stmt, $update);
-        mysqli_stmt_bind_param($stmt, "ii", $status, $id);
-        mysqli_stmt_execute($stmt);
+        if ($_GET["page"] === "products") {
+            $update = "UPDATE products SET prod_status = ? WHERE prod_id=?";
+            $stmt = mysqli_stmt_init($connect);
+            mysqli_stmt_prepare($stmt, $update);
+            mysqli_stmt_bind_param($stmt, "ii", $status, $id);
+            mysqli_stmt_execute($stmt);
+        }
     }
 }
 
 
-
-
-$sql = "select * from catagories";
-$query = mysqli_query($connect, $sql);
-
-
-
+if (isset($_GET["page"])) {
+    $page = $_GET["page"];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en-IN">
@@ -79,35 +84,35 @@ $query = mysqli_query($connect, $sql);
             <hr class="sidebar-divider">
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tables.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link" href="tables.php?page=catagories">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Catagories</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tables.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link" href="tables.php?page=products">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Products</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tables.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link" href="tables.php?page=customers">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Customers</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tables.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link" href="tables.php?page=orders">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Orders</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tables.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link" href="tables.php?page=contacts">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Contact Us</span>
                 </a>
@@ -206,43 +211,182 @@ $query = mysqli_query($connect, $sql);
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Catgories Table</h6>
+                            <h6 class="m-0 font-weight-bold text-primary"><?php echo htmlspecialchars(ucwords($page)); ?></h6>
                         </div>
                         <div class="card-body">
+
+                            <!--#################################################################################################################################################################################################################################################################################################################################
+                                             FOR CATAGORIES TABLE
+#####################################################################################################################################################################################################################################################################################################################################-->
+                            <?php
+
+                            if ($page === "catagories") {
+                                $sql = "select * from catagories";
+                                $query = mysqli_query($connect, $sql); ?>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>CATAGORY NAME</th>
+                                                <th>STATUS</th>
+                                                <th>EDIT</th>
+                                                <th>DELETE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $i = 1;
+                                            while ($result = mysqli_fetch_array($query)) { ?>
+                                                <tr>
+                                                    <td><?php echo $i++; ?></td>
+                                                    <td><?php echo htmlspecialchars(ucwords($result["cat_name"])); ?></td>
+                                                    <td><?php
+                                                        if ($result["cat_status"] == 1) {
+                                                            echo "<a href='?page=catagories&type=status&operation=active&id=" . $result["cat_id"] . "' style='color:green; text-decoration:none;'>ACTIVE</a>";
+                                                        } else {
+                                                            echo "<a href='?page=catagories&type=status&operation=deactive&id=" . $result["cat_id"] . "' style='color:red;text-decoration:none;'>DEACTIVE</a>";
+                                                        }
+
+                                                        ?></td>
+                                                    <td><a href="edit.php?type=catagories&id=<?php echo $result["cat_id"]; ?>" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
+                                                    <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
+                                                </tr>
+
+                                            <?php  } ?>
+                                        </tbody>
+                                    </table>
+                                </div> <?php } ?>
+
+                            <!--################################################################################################################################################################################################################################################################################################################################
+                                                                FOR PRODUCTS
+####################################################################################################################################################################################################################################################################################################################################-->
+                            <?php
+                            if ($page === "products") {
+                                $sql = "SELECT catagories.cat_name, products.product_id, products.prod_name, products.prod_image,products.prod_mrp,products.prod_price,products.prod_qty,products.prod_status FROM catagories RIGHT JOIN products ON catagories.cat_id = products.cat_fk ORDER BY catagories.cat_name";
+                                $query = mysqli_query($connect, $sql); ?>
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>CATAGORIES</th>
+                                                <th>PRODUCTS</th>
+                                                <th>IMAGE</th>
+                                                <th>MRP</th>
+                                                <th>PRICE</th>
+                                                <th>QTY</th>
+                                                <th>STATUS</th>
+                                                <th>EDIT</th>
+                                                <th>DELETE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $i = 1;
+                                            while ($row = mysqli_fetch_assoc($query)) { ?>
+                                                <tr>
+                                                    <td><?php echo $i++; ?></td>
+                                                    <td><?php echo htmlspecialchars($row["cat_name"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["prod_name"]); ?></td>
+                                                    <td><img src="<?php echo htmlspecialchars($row["prod_image"]); ?>"></td>
+                                                    <td><?php echo htmlspecialchars($row["prod_mrp"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["prod_price"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["prod_qty"]); ?></td>
+                                                    <td><?php
+                                                        if ($row["prod_status"] == 1) {
+                                                            echo "<span style='color:green;'>ACTIVE</span>";
+                                                        } else {
+                                                            echo "<span style='color:red;'>DEACTIVE</span>";
+                                                        }
+                                                        ?></td>
+                                                    <td><a href="edit.php?page=products&id=<?php echo $row['product_id']; ?>" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
+                                                    <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php } ?>
+
+                            <!--##########################################################################################################################################################################################################################################################################################################################################
+                                                                FOR CUSTOMERS
+############################################################################################################################################################################################################################################################################################################################-->
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Catagory Name</th>
-                                            <th>Status</th>
-                                            <th>Edit</th>
-                                            <th>Delete</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        $i = 1;
-                                        while ($result = mysqli_fetch_array($query)) { ?>
-                                            <tr>
-                                                <td><?php echo $i++; ?></td>
-                                                <td><?php echo htmlspecialchars(ucwords($result["cat_name"])); ?></td>
-                                                <td><?php
-                                                    if ($result["cat_status"] == 1) {
-                                                        echo "<a href='?type=status&operation=active&id=" . $result["cat_id"] . "' style='color:green; text-decoration:none;'>ACTIVE</a>";
-                                                    } else {
-                                                        echo "<a href='?type=status&operation=deactive&id=" . $result["cat_id"] . "' style='color:red;text-decoration:none;'>DEACTIVE</a>";
-                                                    }
+                                        <tr>
 
-                                                    ?></td>
-                                                <td><a href="edit.php?type=catagories&id=<?php echo $result["cat_id"]; ?>" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
-                                                <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
-                                            </tr>
-
-                                        <?php  } ?>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
+
+                            <!--#############################################################################################################################################################################################################################################################
+                                                                  FOR ORDER LIST
+################################################################################################################################################################################################################################################################-->
+                            <div class="table-responsive">
+                                <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!--#######################################################################################################################################################################################################################################################################################
+                                                           FOR CONTACTS
+######################################################################################################################################################################################################################################################################################-->
+                            <?php
+                            if ($page === "contacts") {
+
+                                $sql = "SELECT customers.cust_fname, customers.cust_lname, customers.cust_email, contacts.comments, contacts.time FROM customers LEFT JOIN contacts ON customers.cust_id = contacts.customers_fk ORDER BY customers.cust_fname";
+                                $query = mysqli_query($connect, $sql);
+                            ?>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>CUSTOMER NAME</th>
+                                                <th>EMAIL ID</th>
+                                                <th>COMMENTS</th>
+                                                <th>TIME</th>
+                                                <th>DELETE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+
+                                            while ($row = mysqli_fetch_assoc($query)) {
+                                                $i = 1;
+                                            ?>
+
+                                                <tr>
+                                                    <td><?php echo $i++; ?></td>
+                                                    <td><?php echo $row["cust_fname"] . " " . $row["cust_lname"]; ?></td>
+                                                    <td><?php echo $row["cust_email"]; ?></td>
+                                                    <td><?php echo $row["comments"];   ?></td>
+                                                    <td><?php echo $row["time"];       ?></td>
+                                                    <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
 
