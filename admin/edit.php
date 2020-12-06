@@ -1,6 +1,6 @@
 <?php
+ob_start();
 session_start();
-
 if (empty($_SESSION["login"])) {
     header("location:index.php");
 }
@@ -8,38 +8,26 @@ if (empty($_SESSION["login"])) {
 require "connection.php";
 
 if (isset($_GET["type"]) && $_GET["type"] !== "") {
-    if ($_GET["type"] === "status") {
-        $operation = mysqli_real_escape_string($connect, $_GET["operation"]);
-        $id = mysqli_real_escape_string($connect, $_GET["id"]);
-        if ($operation === "active") {
-            $status = 0;
-        } else {
-            $status = 1;
-        }
-
-        $update = "UPDATE catagories SET cat_status = ? WHERE cat_id=?";
-        $stmt = mysqli_stmt_init($connect);
-        mysqli_stmt_prepare($stmt, $update);
-        mysqli_stmt_bind_param($stmt, "ii", $status, $id);
-        mysqli_stmt_execute($stmt);
-    }
-}
-
-
-
-
-$sql = "select * from catagories";
-$query = mysqli_query($connect, $sql);
-
-
+    $type = mysqli_real_escape_string($connect, $_GET["type"]);
+    $id = mysqli_real_escape_string($connect, $_GET["id"]);
+};
 
 ?>
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en-IN">
 
 <head>
-
-    <meta charset="utf-8">
+    <meta charset="utf-8(no BOM)">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -58,6 +46,7 @@ $query = mysqli_query($connect, $sql);
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
+
 
 <body id="page-top">
 
@@ -79,35 +68,35 @@ $query = mysqli_query($connect, $sql);
             <hr class="sidebar-divider">
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tables.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a href="tables.php" class="nav-link"  aria-expanded="true">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Catagories</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tables.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a href="tables.php"  class="nav-link"  aria-expanded="true">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Products</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tables.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a href="tables.php" class="nav-link"  aria-expanded="true">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Customers</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tables.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a href="tables.php" class="nav-link"  aria-expanded="true">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Orders</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tables.php" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <a href="tables.php" class="nav-link"  aria-expanded="true">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Contact Us</span>
                 </a>
@@ -206,43 +195,66 @@ $query = mysqli_query($connect, $sql);
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Catgories Table</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Edit
+                                <?php echo htmlspecialchars(ucwords($type)); ?></h6>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Catagory Name</th>
-                                            <th>Status</th>
-                                            <th>Edit</th>
-                                            <th>Delete</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $i = 1;
-                                        while ($result = mysqli_fetch_array($query)) { ?>
-                                            <tr>
-                                                <td><?php echo $i++; ?></td>
-                                                <td><?php echo htmlspecialchars(ucwords($result["cat_name"])); ?></td>
-                                                <td><?php
-                                                    if ($result["cat_status"] == 1) {
-                                                        echo "<a href='?type=status&operation=active&id=" . $result["cat_id"] . "' style='color:green; text-decoration:none;'>ACTIVE</a>";
-                                                    } else {
-                                                        echo "<a href='?type=status&operation=deactive&id=" . $result["cat_id"] . "' style='color:red;text-decoration:none;'>DEACTIVE</a>";
-                                                    }
+                            <?php
+                            if ($type = 'catagories') {
 
-                                                    ?></td>
-                                                <td><a href="edit.php?type=catagories&id=<?php echo $result["cat_id"]; ?>" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
-                                                <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
-                                            </tr>
+                                // For select query and Display data on edit page
 
-                                        <?php  } ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                                $sql = "select cat_name from catagories where cat_id = ?";
+                                $stmt = mysqli_stmt_init($connect);
+                                if (!mysqli_stmt_prepare($stmt, $sql)) {
+                                    echo "<div style='color:red;'>SQL Error Occured!!</div>" . $type;
+                                    die();
+                                } else {
+                                    mysqli_stmt_bind_param($stmt, "i", $id);
+                                    mysqli_stmt_execute($stmt);
+                                    $result = mysqli_stmt_get_result($stmt);
+
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $cat_name = $row["cat_name"];
+                                    }
+                                }
+
+                                //For update query and update data
+
+                                if (isset($_POST["submit"])) {
+
+                                    $name = mysqli_real_escape_string($connect, $_POST["cat_name"]);
+
+                                    $update = "UPDATE catagories SET cat_name = ? WHERE cat_id =?";
+                                    $stmt_update = mysqli_stmt_init($connect);
+                                    if (!mysqli_stmt_prepare($stmt_update, $update)) {
+                                        echo "<div style='color:red;'>SQL Error Occured!!</div>";
+                                        die();
+                                    } else {
+                                        mysqli_stmt_bind_param($stmt_update, "si", $name, $id);
+                                        mysqli_stmt_execute($stmt_update);
+                                        header("location:tables.php");
+                                    }
+                                }
+
+
+                            ?>
+                                <form method="POST">
+                                    <div class="form-row">
+                                        <div class="form-group col-sm">
+                                            <label>Edit Catagory Name</label>
+                                            <input type="text" class="form-control" id="exampleFormControlInput1" name="cat_name" value="<?php echo htmlspecialchars($cat_name); ?>">
+                                        </div>
+                                        <div class="form-group col-sm">
+                                            <label>Edit Product Id</label>
+                                            <input type="number" class="form-control" id="exampleFormControlInput1" name="product_fk" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm">
+                                        <button class="btn btn-primary btn-block" name="submit">SUBMIT</button>
+                                    </div>
+                                </form>
+                            <?php } ?>
                         </div>
                     </div>
 

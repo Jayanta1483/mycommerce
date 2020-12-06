@@ -4,5 +4,4 @@ if(!$connect){
     echo "<p color='red'>Some Error Occured</p>";
     die();
 }
-
 ?>
