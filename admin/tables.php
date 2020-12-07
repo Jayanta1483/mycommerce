@@ -35,7 +35,7 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
 }
 
 
-if (isset($_GET["page"])) {
+if (isset($_GET["page"]) && $_GET["page"] !== "") {
     $page = $_GET["page"];
 }
 ?>
@@ -313,46 +313,96 @@ if (isset($_GET["page"])) {
                             <!--##########################################################################################################################################################################################################################################################################################################################################
                                                                 FOR CUSTOMERS
 ############################################################################################################################################################################################################################################################################################################################-->
-                            <div class="table-responsive">
-                                <table class="table table-bordered" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
+                            <?php
+                            if ($page === "customers") {
+                                $sql = "select * from customers";
+                                $query = mysqli_query($connect, $sql);
+                            ?>
 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
 
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>FIRST NAME</th>
+                                                <th>LAST NAME</th>
+                                                <th>ADDRESS</th>
+                                                <th>EMAIL</th>
+                                                <th>MOBILE</th>
+                                                <th>PHOTO</th>
+                                                <th>DELETE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $i = 1;
+                                            while ($row = mysqli_fetch_assoc($query)) { ?>
+                                                <tr>
+                                                    <td><?php echo $i++; ?></td>
+                                                    <td><?php echo $row["cust_fname"]; ?></td>
+                                                    <td><?php echo $row["cust_lname"]; ?></td>
+                                                    <td><?php echo $row["cust_address"]; ?></td>
+                                                    <td><?php echo $row["cust_email"]; ?></td>
+                                                    <td><?php echo $row["cust_mobile"]; ?></td>
+                                                    <td><?php echo $row["photo"]; ?></td>
+                                                    <td></td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php } ?>
                             <!--#############################################################################################################################################################################################################################################################
                                                                   FOR ORDER LIST
 ################################################################################################################################################################################################################################################################-->
-                            <div class="table-responsive">
-                                <table class="table table-bordered" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
+                            <?php
+                            if ($page === "orders") {
 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
+                                $sql = "SELECT customers.cust_fname, customers.cust_lname, customers.cust_email, products.prod_name, orders.order_qty, orders.order_time FROM customers JOIN products ON customers.product_fk = products.product_id JOIN orders ON customers.cust_id = orders.customers_fk";
+                                $query = mysqli_query($connect, $sql);
+                            ?>
 
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>FIRST NAME</th>
+                                                <th>LAST NAME</th>
+                                                <th>EMAIL</th>
+                                                <th>PRODUCT(S)</th>
+                                                <th>QTY</th>
+                                                <th>TIME</th>
+                                                <th>DELETE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $i = 1;
+                                            while ($row = mysqli_fetch_assoc($query)) { ?>
+                                                <tr>
+                                                    <td><?php echo $i++; ?></td>
+                                                    <td><?php echo $row["cust_fname"]; ?></td>
+                                                    <td><?php echo $row["cust_lname"]; ?></td>
+                                                    <td><?php echo $row["cust_email"]; ?></td>
+                                                    <td><?php echo $row["prod_name"]; ?></td>
+                                                    <td><?php echo $row["order_qty"]; ?></td>
+                                                    <td><?php echo $row["order_time"]; ?></td>
+                                                    <td><?php  ?></td>
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php } ?>
                             <!--#######################################################################################################################################################################################################################################################################################
                                                            FOR CONTACTS
 ######################################################################################################################################################################################################################################################################################-->
                             <?php
                             if ($page === "contacts") {
 
-                                $sql = "SELECT customers.cust_fname, customers.cust_lname, customers.cust_email, contacts.comments, contacts.time FROM customers LEFT JOIN contacts ON customers.cust_id = contacts.customers_fk ORDER BY customers.cust_fname";
+                                $sql = "SELECT customers.cust_fname, customers.cust_lname, customers.cust_email, customers.cust_mobile, contacts.comments, contacts.time FROM customers LEFT JOIN contacts ON customers.cust_id = contacts.customers_fk ORDER BY customers.cust_fname";
                                 $query = mysqli_query($connect, $sql);
                             ?>
                                 <div class="table-responsive">
@@ -362,6 +412,7 @@ if (isset($_GET["page"])) {
                                                 <th>#</th>
                                                 <th>CUSTOMER NAME</th>
                                                 <th>EMAIL ID</th>
+                                                <th>MOBILE</th>
                                                 <th>COMMENTS</th>
                                                 <th>TIME</th>
                                                 <th>DELETE</th>
@@ -369,15 +420,16 @@ if (isset($_GET["page"])) {
                                         </thead>
                                         <tbody>
                                             <?php
-
+                                            $i = 1;
                                             while ($row = mysqli_fetch_assoc($query)) {
-                                                $i = 1;
+
                                             ?>
 
                                                 <tr>
                                                     <td><?php echo $i++; ?></td>
                                                     <td><?php echo $row["cust_fname"] . " " . $row["cust_lname"]; ?></td>
                                                     <td><?php echo $row["cust_email"]; ?></td>
+                                                    <td><?php echo $row["cust_mobile"]; ?></td>
                                                     <td><?php echo $row["comments"];   ?></td>
                                                     <td><?php echo $row["time"];       ?></td>
                                                     <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
