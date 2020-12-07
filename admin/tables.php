@@ -187,7 +187,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION["email"]; ?></span><span class="mr-2"><i class="fas fa-caret-down"></i></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo htmlspecialchars($_SESSION["email"]); ?></span><span class="mr-2"><i class="fas fa-caret-down"></i></span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
 
                             </a>
@@ -243,13 +243,13 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                     <td><?php echo htmlspecialchars(ucwords($result["cat_name"])); ?></td>
                                                     <td><?php
                                                         if ($result["cat_status"] == 1) {
-                                                            echo "<a href='?page=catagories&type=status&operation=active&id=" . $result["cat_id"] . "' style='color:green; text-decoration:none;'>ACTIVE</a>";
+                                                            echo "<a href='?page=catagories&type=status&operation=active&id=" . htmlspecialchars($result["cat_id"]) . "' style='color:green; text-decoration:none;'>ACTIVE</a>";
                                                         } else {
-                                                            echo "<a href='?page=catagories&type=status&operation=deactive&id=" . $result["cat_id"] . "' style='color:red;text-decoration:none;'>DEACTIVE</a>";
+                                                            echo "<a href='?page=catagories&type=status&operation=deactive&id=" . htmlspecialchars($result["cat_id"]) . "' style='color:red;text-decoration:none;'>DEACTIVE</a>";
                                                         }
 
                                                         ?></td>
-                                                    <td><a href="edit.php?type=catagories&id=<?php echo $result["cat_id"]; ?>" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
+                                                    <td><a href="edit.php?type=catagories&id=<?php echo htmlspecialchars($result["cat_id"]); ?>" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
                                                     <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
 
@@ -288,8 +288,8 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             while ($row = mysqli_fetch_assoc($query)) { ?>
                                                 <tr>
                                                     <td><?php echo $i++; ?></td>
-                                                    <td><?php echo htmlspecialchars($row["cat_name"]); ?></td>
-                                                    <td><?php echo htmlspecialchars($row["prod_name"]); ?></td>
+                                                    <td><?php echo htmlspecialchars(ucwords($row["cat_name"])); ?></td>
+                                                    <td><?php echo htmlspecialchars(ucwords($row["prod_name"])); ?></td>
                                                     <td><img src="<?php echo htmlspecialchars($row["prod_image"]); ?>"></td>
                                                     <td><?php echo htmlspecialchars($row["prod_mrp"]); ?></td>
                                                     <td><?php echo htmlspecialchars($row["prod_price"]); ?></td>
@@ -301,7 +301,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                             echo "<span style='color:red;'>DEACTIVE</span>";
                                                         }
                                                         ?></td>
-                                                    <td><a href="edit.php?page=products&id=<?php echo $row['product_id']; ?>" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
+                                                    <td><a href="edit.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
                                                     <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
                                             <?php } ?>
@@ -321,12 +321,11 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
 
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>FIRST NAME</th>
-                                                <th>LAST NAME</th>
+                                                <th>CUSTOMER NAME</th>
                                                 <th>ADDRESS</th>
                                                 <th>EMAIL</th>
                                                 <th>MOBILE</th>
@@ -340,11 +339,10 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             while ($row = mysqli_fetch_assoc($query)) { ?>
                                                 <tr>
                                                     <td><?php echo $i++; ?></td>
-                                                    <td><?php echo $row["cust_fname"]; ?></td>
-                                                    <td><?php echo $row["cust_lname"]; ?></td>
-                                                    <td><?php echo $row["cust_address"]; ?></td>
-                                                    <td><?php echo $row["cust_email"]; ?></td>
-                                                    <td><?php echo $row["cust_mobile"]; ?></td>
+                                                    <td><?php echo htmlspecialchars(ucwords($row["cust_fname"]))." ".htmlspecialchars(ucwords($row["cust_lname"])); ?></td>
+                                                    <td><?php echo htmlspecialchars(ucwords($row["cust_address"])); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["cust_email"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["cust_mobile"]); ?></td>
                                                     <td><?php echo $row["photo"]; ?></td>
                                                     <td></td>
                                                 </tr>
@@ -364,12 +362,11 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             ?>
 
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>FIRST NAME</th>
-                                                <th>LAST NAME</th>
+                                                <th>CUSTOMER NAME</th>
                                                 <th>EMAIL</th>
                                                 <th>PRODUCT(S)</th>
                                                 <th>QTY</th>
@@ -383,12 +380,11 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             while ($row = mysqli_fetch_assoc($query)) { ?>
                                                 <tr>
                                                     <td><?php echo $i++; ?></td>
-                                                    <td><?php echo $row["cust_fname"]; ?></td>
-                                                    <td><?php echo $row["cust_lname"]; ?></td>
-                                                    <td><?php echo $row["cust_email"]; ?></td>
-                                                    <td><?php echo $row["prod_name"]; ?></td>
-                                                    <td><?php echo $row["order_qty"]; ?></td>
-                                                    <td><?php echo $row["order_time"]; ?></td>
+                                                    <td><?php echo htmlspecialchars(ucwords($row["cust_fname"]))." ".htmlspecialchars(ucwords($row["cust_lname"])); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["cust_email"]); ?></td>
+                                                    <td><?php echo htmlspecialchars(ucwords($row["prod_name"])); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["order_qty"]); ?></td>
+                                                    <td><?php echo htmlspecialchars($row["order_time"]); ?></td>
                                                     <td><?php  ?></td>
                                                 </tr>
                                             <?php } ?>
@@ -406,7 +402,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                 $query = mysqli_query($connect, $sql);
                             ?>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -427,11 +423,11 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                                                 <tr>
                                                     <td><?php echo $i++; ?></td>
-                                                    <td><?php echo $row["cust_fname"] . " " . $row["cust_lname"]; ?></td>
-                                                    <td><?php echo $row["cust_email"]; ?></td>
-                                                    <td><?php echo $row["cust_mobile"]; ?></td>
-                                                    <td><?php echo $row["comments"];   ?></td>
-                                                    <td><?php echo $row["time"];       ?></td>
+                                                    <td><?php echo htmlspecialchars(ucwords($row["cust_fname"])) . " " . htmlspecialchars(ucwords($row["cust_lname"])); ?></td>
+                                                    <td><a href="mailto:<?php echo htmlspecialchars($row["cust_email"]); ?>" style="text-decoration:none;" ><?php echo htmlspecialchars($row["cust_email"]) ; ?></a></td>
+                                                    <td><?php echo htmlspecialchars($row["cust_mobile"]); ?></td>
+                                                    <td><?php echo htmlspecialchars(ucwords($row["comments"]));   ?></td>
+                                                    <td><?php echo htmlspecialchars($row["time"]);       ?></td>
                                                     <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
                                             <?php } ?>
