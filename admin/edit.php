@@ -7,8 +7,8 @@ if (empty($_SESSION["login"])) {
 
 require "connection.php";
 
-if (isset($_GET["type"]) && $_GET["type"] !== "") {
-    $type = mysqli_real_escape_string($connect, $_GET["type"]);
+if (isset($_GET["page"]) && $_GET["page"] !== "") {
+    $page = mysqli_real_escape_string($connect, $_GET["page"]);
     $id = mysqli_real_escape_string($connect, $_GET["id"]);
 };
 
@@ -68,35 +68,35 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
             <hr class="sidebar-divider">
 
             <li class="nav-item">
-                <a href="tables.php" class="nav-link"  aria-expanded="true">
+                <a href="tables.php?page=catagories" class="nav-link" aria-expanded="true">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Catagories</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="tables.php"  class="nav-link"  aria-expanded="true">
+                <a href="tables.php?page=products" class="nav-link" aria-expanded="true">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Products</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="tables.php" class="nav-link"  aria-expanded="true">
+                <a href="tables.php?page=customers" class="nav-link" aria-expanded="true">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Customers</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="tables.php" class="nav-link"  aria-expanded="true">
+                <a href="tables.php?page=orders" class="nav-link" aria-expanded="true">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Orders</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="tables.php" class="nav-link"  aria-expanded="true">
+                <a href="tables.php?page=contacts" class="nav-link" aria-expanded="true">
                     <i class="fas fa-angle-double-right"></i>
                     <span>Contact Us</span>
                 </a>
@@ -171,8 +171,8 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION["email"]; ?></span><span class="mr-2"><i class="fas fa-caret-down"></i></span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION["email"]; ?></span>
+                                <img class="img-profile rounded-circle mx-1" src="img/undraw_profile.svg"><span><i class="fas fa-caret-down"></i></span>
 
                             </a>
                             <!-- Dropdown - User Information -->
@@ -196,18 +196,21 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Edit
-                                <?php echo htmlspecialchars(ucwords($type)); ?></h6>
+                                <?php echo htmlspecialchars(ucwords($page)); ?></h6>
                         </div>
                         <div class="card-body">
+                            <!--#####################################################################################################################################################################################################################################################
+                                                    CATAGORIES
+##########################################################################################################################################################################################################################################################-->
                             <?php
-                            if ($type = 'catagories') {
+                            if ($page === 'catagories') {
 
                                 // For select query and Display data on edit page
 
                                 $sql = "select cat_name from catagories where cat_id = ?";
                                 $stmt = mysqli_stmt_init($connect);
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
-                                    echo "<div style='color:red;'>SQL Error Occured!!</div>" . $type;
+                                    echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                     die();
                                 } else {
                                     mysqli_stmt_bind_param($stmt, "i", $id);
@@ -233,7 +236,7 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
                                     } else {
                                         mysqli_stmt_bind_param($stmt_update, "si", $name, $id);
                                         mysqli_stmt_execute($stmt_update);
-                                        header("location:tables.php");
+                                        header("location:tables.php?page=catagories");
                                     }
                                 }
 
@@ -243,11 +246,62 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
                                     <div class="form-row">
                                         <div class="form-group col-sm">
                                             <label>Edit Catagory Name</label>
-                                            <input type="text" class="form-control" id="exampleFormControlInput1" name="cat_name" value="<?php echo htmlspecialchars($cat_name); ?>">
+                                            <input type="text" class="form-control" id="exampleFormControlInput1" name="cat_name" value="<?php echo htmlspecialchars(ucwords($cat_name)); ?>">
                                         </div>
+                                    </div>
+                                    <div class="form-group col-sm">
+                                        <button class="btn btn-primary btn-block" name="submit">SUBMIT</button>
+                                    </div>
+                                </form>
+                            <?php } ?>
+                            <!--###########################################################################################################################################################################################################################################################################################################################################
+                                                             PRODUCTS
+###############################################################################################################################################################################################################################################################################################################################################-->
+                            <?php
+                            if ($page === 'products') {
+
+                                // For select query and Display data on edit page
+
+                                $sql = "select * from products where product_id = ?";
+                                $stmt = mysqli_stmt_init($connect);
+                                if (!mysqli_stmt_prepare($stmt, $sql)) {
+                                    echo "<div style='color:red;'>SQL Error Occured!!</div>";
+                                    die();
+                                } else {
+                                    mysqli_stmt_bind_param($stmt, "i", $id);
+                                    mysqli_stmt_execute($stmt);
+                                    $result = mysqli_stmt_get_result($stmt);
+
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $cat_name = $row["prod_name"];
+                                    }
+                                }
+
+                                //For update query and update data
+
+                                if (isset($_POST["submit"])) {
+
+                                    $name = mysqli_real_escape_string($connect, $_POST["cat_name"]);
+
+                                    $update = "UPDATE catagories SET cat_name = ? WHERE cat_id =?";
+                                    $stmt_update = mysqli_stmt_init($connect);
+                                    if (!mysqli_stmt_prepare($stmt_update, $update)) {
+                                        echo "<div style='color:red;'>SQL Error Occured!!</div>";
+                                        die();
+                                    } else {
+                                        mysqli_stmt_bind_param($stmt_update, "si", $name, $id);
+                                        mysqli_stmt_execute($stmt_update);
+                                        header("location:tables.php?page=catagories");
+                                    }
+                                }
+
+
+                            ?>
+                                <form method="POST">
+                                    <div class="form-row">
                                         <div class="form-group col-sm">
-                                            <label>Edit Product Id</label>
-                                            <input type="number" class="form-control" id="exampleFormControlInput1" name="product_fk" value="">
+                                            <label>Edit Product Name</label>
+                                            <input type="text" class="form-control" id="exampleFormControlInput1" name="cat_name" value="<?php echo htmlspecialchars(ucwords($cat_name)); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group col-sm">

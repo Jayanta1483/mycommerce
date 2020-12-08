@@ -249,7 +249,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                         }
 
                                                         ?></td>
-                                                    <td><a href="edit.php?type=catagories&id=<?php echo htmlspecialchars($result["cat_id"]); ?>" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
+                                                    <td><a href="edit.php?page=catagories&id=<?php echo htmlspecialchars($result["cat_id"]); ?>" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
                                                     <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
 
