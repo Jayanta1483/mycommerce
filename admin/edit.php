@@ -273,7 +273,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     $result = mysqli_stmt_get_result($stmt);
 
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        $cat_name = $row["prod_name"];
+                                        $prod_name = $row["prod_name"];
                                     }
                                 }
 
@@ -281,7 +281,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                                 if (isset($_POST["submit"])) {
 
-                                    $name = mysqli_real_escape_string($connect, $_POST["cat_name"]);
+                                    $p_name = mysqli_real_escape_string($connect, $_POST["prod_name"]);
 
                                     $update = "UPDATE catagories SET cat_name = ? WHERE cat_id =?";
                                     $stmt_update = mysqli_stmt_init($connect);
@@ -301,7 +301,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     <div class="form-row">
                                         <div class="form-group col-sm">
                                             <label>Edit Product Name</label>
-                                            <input type="text" class="form-control" id="exampleFormControlInput1" name="cat_name" value="<?php echo htmlspecialchars(ucwords($cat_name)); ?>">
+                                            <input type="text" class="form-control" id="exampleFormControlInput1" name="prod_name" value="<?php echo htmlspecialchars(ucwords($prod_name)); ?>">
                                         </div>
                                     </div>
                                     <div class="form-group col-sm">

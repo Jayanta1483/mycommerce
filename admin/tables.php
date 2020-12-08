@@ -249,7 +249,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                         }
 
                                                         ?></td>
-                                                    <td><a href="edit.php?page=catagories&id=<?php echo htmlspecialchars($result["cat_id"]); ?>" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
+                                                    <td><a href="edit.php?page=catagories&id=<?php echo htmlspecialchars($result["cat_id"]); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
                                                     <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
 
@@ -301,7 +301,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                             echo "<span style='color:red;'>DEACTIVE</span>";
                                                         }
                                                         ?></td>
-                                                    <td><a href="edit.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
+                                                    <td><a href="edit.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
                                                     <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
                                             <?php } ?>
