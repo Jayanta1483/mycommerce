@@ -10,6 +10,29 @@ require "connection.php";
 if (isset($_GET["page"]) && $_GET["page"] !== "") {
     $page = mysqli_real_escape_string($connect, $_GET["page"]);
     $id = mysqli_real_escape_string($connect, $_GET["id"]);
+    $type = $_GET["type"];
+        
+        if ($type === "active") {
+            $status = 0;
+        } else {
+            $status = 1;
+        }
+        if ($_GET["page"] === "catagories") {
+            $update = "UPDATE catagories SET cat_status = ? WHERE cat_id=?";
+            $stmt = mysqli_stmt_init($connect);
+            mysqli_stmt_prepare($stmt, $update);
+            mysqli_stmt_bind_param($stmt, "ii", $status, $id);
+            mysqli_stmt_execute($stmt);
+        }
+
+        if ($_GET["page"] === "products") {
+            $update = "UPDATE products SET prod_status = ? WHERE product_id=?";
+            $stmt = mysqli_stmt_init($connect);
+            mysqli_stmt_prepare($stmt, $update);
+            mysqli_stmt_bind_param($stmt, "ii", $status, $id);
+            mysqli_stmt_execute($stmt);
+        }
+    
 };
 
 ?>
@@ -342,9 +365,9 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                  <th>STATUS</th>
                                                  <td style="float: right;"><?php
                                                   if($prod_status==1){
-                                                      echo "<a href='#' style='color:green;text-decoration:none'>ACTIVE</a>";
+                                                      echo "<a href='edit.php?page=products&type=active&id=$id' style='color:green;text-decoration:none'>ACTIVE</a>";
                                                   }else{
-                                                    echo "<a href='#' style='color:red;text-decoration:none'>DEACTIVE</a>";
+                                                    echo "<a href='edit.php?page=products&type=deactive&id=$id' style='color:red;text-decoration:none'>DEACTIVE</a>";
                                                   }
                                                   ?></td>
                                              </tr>
