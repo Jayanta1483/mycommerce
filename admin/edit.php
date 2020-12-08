@@ -274,6 +274,13 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $prod_name = $row["prod_name"];
+                                        $cat_fk = $row["cat_fk"];
+                                        $prod_mrp = $row["prod_mrp"];
+                                        $prod_price = $row["prod_price"];
+                                        $prod_qty = $row["prod_qty"];
+                                        $prod_desc = $row["prod_desc"];
+                                        $prod_image = $row["prod_image"];
+                                        $prod_status = $row["prod_status"];
                                     }
                                 }
 
@@ -298,11 +305,49 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                             ?>
                                 <form method="POST">
-                                    <div class="form-row">
+                                    <!-- <div class="form-row">
                                         <div class="form-group col-sm">
                                             <label>Edit Product Name</label>
                                             <input type="text" class="form-control" id="exampleFormControlInput1" name="prod_name" value="<?php echo htmlspecialchars(ucwords($prod_name)); ?>">
                                         </div>
+                                    </div> -->
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless" width="100%" cellspacing="0">
+                                         <tbody>
+                                             <tr>
+                                                 <th>IMAGE</th>
+                                                 <td style="float: right;"><input type="file"></td>
+                                             </tr>
+                                             <tr>
+                                                 <th>PRODUCT NAME</th>
+                                                 <td style="float: right;"><input type="text" name="prod_name" class="form-control" value="<?php echo $prod_name; ?>"></td>
+                                             </tr>
+                                             <tr>
+                                                 <th>CATAGORY_fk</th>
+                                                 <td style="float: right;"><input type="text" name="cat_name" id="" class="form-control" value="<?php echo $cat_fk; ?>"></td>
+                                             </tr>
+                                             <tr>
+                                                 <th>MRP</th>
+                                                 <td style="float: right;"><input type="number" name="prod_mrp" id="" class="form-control" value="<?php echo $prod_mrp; ?>"></td>
+                                             </tr>
+                                             <tr>
+                                                 <th>SELL PRICE</th>
+                                                 <td style="float: right;"><input type="number" name="peod_price" id="" class="form-control" value="<?php echo $prod_price; ?>"></td>
+                                             </tr>
+                                             <tr>
+                                                 <th>QTY</th>
+                                                 <td style="float: right;"><input type="number" name="prod_qty" id="" class="form-control" value="<?php echo $prod_qty; ?>"></td>
+                                             </tr>
+                                             <tr>
+                                                 <th>STATUS</th>
+                                                 <td style="float: right;"><input type="number" name="prod_status" id="" class="form-control" value="<?php echo $prod_status; ?>"></td>
+                                             </tr>
+                                             <tr>
+                                                 <th>DESCRIPTION</th>
+                                                 <td style="float: right;"><textarea name="prod_desc" id="" cols="30" rows="10" class="form-control" value="<?php echo $prod_desc; ?>"></textarea></td>
+                                             </tr>
+                                         </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group col-sm">
                                         <button class="btn btn-primary btn-block" name="submit">SUBMIT</button>
