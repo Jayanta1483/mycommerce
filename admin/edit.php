@@ -10,6 +10,8 @@ require "connection.php";
 if (isset($_GET["page"]) && $_GET["page"] !== "") {
     $page = mysqli_real_escape_string($connect, $_GET["page"]);
     $id = mysqli_real_escape_string($connect, $_GET["id"]);
+}
+    if(isset($_GET["type"]) && $_GET["type"]!==""){
     $type = $_GET["type"];
         
         if ($type === "active") {
@@ -272,8 +274,8 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             <input type="text" class="form-control" id="exampleFormControlInput1" name="cat_name" value="<?php echo htmlspecialchars(ucwords($cat_name)); ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group col-sm">
-                                        <button class="btn btn-primary btn-block" name="submit">SUBMIT</button>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary mx-auto" name="submit">SUBMIT</button>
                                     </div>
                                 </form>
                             <?php } ?>
@@ -312,16 +314,23 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                 if (isset($_POST["submit"])) {
 
                                     $p_name = mysqli_real_escape_string($connect, $_POST["prod_name"]);
+                                    $c_fk = mysqli_real_escape_string($connect, $_POST["cat_fk"]);
+                                    $p_mrp = mysqli_real_escape_string($connect, $_POST["prod_mrp"]);
+                                    $p_price = mysqli_real_escape_string($connect, $_POST["prod_price"]);
+                                    $p_qty = mysqli_real_escape_string($connect, $_POST["prod_qty"]);
+                                    $p_desc = mysqli_real_escape_string($connect, $_POST["prod_desc"]);
+                                    $p_image = mysqli_real_escape_string($connect, $_POST["prod_image"]);
+                                    //$p_name = mysqli_real_escape_string($connect, $_POST["prod_name"]);
 
-                                    $update = "UPDATE catagories SET cat_name = ? WHERE cat_id =?";
+                                    $update = "UPDATE products SET cat_fk= ?,prod_name= ?,prod_mrp= ?,prod_price= ?,prod_qty=?,prod_image=?,prod_desc=?, WHERE prod_id = ?";
                                     $stmt_update = mysqli_stmt_init($connect);
                                     if (!mysqli_stmt_prepare($stmt_update, $update)) {
                                         echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                         die();
                                     } else {
-                                        mysqli_stmt_bind_param($stmt_update, "si", $name, $id);
+                                        mysqli_stmt_bind_param($stmt_update, "isiiissi", $c_fk, $p_name, $p_mrp, $p_price, $p_qty, $p_image, $p_desc, $id);
                                         mysqli_stmt_execute($stmt_update);
-                                        header("location:tables.php?page=catagories");
+                                        header("location:tables.php?page=products");
                                     }
                                 }
 
@@ -339,7 +348,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                          <tbody>
                                              <tr>
                                                  <th>IMAGE</th>
-                                                 <td style="float: right;"><input type="file"></td>
+                                                 <td style="float: right;"><input type="file" name="prod_image"></td>
                                              </tr>
                                              <tr>
                                                  <th>PRODUCT NAME</th>
@@ -347,7 +356,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                              </tr>
                                              <tr>
                                                  <th>CATAGORY_fk</th>
-                                                 <td style="float: right;"><input type="text" name="cat_name" id="" class="form-control" value="<?php echo $cat_fk; ?>"></td>
+                                                 <td style="float: right;"><input type="text" name="cat_fk" id="" class="form-control" value="<?php echo $cat_fk; ?>"></td>
                                              </tr>
                                              <tr>
                                                  <th>MRP</th>
@@ -355,7 +364,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                              </tr>
                                              <tr>
                                                  <th>SELL PRICE</th>
-                                                 <td style="float: right;"><input type="number" name="peod_price" id="" class="form-control" value="<?php echo $prod_price; ?>"></td>
+                                                 <td style="float: right;"><input type="number" name="prod_price" id="" class="form-control" value="<?php echo $prod_price; ?>"></td>
                                              </tr>
                                              <tr>
                                                  <th>QTY</th>
