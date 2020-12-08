@@ -340,7 +340,13 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                              </tr>
                                              <tr>
                                                  <th>STATUS</th>
-                                                 <td style="float: right;"><input type="number" name="prod_status" id="" class="form-control" value="<?php echo $prod_status; ?>"></td>
+                                                 <td style="float: right;"><?php
+                                                  if($prod_status==1){
+                                                      echo "<a href='#' style='color:green;text-decoration:none'>ACTIVE</a>";
+                                                  }else{
+                                                    echo "<a href='#' style='color:red;text-decoration:none'>DEACTIVE</a>";
+                                                  }
+                                                  ?></td>
                                              </tr>
                                              <tr>
                                                  <th>DESCRIPTION</th>
