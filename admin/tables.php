@@ -402,7 +402,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             <?php
                             if ($page === "contacts") {
 
-                                $sql = "SELECT customers.cust_fname, customers.cust_lname, customers.cust_email, customers.cust_mobile, contacts.comments, contacts.time FROM customers LEFT JOIN contacts ON customers.cust_id = contacts.customers_fk ORDER BY customers.cust_fname";
+                                $sql = "SELECT customers.cust_fname, customers.cust_lname, customers.cust_email, customers.cust_mobile, contacts.contact_id, contacts.comments, contacts.time FROM customers JOIN contacts ON customers.cust_id = contacts.customers_fk ORDER BY customers.cust_fname";
                                 $query = mysqli_query($connect, $sql);
                             ?>
                                 <div class="table-responsive">
@@ -432,7 +432,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                     <td><?php echo htmlspecialchars($row["cust_mobile"]); ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["comments"]));   ?></td>
                                                     <td><?php echo htmlspecialchars($row["time"]);       ?></td>
-                                                    <td><a href="delete.php?page=contactsid=<?php echo htmlspecialchars($row['contacts_id']); ?>" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
+                                                    <td><a href="delete.php?page=contacts&id=<?php echo htmlspecialchars($row['contact_id']); ?>" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
