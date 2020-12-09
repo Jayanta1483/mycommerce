@@ -311,7 +311,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                                 //For update query and update data
 
-                                if (isset($_POST["submit"])) {
+                                if (isset($_POST["sub-prod"])) {
 
                                     $p_name = mysqli_real_escape_string($connect, $_POST["prod_name"]);
                                     $c_fk = mysqli_real_escape_string($connect, $_POST["cat_fk"]);
@@ -322,7 +322,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     $p_image = mysqli_real_escape_string($connect, $_POST["prod_image"]);
                                     //$p_name = mysqli_real_escape_string($connect, $_POST["prod_name"]);
 
-                                    $update = "UPDATE products SET cat_fk= ?,prod_name= ?,prod_mrp= ?,prod_price= ?,prod_qty=?,prod_image=?,prod_desc=?, WHERE prod_id = ?";
+                                    $update = "UPDATE products SET cat_fk= ?,prod_name= ?,prod_mrp= ?,prod_price= ?,prod_qty=?,prod_image=?,prod_desc=? WHERE product_id = ?";
                                     $stmt_update = mysqli_stmt_init($connect);
                                     if (!mysqli_stmt_prepare($stmt_update, $update)) {
                                         echo "<div style='color:red;'>SQL Error Occured!!</div>";
@@ -388,7 +388,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                         </table>
                                     </div>
                                     <div class="form-group col-sm">
-                                        <button class="btn btn-primary btn-block" name="submit">SUBMIT</button>
+                                        <button class="btn btn-primary btn-block" name="sub-prod">SUBMIT</button>
                                     </div>
                                 </form>
                             <?php } ?>
