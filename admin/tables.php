@@ -343,7 +343,11 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                     <td><?php echo htmlspecialchars(ucwords($row["cust_address"])); ?></td>
                                                     <td><?php echo htmlspecialchars($row["cust_email"]); ?></td>
                                                     <td><?php echo htmlspecialchars($row["cust_mobile"]); ?></td>
-                                                    <td><?php echo $row["photo"]; ?></td>
+                                                    <td><img   <?php 
+                                                                 if(empty($row["photo"])){ ?>
+                                                                   src="customer_avatar.jpg"
+                                                               <?php  }else{  ?>
+                                                               src="<?php echo $row["photo"]; ?>" <?php } ?> width="80px" height="100px"></td>
                                                     <td></td>
                                                 </tr>
                                             <?php } ?>
