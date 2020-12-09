@@ -69,6 +69,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
 
@@ -348,7 +349,11 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                          <tbody>
                                              <tr>
                                                  <th>IMAGE</th>
-                                                 <td style="float: right;"><img src="placeholder-item.webp" width="80px" height="100px"><input type="file" name="prod_image"></td>
+                                                 <td style="float: right;"><img <?php  
+                                                                            if(!empty($p_image)){
+                                                                                ?> src="<?php echo $p_image; ?>"
+                                                                           <?php } else { ?>
+                                                                           src="placeholder-item.webp" <?php } ?>width="80px" height="100px" id="image"><br><input type="file" name="prod_image" id="image-input"></td>
                                              </tr>
                                              <tr>
                                                  <th>PRODUCT NAME</th>
@@ -441,6 +446,25 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
         </div>
     </div>
 
+
+<script>
+
+let imageInput = document.getElementById("image-input");
+let image = document.getElementById("image");
+imageInput.addEventListener("change", function(){
+    let file = this.files[0];
+    
+    let reader = new FileReader();
+
+    reader.onload = (e)=>image.src = e.target.result;
+    reader.readAsDataURL(file);
+})
+
+
+
+
+
+</script>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
