@@ -348,7 +348,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                          <tbody>
                                              <tr>
                                                  <th>IMAGE</th>
-                                                 <td style="float: right;"><input type="file" name="prod_image"></td>
+                                                 <td style="float: right;"><img src="placeholder-item.webp" width="80px" height="100px"><input type="file" name="prod_image"></td>
                                              </tr>
                                              <tr>
                                                  <th>PRODUCT NAME</th>

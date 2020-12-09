@@ -290,7 +290,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                     <td><?php echo $i++; ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["cat_name"])); ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["prod_name"])); ?></td>
-                                                    <td><img src="<?php echo htmlspecialchars($row["prod_image"]); ?>"></td>
+                                                    <td><img src="<?php echo htmlspecialchars($row["prod_image"]); ?>" width="80px" height="100px"></td>
                                                     <td><?php echo htmlspecialchars($row["prod_mrp"]); ?></td>
                                                     <td><?php echo htmlspecialchars($row["prod_price"]); ?></td>
                                                     <td><?php echo htmlspecialchars($row["prod_qty"]); ?></td>
