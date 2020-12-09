@@ -187,8 +187,8 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo htmlspecialchars($_SESSION["email"]); ?></span><span class="mr-2"><i class="fas fa-caret-down"></i></span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo htmlspecialchars($_SESSION["email"]); ?></span>
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg"><span><i class="fas fa-caret-down mx-2"></i></span>
 
                             </a>
                             <!-- Dropdown - User Information -->
