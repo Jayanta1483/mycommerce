@@ -250,7 +250,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                                                         ?></td>
                                                     <td class="text-center"><a href="edit.php?page=catagories&id=<?php echo htmlspecialchars($result["cat_id"]); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
-                                                    <td class="text-center"><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
+                                                    <td class="text-center"><a href="delete.php?page=catagories&id=<?php echo htmlspecialchars($result["cat_id"]); ?>" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
 
                                             <?php  } ?>
@@ -302,7 +302,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                         }
                                                         ?></td>
                                                     <td class="text-center"><a href="edit.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
-                                                    <td class="text-center"><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
+                                                    <td class="text-center"><a href="delete.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
@@ -348,7 +348,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                                    src="customer_avatar.jpg"
                                                                <?php  }else{  ?>
                                                                src="<?php echo $row["photo"]; ?>" <?php } ?> width="80px" height="100px"></td>
-                                                    <td></td>
+                                                    <td><a href="delete.php?page=customers&id=<?php echo htmlspecialchars($row['cust_id']); ?>" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
@@ -361,7 +361,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             <?php
                             if ($page === "orders") {
 
-                                $sql = "SELECT customers.cust_fname, customers.cust_lname, customers.cust_email, products.prod_name, orders.order_qty, orders.order_time FROM customers JOIN products ON customers.product_fk = products.product_id JOIN orders ON customers.cust_id = orders.customers_fk";
+                                $sql = "SELECT customers.cust_fname, customers.cust_lname, customers.cust_email, products.prod_name, orders.order_id, orders.order_qty, orders.order_time FROM customers JOIN products ON customers.product_fk = products.product_id JOIN orders ON customers.cust_id = orders.customers_fk";
                                 $query = mysqli_query($connect, $sql);
                             ?>
 
@@ -389,7 +389,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                     <td><?php echo htmlspecialchars(ucwords($row["prod_name"])); ?></td>
                                                     <td><?php echo htmlspecialchars($row["order_qty"]); ?></td>
                                                     <td><?php echo htmlspecialchars($row["order_time"]); ?></td>
-                                                    <td><?php  ?></td>
+                                                    <td><a href="delete.php?page=orders&id=<?php echo htmlspecialchars($row['order_id']); ?>" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
@@ -432,7 +432,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                     <td><?php echo htmlspecialchars($row["cust_mobile"]); ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["comments"]));   ?></td>
                                                     <td><?php echo htmlspecialchars($row["time"]);       ?></td>
-                                                    <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
+                                                    <td><a href="delete.php?page=contactsid=<?php echo htmlspecialchars($row['contacts_id']); ?>" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
