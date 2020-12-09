@@ -227,11 +227,11 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>CATAGORY NAME</th>
-                                                <th>STATUS</th>
-                                                <th>EDIT</th>
-                                                <th>DELETE</th>
+                                                <th class="text-center">#</th>
+                                                <th class="text-center">CATAGORY NAME</th>
+                                                <th class="text-center">STATUS</th>
+                                                <th class="text-center">EDIT</th>
+                                                <th class="text-center">DELETE</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -239,18 +239,18 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             $i = 1;
                                             while ($result = mysqli_fetch_array($query)) { ?>
                                                 <tr>
-                                                    <td><?php echo $i++; ?></td>
-                                                    <td><?php echo htmlspecialchars(ucwords($result["cat_name"])); ?></td>
-                                                    <td><?php
+                                                    <td class="text-center"><?php echo $i++; ?></td>
+                                                    <td class="text-center"><?php echo htmlspecialchars(ucwords($result["cat_name"])); ?></td>
+                                                    <td class="text-center"><?php
                                                         if ($result["cat_status"] == 1) {
-                                                            echo "<a href='?page=catagories&type=status&operation=active&id=" . htmlspecialchars($result["cat_id"]) . "' style='color:green; text-decoration:none;'>ACTIVE</a>";
+                                                            echo "<span style='color:green;'>ACTIVE</span>";
                                                         } else {
-                                                            echo "<a href='?page=catagories&type=status&operation=deactive&id=" . htmlspecialchars($result["cat_id"]) . "' style='color:red;text-decoration:none;'>DEACTIVE</a>";
+                                                            echo "<span style='color:red;'>DEACTIVE</span>";
                                                         }
 
                                                         ?></td>
-                                                    <td><a href="edit.php?page=catagories&id=<?php echo htmlspecialchars($result["cat_id"]); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
-                                                    <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
+                                                    <td class="text-center"><a href="edit.php?page=catagories&id=<?php echo htmlspecialchars($result["cat_id"]); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
+                                                    <td class="text-center"><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
 
                                             <?php  } ?>
@@ -270,16 +270,16 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>CATAGORIES</th>
-                                                <th>PRODUCTS</th>
-                                                <th>IMAGE</th>
-                                                <th>MRP</th>
-                                                <th>PRICE</th>
-                                                <th>QTY</th>
-                                                <th>STATUS</th>
-                                                <th>EDIT</th>
-                                                <th>DELETE</th>
+                                                <th class="text-center">#</th>
+                                                <th class="text-center">CATAGORIES</th>
+                                                <th class="text-center">PRODUCTS</th>
+                                                <th class="text-center">IMAGE</th>
+                                                <th class="text-center">MRP</th>
+                                                <th class="text-center">PRICE</th>
+                                                <th class="text-center">QTY</th>
+                                                <th class="text-center">STATUS</th>
+                                                <th class="text-center">EDIT</th>
+                                                <th class="text-center">DELETE</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -287,22 +287,22 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             $i = 1;
                                             while ($row = mysqli_fetch_assoc($query)) { ?>
                                                 <tr>
-                                                    <td><?php echo $i++; ?></td>
-                                                    <td><?php echo htmlspecialchars(ucwords($row["cat_name"])); ?></td>
-                                                    <td><?php echo htmlspecialchars(ucwords($row["prod_name"])); ?></td>
-                                                    <td><img src="<?php echo htmlspecialchars($row["prod_image"]); ?>" width="80px" height="100px"></td>
-                                                    <td><?php echo htmlspecialchars($row["prod_mrp"]); ?></td>
-                                                    <td><?php echo htmlspecialchars($row["prod_price"]); ?></td>
-                                                    <td><?php echo htmlspecialchars($row["prod_qty"]); ?></td>
-                                                    <td><?php
+                                                    <td class="text-center"><?php echo $i++; ?></td>
+                                                    <td class="text-center"><?php echo htmlspecialchars(ucwords($row["cat_name"])); ?></td>
+                                                    <td class="text-center"><?php echo htmlspecialchars(ucwords($row["prod_name"])); ?></td>
+                                                    <td class="text-center"><img src="<?php echo htmlspecialchars($row["prod_image"]); ?>" width="80px" height="100px"></td>
+                                                    <td class="text-center"><?php echo htmlspecialchars($row["prod_mrp"]); ?></td>
+                                                    <td class="text-center"><?php echo htmlspecialchars($row["prod_price"]); ?></td>
+                                                    <td class="text-center"><?php echo htmlspecialchars($row["prod_qty"]); ?></td>
+                                                    <td class="text-center"><?php
                                                         if ($row["prod_status"] == 1) {
                                                             echo "<span style='color:green;'>ACTIVE</span>";
                                                         } else {
                                                             echo "<span style='color:red;'>DEACTIVE</span>";
                                                         }
                                                         ?></td>
-                                                    <td><a href="edit.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
-                                                    <td><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
+                                                    <td class="text-center"><a href="edit.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
+                                                    <td class="text-center"><a href="#" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
@@ -323,7 +323,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
-                                            <tr>
+                                            <tr class="text-center">
                                                 <th>#</th>
                                                 <th>CUSTOMER NAME</th>
                                                 <th>ADDRESS</th>
@@ -337,7 +337,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             <?php
                                             $i = 1;
                                             while ($row = mysqli_fetch_assoc($query)) { ?>
-                                                <tr>
+                                                <tr class="text-center">
                                                     <td><?php echo $i++; ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["cust_fname"]))." ".htmlspecialchars(ucwords($row["cust_lname"])); ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["cust_address"])); ?></td>
@@ -364,7 +364,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
-                                            <tr>
+                                            <tr class="text-center">
                                                 <th>#</th>
                                                 <th>CUSTOMER NAME</th>
                                                 <th>EMAIL</th>
@@ -378,7 +378,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             <?php
                                             $i = 1;
                                             while ($row = mysqli_fetch_assoc($query)) { ?>
-                                                <tr>
+                                                <tr class="text-center">
                                                     <td><?php echo $i++; ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["cust_fname"]))." ".htmlspecialchars(ucwords($row["cust_lname"])); ?></td>
                                                     <td><?php echo htmlspecialchars($row["cust_email"]); ?></td>
@@ -404,7 +404,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
-                                            <tr>
+                                            <tr class="text-center">
                                                 <th>#</th>
                                                 <th>CUSTOMER NAME</th>
                                                 <th>EMAIL ID</th>
@@ -421,7 +421,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                                             ?>
 
-                                                <tr>
+                                                <tr class="text-center">
                                                     <td><?php echo $i++; ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["cust_fname"])) . " " . htmlspecialchars(ucwords($row["cust_lname"])); ?></td>
                                                     <td><a href="mailto:<?php echo htmlspecialchars($row["cust_email"]); ?>" style="text-decoration:none;" ><?php echo htmlspecialchars($row["cust_email"]) ; ?></a></td>
