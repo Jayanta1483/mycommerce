@@ -239,7 +239,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             $i = 1;
                                             while ($result = mysqli_fetch_array($query)) { ?>
                                                 <tr>
-                                                    <td class="text-center"><?php echo $i++; ?></td>
+                                                    <td class="text-center"><?php echo $i; ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars(ucwords($result["cat_name"])); ?></td>
                                                     <td class="text-center"><?php
                                                                             if ($result["cat_status"] == 1) {
@@ -250,11 +250,11 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                                                                             ?></td>
                                                     <td class="text-center"><a href="edit.php?page=catagories&id=<?php echo htmlspecialchars($result["cat_id"]); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
-                                                    <td class="text-center"><button type="button" class="btn" data-toggle="modal" data-target="#exampleModal-<?php echo $i; ?>" style="border:none;color:red;"><i class='fas fa-trash-alt'></i></button></td>
+                                                    <td class="text-center"><button type="button" class="btn" data-toggle="modal" data-target="#exampleModal-<?php echo htmlspecialchars($i); ?>" style="border:none;color:red;"><i class='fas fa-trash-alt'></i></button></td>
                                                 </tr>
 
                                                 <!-- Delete Modal-->
-                                                <div class="modal fade" id="exampleModal-<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="exampleModal-<?php echo htmlspecialchars($i); ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -266,13 +266,14 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                <button type="button" class="btn btn-danger"><a href="delete.php?page=catagories&id=<?php echo $result['cat_id']; ?>" style="text-decoration:none;color:white;">Yes</a></button>
+                                                                <button type="button" class="btn btn-danger"><a href="delete.php?page=catagories&id=<?php echo htmlspecialchars($result['cat_id']); ?>" style="text-decoration:none;color:white;">Yes</a></button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                            <?php  } ?>
+                                            <?php $i++;
+                                            } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -309,7 +310,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             $i = 1;
                                             while ($row = mysqli_fetch_assoc($query)) { ?>
                                                 <tr>
-                                                    <td class="text-center"><?php echo $i++; ?></td>
+                                                    <td class="text-center"><?php echo $i; ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars(ucwords($row["cat_name"])); ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars(ucwords($row["prod_name"])); ?></td>
                                                     <td class="text-center"><img src="<?php echo htmlspecialchars($row["prod_image"]); ?>" width="80px" height="100px"></td>
@@ -324,9 +325,29 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                                             }
                                                                             ?></td>
                                                     <td class="text-center"><a href="edit.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
-                                                    <td class="text-center"><a href="delete.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
+                                                    <td class="text-center"><button type="button" class="btn" data-toggle="modal" data-target="#exampleModal-<?php echo htmlspecialchars($i); ?>" style="border:none;color:red;"><i class='fas fa-trash-alt'></i></button></td>
                                                 </tr>
-                                            <?php } ?>
+
+                                                <!-- Delete Modal-->
+                                                <div class="modal fade" id="exampleModal-<?php echo htmlspecialchars($i); ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Delete This Data?</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-danger"><a href="delete.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" style="text-decoration:none;color:white;">Yes</a></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php $i++;
+                                            } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -360,16 +381,36 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             $i = 1;
                                             while ($row = mysqli_fetch_assoc($query)) { ?>
                                                 <tr class="text-center">
-                                                    <td><?php echo $i++; ?></td>
+                                                    <td><?php echo $i; ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["cust_fname"])) . " " . htmlspecialchars(ucwords($row["cust_lname"])); ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["cust_address"])); ?></td>
                                                     <td><?php echo htmlspecialchars($row["cust_email"]); ?></td>
                                                     <td><?php echo htmlspecialchars($row["cust_mobile"]); ?></td>
                                                     <td><img <?php
                                                                 if (empty($row["photo"])) { ?> src="customer_avatar.jpg" <?php  } else {  ?> src="<?php echo $row["photo"]; ?>" <?php } ?> width="80px" height="100px"></td>
-                                                    <td><a href="delete.php?page=customers&id=<?php echo htmlspecialchars($row['cust_id']); ?>" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
+                                                    <td><button type="button" class="btn" data-toggle="modal" data-target="#exampleModal-<?php echo htmlspecialchars($i); ?>" style="border:none;color:red;"><i class='fas fa-trash-alt'></i></button></td>
                                                 </tr>
-                                            <?php } ?>
+
+                                                <!-- Delete Modal-->
+                                                <div class="modal fade" id="exampleModal-<?php echo htmlspecialchars($i); ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Delete This Data?</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-danger"><a href="delete.php?page=customers&id=<?php echo htmlspecialchars($row['cust_id']); ?>" style="text-decoration:none;color:white;">Yes</a></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php $i++;
+                                            } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -402,15 +443,35 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             $i = 1;
                                             while ($row = mysqli_fetch_assoc($query)) { ?>
                                                 <tr class="text-center">
-                                                    <td><?php echo $i++; ?></td>
+                                                    <td><?php echo $i; ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["cust_fname"])) . " " . htmlspecialchars(ucwords($row["cust_lname"])); ?></td>
                                                     <td><?php echo htmlspecialchars($row["cust_email"]); ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["prod_name"])); ?></td>
                                                     <td><?php echo htmlspecialchars($row["order_qty"]); ?></td>
                                                     <td><?php echo htmlspecialchars($row["order_time"]); ?></td>
-                                                    <td><a href="delete.php?page=orders&id=<?php echo htmlspecialchars($row['order_id']); ?>" style="color:red;text-decoration:none;"><i class="fas fa-trash"></i></a></td>
+                                                    <td><button type="button" class="btn" data-toggle="modal" data-target="#exampleModal-<?php echo htmlspecialchars($i); ?>" style="border:none;color:red;"><i class='fas fa-trash-alt'></i></button></td>
                                                 </tr>
-                                            <?php } ?>
+
+                                                <!-- Delete Modal-->
+                                                <div class="modal fade" id="exampleModal-<?php echo htmlspecialchars($i); ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Delete This Data?</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-danger"><a href="delete.php?page=orders&id=<?php echo htmlspecialchars($row['order_id']); ?>" style="text-decoration:none;color:white;">Yes</a></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php $i++;
+                                            } ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -453,31 +514,31 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                     <td><?php echo htmlspecialchars($row["time"]);       ?></td>
                                                     <td><button type="button" class="btn" data-toggle="modal" data-target="#exampleModal-<?php echo $i; ?>" style="border:none;color:red;"><i class='fas fa-trash-alt'></i></button></td>
                                                 </tr>
-                                            <?php } ?>
+                                                <!-- Delete Modal-->
+                                                <div class="modal fade" id="exampleModal-<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Delete This Data?</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-danger"><a href="delete.php?page=contacts&id=<?php echo $row["contact_id"]; ?>" style="text-decoration:none;color:white;">Yes</a></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php $i++;
+                                            } ?>
                                         </tbody>
                                     </table>
                                 </div>
 
-                                <!-- Delete Modal-->
-                                <div class="modal fade" id="exampleModal-<?php echo $i; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Delete This Data?</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-danger"><a href=<?php echo "delete.php?id=" . $row['contact_id']; ?> style="text-decoration:none;color:white;">Yes</a></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php $i++;
-                            } ?>
+                            <?php } ?>
                         </div>
                     </div>
 
