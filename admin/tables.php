@@ -290,7 +290,12 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                     <td class="text-center"><?php echo $i++; ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars(ucwords($row["cat_name"])); ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars(ucwords($row["prod_name"])); ?></td>
-                                                    <td class="text-center"><img src="<?php echo htmlspecialchars($row["prod_image"]); ?>" width="80px" height="100px"></td>
+                                                    <td class="text-center"><img <?php
+                                                                             if(!empty($row["prod_image"])){ ?>
+                                                                          src="<?php echo htmlspecialchars($row["prod_image"]); ?>" 
+                                                                             <?php }else{ ?>
+                                                                            src="placeholder-item.webp" 
+                                                                            <?php } ?>width="80px" height="100px"></td>
                                                     <td class="text-center"><?php echo htmlspecialchars($row["prod_mrp"]); ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars($row["prod_price"]); ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars($row["prod_qty"]); ?></td>
