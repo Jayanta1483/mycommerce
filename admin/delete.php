@@ -71,6 +71,23 @@ if(isset($_GET["page"]) && $_GET["page"]!== ""){
   }
 
 
+//#########################################################################################################################################################################################################
+//                                          CONTACTS
+//#########################################################################################################################################################################################################
+
+  if($page === "contacts"){
+    $delete = "DELETE FROM contacts WHERE contact_id = ?";
+    $stmt = mysqli_stmt_init($connect);
+    if(!mysqli_stmt_prepare($stmt, $delete)){
+        echo "<div style='color:red'>SQL Error Occured!!</div>";
+    }else{
+        mysqli_stmt_bind_param($stmt,"i", $id);
+        mysqli_stmt_execute($stmt);
+        header("location:tables.php?page=contacts");
+    }
+  }
+
+
 
 
 
