@@ -286,7 +286,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 ####################################################################################################################################################################################################################################################################################################################################-->
                             <?php
                             if ($page === "products") {
-                                $sql = "SELECT catagories.cat_name, products.product_id, products.prod_name, products.prod_image,products.prod_mrp,products.prod_price,products.prod_qty,products.prod_status FROM catagories RIGHT JOIN products ON catagories.cat_id = products.cat_fk ORDER BY catagories.cat_name";
+                                $sql = "SELECT catagories.cat_name, products.product_id, products.prod_name, products.prod_image, products.prod_desc, products.prod_mrp,products.prod_price,products.prod_qty,products.prod_status FROM catagories RIGHT JOIN products ON catagories.cat_id = products.cat_fk ORDER BY catagories.cat_name";
                                 $query = mysqli_query($connect, $sql); ?>
 
                                 <div class="table-responsive">
@@ -301,6 +301,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                 <th class="text-center">PRICE</th>
                                                 <th class="text-center">QTY</th>
                                                 <th class="text-center">STATUS</th>
+                                                <th class="text-center">DESCRIPTION</th>
                                                 <th class="text-center">EDIT</th>
                                                 <th class="text-center">DELETE</th>
                                             </tr>
@@ -313,7 +314,8 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                     <td class="text-center"><?php echo $i; ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars(ucwords($row["cat_name"])); ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars(ucwords($row["prod_name"])); ?></td>
-                                                    <td class="text-center"><img src="<?php echo htmlspecialchars($row["prod_image"]); ?>" width="80px" height="100px"></td>
+                                                    <td><img <?php
+                                                                if (empty($row["prod_image"])) { ?> src="placeholder-item.webp" <?php  } else {  ?> src="<?php echo $row["prod_image"]; ?>" <?php } ?> width="80px" height="100px"></td>
                                                     <td class="text-center"><?php echo htmlspecialchars($row["prod_mrp"]); ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars($row["prod_price"]); ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars($row["prod_qty"]); ?></td>
@@ -324,6 +326,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                                                 echo "<span style='color:red;'>DEACTIVE</span>";
                                                                             }
                                                                             ?></td>
+                                                    <td ><textarea style="border:none;"><?php echo htmlspecialchars(ucwords($row["prod_desc"])); ?></textarea></td>
                                                     <td class="text-center"><a href="edit.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
                                                     <td class="text-center"><button type="button" class="btn" data-toggle="modal" data-target="#exampleModal-<?php echo htmlspecialchars($i); ?>" style="border:none;color:red;"><i class='fas fa-trash-alt'></i></button></td>
                                                 </tr>
@@ -421,7 +424,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             <?php
                             if ($page === "orders") {
 
-                                $sql = "SELECT customers.cust_fname, customers.cust_lname, customers.cust_email, products.prod_name, orders.order_id, orders.order_qty, orders.order_time FROM customers JOIN products ON customers.product_fk = products.product_id JOIN orders ON customers.cust_id = orders.customers_fk";
+                                $sql = "SELECT customers.cust_fname, customers.cust_lname, customers.cust_email, products.prod_name, orders.order_id, orders.order_qty, orders.order_time FROM customers JOIN orders ON orders.customers_fk = customers.cust_id JOIN products ON products.product_id = orders.product_fk";
                                 $query = mysqli_query($connect, $sql);
                             ?>
 
