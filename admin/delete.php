@@ -55,18 +55,18 @@ if(isset($_GET["page"]) && $_GET["page"]!== ""){
   }
 
 //#########################################################################################################################################################################################################
-  //                                          PRODUCTS
+  //                                          ORDERS
   //#########################################################################################################################################################################################################
 
-  if($page === "products"){
-    $delete = "DELETE FROM products WHERE product_id = ?";
+  if($page === "orders"){
+    $delete = "DELETE FROM orders WHERE order_id = ?";
     $stmt = mysqli_stmt_init($connect);
     if(!mysqli_stmt_prepare($stmt, $delete)){
         echo "<div style='color:red'>SQL Error Occured!!</div>";
     }else{
         mysqli_stmt_bind_param($stmt,"i", $id);
         mysqli_stmt_execute($stmt);
-        header("location:tables.php?page=products");
+        header("location:tables.php?page=orders");
     }
   }
 
