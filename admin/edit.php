@@ -11,29 +11,15 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
     $page = mysqli_real_escape_string($connect, $_GET["page"]);
     $id = mysqli_real_escape_string($connect, $_GET["id"]);
 }
-    if(isset($_GET["type"]) && $_GET["type"]!==""){
-    $type = $_GET["type"];
-        
-        if ($type === "active") {
-            $status = 0;
-        } else {
-            $status = 1;
-        }
-        if ($_GET["page"] === "catagories") {
-            $update = "UPDATE catagories SET cat_status = ? WHERE cat_id=?";
-            $stmt = mysqli_stmt_init($connect);
-            mysqli_stmt_prepare($stmt, $update);
-            mysqli_stmt_bind_param($stmt, "ii", $status, $id);
-            mysqli_stmt_execute($stmt);
-        }
 
-        if ($_GET["page"] === "products") {
-            $update = "UPDATE products SET prod_status = ? WHERE product_id=?";
-            $stmt = mysqli_stmt_init($connect);
-            mysqli_stmt_prepare($stmt, $update);
-            mysqli_stmt_bind_param($stmt, "ii", $status, $id);
-            mysqli_stmt_execute($stmt);
-        }
+if (isset($_GET["type"]) && $_GET["type"] !== "") {
+    $type = $_GET["type"];
+
+    if ($type === "active") {
+        $status = 0;
+    } else {
+        $status = 1;
+    }
     
 };
 
@@ -233,7 +219,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                                 // For select query and Display data on edit page
 
-                                $sql = "select cat_name from catagories where cat_id = ?";
+                                $sql = "select * from catagories where cat_id = ?";
                                 $stmt = mysqli_stmt_init($connect);
                                 if (!mysqli_stmt_prepare($stmt, $sql)) {
                                     echo "<div style='color:red;'>SQL Error Occured!!</div>";
@@ -245,22 +231,45 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $cat_name = $row["cat_name"];
+                                        $cat_status = $row["cat_status"];
                                     }
                                 }
 
                                 //For update query and update data
 
+                                if (isset($_GET["type"]) && $_GET["type"] !== "") {
+                                    $type = $_GET["type"];
+                                    $operation = $_GET["operation"];
+                                
+                                    if ($operation === "active") {
+                                        $status = 1;
+                                    } else {
+                                        $status = 0;
+                                    }
+                                  $status_update = "UPDATE catagories SET cat_status = ? WHERE cat_id =?";  
+
+                                  $stmt_status = mysqli_stmt_init($connect);
+                                    if (!mysqli_stmt_prepare($stmt_status, $status_update)) {
+                                        echo "<div style='color:red;'>SQL Error Occured!!</div>";
+                                        die();
+                                    } else {
+                                        mysqli_stmt_bind_param($stmt_status, "ii", $status, $id);
+                                        mysqli_stmt_execute($stmt_status);
+                                       
+                                    }
+                                };
+
                                 if (isset($_POST["submit"])) {
 
                                     $name = mysqli_real_escape_string($connect, $_POST["cat_name"]);
 
-                                    $update = "UPDATE catagories SET cat_name = ? WHERE cat_id =?";
+                                    $update = "UPDATE catagories SET cat_name = ?, cat_status = ? WHERE cat_id =?";
                                     $stmt_update = mysqli_stmt_init($connect);
                                     if (!mysqli_stmt_prepare($stmt_update, $update)) {
                                         echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                         die();
                                     } else {
-                                        mysqli_stmt_bind_param($stmt_update, "si", $name, $id);
+                                        mysqli_stmt_bind_param($stmt_update, "sii", $name,$status, $id);
                                         mysqli_stmt_execute($stmt_update);
                                         header("location:tables.php?page=catagories");
                                     }
@@ -269,11 +278,25 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                             ?>
                                 <form method="POST">
-                                    <div class="form-row">
-                                        <div class="form-group col-sm">
-                                            <label>Edit Catagory Name</label>
-                                            <input type="text" class="form-control" id="exampleFormControlInput1" name="cat_name" value="<?php echo htmlspecialchars(ucwords($cat_name)); ?>">
-                                        </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless" width="100%" cellspacing="0">
+                                            <tbody>
+                                                <tr>
+                                                    <th>CATAGORY NAME</th>
+                                                    <td class="text-center" style="float:right;"><input type="text" class="form-control" name="cat_name" value="<?php echo htmlspecialchars(ucwords($cat_name)); ?>"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>STATUS</th>
+                                                    <td class="text-center" style="float:right;"><?php
+                                                                                if ($cat_status == 1) {
+                                                                                    echo "<a href='edit.php?page=catagories&type=status&operation=deactive&id=$id' style='color:green;text-decoration:none'>ACTIVE</a>";
+                                                                                } else {
+                                                                                    echo "<a href='edit.php?page=catagories&type=status&peration=active&id=$id' style='color:red;text-decoration:none'>DEACTIVE</a>";
+                                                                                }
+                                                                                ?></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-primary mx-auto" name="submit">SUBMIT</button>
@@ -346,50 +369,48 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     </div> -->
                                     <div class="table-responsive">
                                         <table class="table table-borderless" width="100%" cellspacing="0">
-                                         <tbody>
-                                             <tr>
-                                                 <th>IMAGE</th>
-                                                 <td style="float: right;"><img <?php  
-                                                                            if(!empty($p_image)){
-                                                                                ?> src="<?php echo $p_image; ?>"
-                                                                           <?php } else { ?>
-                                                                           src="placeholder-item.webp" <?php } ?>width="80px" height="100px" id="image"><br><input type="file" name="prod_image" id="image-input"></td>
-                                             </tr>
-                                             <tr>
-                                                 <th>PRODUCT NAME</th>
-                                                 <td style="float: right;"><input type="text" name="prod_name" class="form-control" value="<?php echo $prod_name; ?>"></td>
-                                             </tr>
-                                             <tr>
-                                                 <th>CATAGORY_fk</th>
-                                                 <td style="float: right;"><input type="text" name="cat_fk" id="" class="form-control" value="<?php echo $cat_fk; ?>"></td>
-                                             </tr>
-                                             <tr>
-                                                 <th>MRP</th>
-                                                 <td style="float: right;"><input type="number" name="prod_mrp" id="" class="form-control" value="<?php echo $prod_mrp; ?>"></td>
-                                             </tr>
-                                             <tr>
-                                                 <th>SELL PRICE</th>
-                                                 <td style="float: right;"><input type="number" name="prod_price" id="" class="form-control" value="<?php echo $prod_price; ?>"></td>
-                                             </tr>
-                                             <tr>
-                                                 <th>QTY</th>
-                                                 <td style="float: right;"><input type="number" name="prod_qty" id="" class="form-control" value="<?php echo $prod_qty; ?>"></td>
-                                             </tr>
-                                             <tr>
-                                                 <th>STATUS</th>
-                                                 <td style="float: right;"><?php
-                                                  if($prod_status==1){
-                                                      echo "<a href='edit.php?page=products&type=active&id=$id' style='color:green;text-decoration:none'>ACTIVE</a>";
-                                                  }else{
-                                                    echo "<a href='edit.php?page=products&type=deactive&id=$id' style='color:red;text-decoration:none'>DEACTIVE</a>";
-                                                  }
-                                                  ?></td>
-                                             </tr>
-                                             <tr>
-                                                 <th>DESCRIPTION</th>
-                                                 <td style="float: right;"><textarea name="prod_desc" id="" cols="30" rows="10" class="form-control" value="<?php echo $prod_desc; ?>"></textarea></td>
-                                             </tr>
-                                         </tbody>
+                                            <tbody>
+                                                <tr>
+                                                    <th>IMAGE</th>
+                                                    <td style="float: right;"><img <?php
+                                                                                    if (!empty($p_image)) {
+                                                                                    ?> src="<?php echo $p_image; ?>" <?php } else { ?> src="placeholder-item.webp" <?php } ?>width="80px" height="100px" id="image"><br><input type="file" name="prod_image" id="image-input"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>PRODUCT NAME</th>
+                                                    <td style="float: right;"><input type="text" name="prod_name" class="form-control" value="<?php echo $prod_name; ?>"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>CATAGORY_fk</th>
+                                                    <td style="float: right;"><input type="text" name="cat_fk" id="" class="form-control" value="<?php echo $cat_fk; ?>"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>MRP</th>
+                                                    <td style="float: right;"><input type="number" name="prod_mrp" id="" class="form-control" value="<?php echo $prod_mrp; ?>"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>SELL PRICE</th>
+                                                    <td style="float: right;"><input type="number" name="prod_price" id="" class="form-control" value="<?php echo $prod_price; ?>"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>QTY</th>
+                                                    <td style="float: right;"><input type="number" name="prod_qty" id="" class="form-control" value="<?php echo $prod_qty; ?>"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>STATUS</th>
+                                                    <td style="float: right;"><?php
+                                                                                if ($prod_status == 1) {
+                                                                                    echo "<a href='edit.php?page=products&type=active&id=$id' style='color:green;text-decoration:none'>ACTIVE</a>";
+                                                                                } else {
+                                                                                    echo "<a href='edit.php?page=products&type=deactive&id=$id' style='color:red;text-decoration:none'>DEACTIVE</a>";
+                                                                                }
+                                                                                ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>DESCRIPTION</th>
+                                                    <td style="float: right;"><textarea name="prod_desc" id="" cols="30" rows="10" class="form-control" value=""><?php echo $prod_desc; ?></textarea></td>
+                                                </tr>
+                                            </tbody>
                                         </table>
                                     </div>
                                     <div class="form-group col-sm">
@@ -447,24 +468,18 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
     </div>
 
 
-<script>
+    <script>
+        let imageInput = document.getElementById("image-input");
+        let image = document.getElementById("image");
+        imageInput.addEventListener("change", function() {
+            let file = this.files[0];
 
-let imageInput = document.getElementById("image-input");
-let image = document.getElementById("image");
-imageInput.addEventListener("change", function(){
-    let file = this.files[0];
-    
-    let reader = new FileReader();
+            let reader = new FileReader();
 
-    reader.onload = (e)=>image.src = e.target.result;
-    reader.readAsDataURL(file);
-})
-
-
-
-
-
-</script>
+            reader.onload = (e) => image.src = e.target.result;
+            reader.readAsDataURL(file);
+        })
+    </script>
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
