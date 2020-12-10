@@ -291,7 +291,7 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
                                                                                 if ($cat_status == 1) {
                                                                                     echo "<a href='edit.php?page=catagories&type=status&operation=deactive&id=$id' style='color:green;text-decoration:none'>ACTIVE</a>";
                                                                                 } else {
-                                                                                    echo "<a href='edit.php?page=catagories&type=status&peration=active&id=$id' style='color:red;text-decoration:none'>DEACTIVE</a>";
+                                                                                    echo "<a href='edit.php?page=catagories&type=status&operation=active&id=$id' style='color:red;text-decoration:none'>DEACTIVE</a>";
                                                                                 }
                                                                                 ?></td>
                                                 </tr>
@@ -408,7 +408,7 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
                                                 </tr>
                                                 <tr>
                                                     <th>DESCRIPTION</th>
-                                                    <td style="float: right;"><textarea name="prod_desc" id="" cols="30" rows="10" class="form-control" value=""><?php echo $prod_desc; ?></textarea></td>
+                                                    <td style="float: right;"><textarea name="prod_desc" id="" cols="30" rows="10" class="form-control" value=""><?php echo htmlspecialchars(ucwords($prod_desc)); ?></textarea></td>
                                                 </tr>
                                             </tbody>
                                         </table>
