@@ -245,6 +245,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             <h6 class="m-0 font-weight-bold text-primary"><?php echo htmlspecialchars(ucwords($page)); ?></h6>
                         </div>
                         <div class="card-body">
+
                             <!--#####################################################################################################################################################################################################################################################
                                                     CATAGORIES
 ##########################################################################################################################################################################################################################################################-->
@@ -304,8 +305,18 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     $prod_qty = mysqli_real_escape_string($connect, $_POST["prod_qty"]);
                                     $prod_status = mysqli_real_escape_string($connect, $_POST["prod_status"]);
                                     $prod_desc = mysqli_real_escape_string($connect, $_POST["prod_desc"]);
+                                    $cat_fk = mysqli_real_escape_string($connect, $_POST["cat_fk"]);
 
-                                    $insert = "";
+                                    $insert = "INSERT INTO products(product_id, cat_fk, prod_name, prod_mrp, prod_price, prod_qty, prod_desc, prod_status) VALUES (NULL ,? ,? ,? ,? ,? ,? ,?)";
+                                    $stmt = mysqli_stmt_init($connect);
+                                    if(!mysqli_stmt_prepare($stmt, $insert)){
+                                        echo "<div style='color:red;'>SQL Error Occured!!</div>";
+                                    }else{
+                                        mysqli_stmt_bind_param($stmt, "isiiisi",  $cat_fk, $prod_name, $prod_mrp, $prod_price, $$prod_qty,  $prod_desc, $prod_status);
+                                        mysqli_stmt_execute($stmt);
+                                        header("location:tables.php?page=products");
+                                    }
+
                                 }
 
 
@@ -332,7 +343,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                 </tr>
                                                 <tr>
                                                     <th>CATAGORY_fk</th>
-                                                    <td style="float: right;"><input type="number" name="cat_fk" id="" class="form-control"><span style="cursor:pointer;" data-toggle="modal" data-target="#catagoryModal"><i class="fas fa-info-circle"></i></span></td>
+                                                    <td style="float: right;"><input type="number" name="cat_fk" id="" class="form-control"><span style="cursor:pointer;float:right;color:lightblue;" data-toggle="modal" data-target="#catagoryModal"><i class="fas fa-info-circle"></i></span></td>
                                                 </tr>
                                                 <tr>
                                                     <th>MRP</th>
@@ -394,7 +405,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
     <!-- catgory ID Modal-->
     <div class="modal fade" id="catagoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Catagory IDs</h5>
