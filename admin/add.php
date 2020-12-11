@@ -312,7 +312,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     if(!mysqli_stmt_prepare($stmt, $insert)){
                                         echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                     }else{
-                                        mysqli_stmt_bind_param($stmt, "isiiisi",  $cat_fk, $prod_name, $prod_mrp, $prod_price, $$prod_qty,  $prod_desc, $prod_status);
+                                        mysqli_stmt_bind_param($stmt, "isiiisi",  $cat_fk, $prod_name, $prod_mrp, $prod_price, $prod_qty,  $prod_desc, $prod_status);
                                         mysqli_stmt_execute($stmt);
                                         header("location:tables.php?page=products");
                                     }
