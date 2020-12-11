@@ -211,7 +211,14 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary"><?php echo htmlspecialchars(ucwords($page)); ?></h6>
+                            <h6 class="m-0 font-weight-bold text-primary" style="display: inline;"><?php echo htmlspecialchars(ucwords($page)); ?></h6>
+                            <?php
+                            if ($page === "catagories") { ?>
+                                <h6 class="m-0 font-weight-bold text-primary" style="display: inline;float:right;"><a href="add.php?page=<?php echo htmlspecialchars($page)  ?>" style="text-decoration:none;">+ADD</a></h6>
+                            <?php } else if ($page === "products") { ?>
+                                <h6 class="m-0 font-weight-bold text-primary" style="display: inline;float:right;"><a href="add.php?page=<?php echo htmlspecialchars($page)  ?>" style="text-decoration:none;">+ADD</a></h6>
+
+                            <?php   }   ?>
                         </div>
                         <div class="card-body">
 
@@ -326,7 +333,9 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                                                 echo "<span style='color:red;'>DEACTIVE</span>";
                                                                             }
                                                                             ?></td>
-                                                    <td ><div style="border:none;"><?php echo htmlspecialchars(ucwords($row["prod_desc"])); ?></div></td>
+                                                    <td>
+                                                        <div style="border:none;"><?php echo htmlspecialchars(ucwords($row["prod_desc"])); ?></div>
+                                                    </td>
                                                     <td class="text-center"><a href="edit.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
                                                     <td class="text-center"><button type="button" class="btn" data-toggle="modal" data-target="#exampleModal-<?php echo htmlspecialchars($i); ?>" style="border:none;color:red;"><i class='fas fa-trash-alt'></i></button></td>
                                                 </tr>
