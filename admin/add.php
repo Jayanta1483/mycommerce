@@ -9,12 +9,11 @@ require "connection.php";
 
 if (isset($_GET["page"]) && $_GET["page"] !== "") {
     $page = mysqli_real_escape_string($connect, $_GET["page"]);
-    
 }
 
 
-   
-    
+
+
 
 // if (isset($_GET["type"]) && $_GET["type"] !== "") {
 //     $type = $_GET["type"];
@@ -37,7 +36,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 //     } else {
 //         mysqli_stmt_bind_param($stmt_status, "ii", $status, $id);
 //         mysqli_stmt_execute($stmt_status);
-       
+
 //     }
 // }
 // //************************************************ FOR PRODUCTS ************************************************************************************************
@@ -51,7 +50,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 //     } else {
 //         mysqli_stmt_bind_param($stmt_status, "ii", $status, $id);
 //         mysqli_stmt_execute($stmt_status);
-       
+
 //     }
 // }
 
@@ -104,16 +103,16 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
         <!-- Sidebar -->
         <!-- <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar"> -->
 
-            <!-- Sidebar - Brand -->
-            <!-- <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <!-- Sidebar - Brand -->
+        <!-- <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">My Admin</div>
             </a> -->
 
-            <!-- Nav Item - Pages Collapse Menu -->
-            <!-- <hr class="sidebar-divider">
+        <!-- Nav Item - Pages Collapse Menu -->
+        <!-- <hr class="sidebar-divider">
 
             <li class="nav-item">
                 <a href="tables.php?page=catagories" class="nav-link" aria-expanded="true">
@@ -151,12 +150,12 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
             </li> -->
 
 
-            <!-- Divider -->
-            <!-- <hr class="sidebar-divider"> -->
+        <!-- Divider -->
+        <!-- <hr class="sidebar-divider"> -->
 
 
-            <!-- Sidebar Toggler (Sidebar) -->
-            <!-- <div class="text-center d-none d-md-inline">
+        <!-- Sidebar Toggler (Sidebar) -->
+        <!-- <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
@@ -254,19 +253,18 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
 
                                 if (isset($_POST["submit"])) {
-                                  $cat_name = mysqli_real_escape_string($connect, $_POST["cat_name"]);
-                                  $cat_status = mysqli_real_escape_string($connect, $_POST["cat_status"]);
+                                    $cat_name = mysqli_real_escape_string($connect, $_POST["cat_name"]);
+                                    $cat_status = mysqli_real_escape_string($connect, $_POST["cat_status"]);
 
-                                  $insert = "INSERT INTO catagories(cat_id, cat_name, cat_status) VALUES (NULL,?,?)";
-                                  $stmt = mysqli_stmt_init($connect);
-                                  if(!mysqli_stmt_prepare($stmt, $insert)){
-                                      echo "<div style='color:red'>SQL Error Occured!!</div>";
-                                  }else{
-                                      mysqli_stmt_bind_param($stmt, "si", $cat_name, $cat_status);
-                                      mysqli_stmt_execute($stmt);
-                                      header("location:tables.php?page=catagories");
-                                  }
-                                   
+                                    $insert = "INSERT INTO catagories(cat_id, cat_name, cat_status) VALUES (NULL,?,?)";
+                                    $stmt = mysqli_stmt_init($connect);
+                                    if (!mysqli_stmt_prepare($stmt, $insert)) {
+                                        echo "<div style='color:red'>SQL Error Occured!!</div>";
+                                    } else {
+                                        mysqli_stmt_bind_param($stmt, "si", $cat_name, $cat_status);
+                                        mysqli_stmt_execute($stmt);
+                                        header("location:tables.php?page=catagories");
+                                    }
                                 }
 
 
@@ -300,13 +298,14 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             if ($page === 'products') {
 
                                 if (isset($_POST["sub-prod"])) {
-                                  $prod_name = mysqli_real_escape_string($connect, $_POST["prod_name"]);
-                                  $prod_mrp = mysqli_real_escape_string($connect, $_POST["prod_mrp"]);
-                                  $prod_price = mysqli_real_escape_string($connect, $_POST["prod_price"]);
-                                  $prod_qty = mysqli_real_escape_string($connect, $_POST["prod_qty"]);
-                                  $prod_status = mysqli_real_escape_string($connect, $_POST["prod_status"]);
-                                  $prod_desc = mysqli_real_escape_string($connect, $_POST["prod_desc"]);
-                                   
+                                    $prod_name = mysqli_real_escape_string($connect, $_POST["prod_name"]);
+                                    $prod_mrp = mysqli_real_escape_string($connect, $_POST["prod_mrp"]);
+                                    $prod_price = mysqli_real_escape_string($connect, $_POST["prod_price"]);
+                                    $prod_qty = mysqli_real_escape_string($connect, $_POST["prod_qty"]);
+                                    $prod_status = mysqli_real_escape_string($connect, $_POST["prod_status"]);
+                                    $prod_desc = mysqli_real_escape_string($connect, $_POST["prod_desc"]);
+
+                                    $insert = "";
                                 }
 
 
@@ -333,7 +332,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                 </tr>
                                                 <tr>
                                                     <th>CATAGORY_fk</th>
-                                                    <td style="float: right;"><input type="text" name="cat_fk" id="" class="form-control"></td>
+                                                    <td style="float: right;"><input type="number" name="cat_fk" id="" class="form-control"><span style="cursor:pointer;" data-toggle="modal" data-target="#catagoryModal"><i class="fas fa-info-circle"></i></span></td>
                                                 </tr>
                                                 <tr>
                                                     <th>MRP</th>
@@ -392,6 +391,49 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
+    <!-- catgory ID Modal-->
+    <div class="modal fade" id="catagoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Catagory IDs</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th class="scope">Catagory ID</th>
+                                    <th class="scope">Catagory Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $sql = "select * from catagories";
+                                $query = mysqli_query($connect, $sql);
+                                
+
+                                while($res = mysqli_fetch_assoc($query)){
+                                ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($res["cat_id"]);  ?></td>
+                                    <td><?php echo htmlspecialchars($res["cat_name"]);  ?></td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
