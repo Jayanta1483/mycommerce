@@ -12,16 +12,52 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
     $id = mysqli_real_escape_string($connect, $_GET["id"]);
 }
 
+
+   
+    
+
 if (isset($_GET["type"]) && $_GET["type"] !== "") {
     $type = $_GET["type"];
+    $operation = $_GET["operation"];
 
-    if ($type === "active") {
-        $status = 0;
-    } else {
+    if ($operation === "active") {
         $status = 1;
+    } else {
+        $status = 0;
     }
-    
+
+//********************************************** FOR CATAGORIES **********************************************************************************************
+if($page === "catagories"){
+  $status_update = "UPDATE catagories SET cat_status = ? WHERE cat_id =?";  
+
+  $stmt_status = mysqli_stmt_init($connect);
+    if (!mysqli_stmt_prepare($stmt_status, $status_update)) {
+        echo "<div style='color:red;'>SQL Error Occured!!</div>";
+        die();
+    } else {
+        mysqli_stmt_bind_param($stmt_status, "ii", $status, $id);
+        mysqli_stmt_execute($stmt_status);
+       
+    }
+}
+//************************************************ FOR PRODUCTS ************************************************************************************************
+if($page === "products"){
+$status_update = "UPDATE catagories SET cat_status = ? WHERE cat_id =?";  
+
+  $stmt_status = mysqli_stmt_init($connect);
+    if (!mysqli_stmt_prepare($stmt_status, $status_update)) {
+        echo "<div style='color:red;'>SQL Error Occured!!</div>";
+        die();
+    } else {
+        mysqli_stmt_bind_param($stmt_status, "ii", $status, $id);
+        mysqli_stmt_execute($stmt_status);
+       
+    }
+}
+
 };
+
+
 
 ?>
 
@@ -237,27 +273,7 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
 
                                 //For update query and update data
 
-                                if (isset($_GET["type"]) && $_GET["type"] !== "") {
-                                    $type = $_GET["type"];
-                                    $operation = $_GET["operation"];
                                 
-                                    if ($operation === "active") {
-                                        $status = 1;
-                                    } else {
-                                        $status = 0;
-                                    }
-                                  $status_update = "UPDATE catagories SET cat_status = ? WHERE cat_id =?";  
-
-                                  $stmt_status = mysqli_stmt_init($connect);
-                                    if (!mysqli_stmt_prepare($stmt_status, $status_update)) {
-                                        echo "<div style='color:red;'>SQL Error Occured!!</div>";
-                                        die();
-                                    } else {
-                                        mysqli_stmt_bind_param($stmt_status, "ii", $status, $id);
-                                        mysqli_stmt_execute($stmt_status);
-                                       
-                                    }
-                                };
 
                                 if (isset($_POST["submit"])) {
 
@@ -289,9 +305,9 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
                                                     <th>STATUS</th>
                                                     <td class="text-center" style="float:right;"><?php
                                                                                 if ($cat_status == 1) {
-                                                                                    echo "<a href='edit.php?page=catagories&type=status&operation=deactive&id=$id' style='color:green;text-decoration:none'>ACTIVE</a>";
+                                                                                    echo "<a href='?page=catagories&type=status&operation=deactive&id=$id' target='_self' style='color:green;text-decoration:none'>ACTIVE</a>";
                                                                                 } else {
-                                                                                    echo "<a href='edit.php?page=catagories&type=status&operation=active&id=$id' style='color:red;text-decoration:none'>DEACTIVE</a>";
+                                                                                    echo "<a href='?page=catagories&type=status&operation=active&id=$id' target='_self' style='color:red;text-decoration:none'>DEACTIVE</a>";
                                                                                 }
                                                                                 ?></td>
                                                 </tr>
