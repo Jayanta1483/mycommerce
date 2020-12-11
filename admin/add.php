@@ -291,18 +291,21 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     </div>
                                 </form>
                             <?php } ?>
+
+
                             <!--###########################################################################################################################################################################################################################################################################################################################################
                                                              PRODUCTS
 ###############################################################################################################################################################################################################################################################################################################################################-->
                             <?php
                             if ($page === 'products') {
 
-                               
-
-                                //For update query and update data
-
                                 if (isset($_POST["sub-prod"])) {
-
+                                  $prod_name = mysqli_real_escape_string($connect, $_POST["prod_name"]);
+                                  $prod_mrp = mysqli_real_escape_string($connect, $_POST["prod_mrp"]);
+                                  $prod_price = mysqli_real_escape_string($connect, $_POST["prod_price"]);
+                                  $prod_qty = mysqli_real_escape_string($connect, $_POST["prod_qty"]);
+                                  $prod_status = mysqli_real_escape_string($connect, $_POST["prod_status"]);
+                                  $prod_desc = mysqli_real_escape_string($connect, $_POST["prod_desc"]);
                                    
                                 }
 
@@ -326,37 +329,31 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                 </tr>
                                                 <tr>
                                                     <th>PRODUCT NAME</th>
-                                                    <td style="float: right;"><input type="text" name="prod_name" class="form-control" value="<?php echo $prod_name; ?>"></td>
+                                                    <td style="float: right;"><input type="text" name="prod_name" class="form-control"></td>
                                                 </tr>
                                                 <tr>
                                                     <th>CATAGORY_fk</th>
-                                                    <td style="float: right;"><input type="text" name="cat_fk" id="" class="form-control" value="<?php echo $cat_fk; ?>"></td>
+                                                    <td style="float: right;"><input type="text" name="cat_fk" id="" class="form-control"></td>
                                                 </tr>
                                                 <tr>
                                                     <th>MRP</th>
-                                                    <td style="float: right;"><input type="number" name="prod_mrp" id="" class="form-control" value="<?php echo $prod_mrp; ?>"></td>
+                                                    <td style="float: right;"><input type="number" name="prod_mrp" id="" class="form-control"></td>
                                                 </tr>
                                                 <tr>
                                                     <th>SELL PRICE</th>
-                                                    <td style="float: right;"><input type="number" name="prod_price" id="" class="form-control" value="<?php echo $prod_price; ?>"></td>
+                                                    <td style="float: right;"><input type="number" name="prod_price" id="" class="form-control"></td>
                                                 </tr>
                                                 <tr>
                                                     <th>QTY</th>
-                                                    <td style="float: right;"><input type="number" name="prod_qty" id="" class="form-control" value="<?php echo $prod_qty; ?>"></td>
+                                                    <td style="float: right;"><input type="number" name="prod_qty" id="" class="form-control"></td>
                                                 </tr>
                                                 <tr>
                                                     <th>STATUS</th>
-                                                    <td style="float: right;"><?php
-                                                                                if ($prod_status == 1) {
-                                                                                    echo "<a href='edit.php?page=products&type=status&operation=deactive&id=$id' style='color:green;text-decoration:none'>ACTIVE</a>";
-                                                                                } else {
-                                                                                    echo "<a href='edit.php?page=products&type=status&operation=active&id=$id' style='color:red;text-decoration:none'>DEACTIVE</a>";
-                                                                                }
-                                                                                ?></td>
+                                                    <td style="float: right;"><input type="number" name="prod_status" id="" class="form-control"></td>
                                                 </tr>
                                                 <tr>
                                                     <th>DESCRIPTION</th>
-                                                    <td style="float: right;"><textarea name="prod_desc" id="" cols="30" rows="10" class="form-control" value=""><?php echo htmlspecialchars(ucwords($prod_desc)); ?></textarea></td>
+                                                    <td style="float: right;"><textarea name="prod_desc" id="" cols="30" rows="10" class="form-control" value=""></textarea></td>
                                                 </tr>
                                             </tbody>
                                         </table>
