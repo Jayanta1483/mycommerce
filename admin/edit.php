@@ -42,7 +42,7 @@ if($page === "catagories"){
 }
 //************************************************ FOR PRODUCTS ************************************************************************************************
 if($page === "products"){
-$status_update = "UPDATE catagories SET cat_status = ? WHERE cat_id =?";  
+$status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";  
 
   $stmt_status = mysqli_stmt_init($connect);
     if (!mysqli_stmt_prepare($stmt_status, $status_update)) {
@@ -416,9 +416,9 @@ $status_update = "UPDATE catagories SET cat_status = ? WHERE cat_id =?";
                                                     <th>STATUS</th>
                                                     <td style="float: right;"><?php
                                                                                 if ($prod_status == 1) {
-                                                                                    echo "<a href='edit.php?page=products&type=active&id=$id' style='color:green;text-decoration:none'>ACTIVE</a>";
+                                                                                    echo "<a href='edit.php?page=products&type=status&operation=deactive&id=$id' style='color:green;text-decoration:none'>ACTIVE</a>";
                                                                                 } else {
-                                                                                    echo "<a href='edit.php?page=products&type=deactive&id=$id' style='color:red;text-decoration:none'>DEACTIVE</a>";
+                                                                                    echo "<a href='edit.php?page=products&type=status&operation=active&id=$id' style='color:red;text-decoration:none'>DEACTIVE</a>";
                                                                                 }
                                                                                 ?></td>
                                                 </tr>
