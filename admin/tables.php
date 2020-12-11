@@ -326,7 +326,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                                                 echo "<span style='color:red;'>DEACTIVE</span>";
                                                                             }
                                                                             ?></td>
-                                                    <td ><textarea style="border:none;"><?php echo htmlspecialchars(ucwords($row["prod_desc"])); ?></textarea></td>
+                                                    <td ><div style="border:none;"><?php echo htmlspecialchars(ucwords($row["prod_desc"])); ?></div></td>
                                                     <td class="text-center"><a href="edit.php?page=products&id=<?php echo htmlspecialchars($row['product_id']); ?>" target="_blank" style="text-decoration:none;"><i class="fas fa-edit"></i></a></td>
                                                     <td class="text-center"><button type="button" class="btn" data-toggle="modal" data-target="#exampleModal-<?php echo htmlspecialchars($i); ?>" style="border:none;color:red;"><i class='fas fa-trash-alt'></i></button></td>
                                                 </tr>

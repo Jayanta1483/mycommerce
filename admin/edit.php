@@ -429,8 +429,8 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="form-group col-sm">
-                                        <button class="btn btn-primary btn-block" name="sub-prod">SUBMIT</button>
+                                    <div class="form-group col-sm text-center">
+                                        <button class="btn btn-primary btn-lg" name="sub-prod">SUBMIT</button>
                                     </div>
                                 </form>
                             <?php } ?>
