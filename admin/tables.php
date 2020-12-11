@@ -214,9 +214,9 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             <h6 class="m-0 font-weight-bold text-primary" style="display: inline;"><?php echo htmlspecialchars(ucwords($page)); ?></h6>
                             <?php
                             if ($page === "catagories") { ?>
-                                <h6 class="m-0 font-weight-bold text-primary" style="display: inline;float:right;"><a href="add.php?page=<?php echo htmlspecialchars($page)  ?>" style="text-decoration:none;" target="_blank">+ADD</a></h6>
+                                <h6 class="m-0 font-weight-bold text-primary" style="display: inline;float:right;"><a href="add.php?page=<?php echo htmlspecialchars($page)  ?>" style="text-decoration:none;">+ADD</a></h6>
                             <?php } else if ($page === "products") { ?>
-                                <h6 class="m-0 font-weight-bold text-primary" style="display: inline;float:right;"><a href="add.php?page=<?php echo htmlspecialchars($page)  ?>" style="text-decoration:none;" target="_blank">+ADD</a></h6>
+                                <h6 class="m-0 font-weight-bold text-primary" style="display: inline;float:right;"><a href="add.php?page=<?php echo htmlspecialchars($page)  ?>" style="text-decoration:none;">+ADD</a></h6>
 
                             <?php   }   ?>
                         </div>
