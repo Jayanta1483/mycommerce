@@ -1,7 +1,7 @@
 <?php
-$connect = mysqli_connect("localhost","root", "", "e_comm");
+$connect = new mysqli("localhost","root", "", "e_comm");
 if(!$connect){
-    echo "<p color='red'>Some Error Occured</p>";
+    echo "<p color='red'>Connection Error Occured</p>";
     die();
 }
 ?>
