@@ -36,7 +36,7 @@ if($page === "catagories"){
         die();
     } else {
         $stmt_status->bind_param("ii", $status, $id);
-        $stmt_status->execute($stmt_status);
+        $stmt_status->execute();
        
     }
 }
@@ -257,7 +257,7 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
 
                                 $sql = "select * from catagories where cat_id = ?";
         
-                                if (!$stmt = $connect->prepare($stmt, $sql)) {
+                                if (!$stmt = $connect->prepare($sql)) {
                                     echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                     die();
                                 } else {

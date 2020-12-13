@@ -12,12 +12,12 @@ if(isset($_GET["page"]) && $_GET["page"]!== ""){
 //#########################################################################################################################################################################################################
   if($page === "catagories"){
     $delete = "DELETE FROM catagories WHERE cat_id = ?";
-    $stmt = mysqli_stmt_init($connect);
-    if(!mysqli_stmt_prepare($stmt, $delete)){
+    
+    if(!$stmt = $connect->prepare($delete)){
         echo "<div style='color:red'>SQL Error Occured!!</div>";
     }else{
-        mysqli_stmt_bind_param($stmt,"i", $id);
-        mysqli_stmt_execute($stmt);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         header("location:tables.php?page=catagories");
     }
   }
@@ -28,12 +28,12 @@ if(isset($_GET["page"]) && $_GET["page"]!== ""){
 
   if($page === "products"){
     $delete = "DELETE FROM products WHERE product_id = ?";
-    $stmt = mysqli_stmt_init($connect);
-    if(!mysqli_stmt_prepare($stmt, $delete)){
+    
+    if(!$stmt = $connect->prepare($delete)){
         echo "<div style='color:red'>SQL Error Occured!!</div>";
     }else{
-        mysqli_stmt_bind_param($stmt,"i", $id);
-        mysqli_stmt_execute($stmt);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         header("location:tables.php?page=products");
     }
   }
@@ -44,12 +44,12 @@ if(isset($_GET["page"]) && $_GET["page"]!== ""){
 
   if($page === "customers"){
     $delete = "DELETE FROM customers WHERE cust_id = ?";
-    $stmt = mysqli_stmt_init($connect);
-    if(!mysqli_stmt_prepare($stmt, $delete)){
+    
+    if(!$stmt = $connect->prepare($delete)){
         echo "<div style='color:red'>SQL Error Occured!!</div>";
     }else{
-        mysqli_stmt_bind_param($stmt,"i", $id);
-        mysqli_stmt_execute($stmt);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         header("location:tables.php?page=customers");
     }
   }
@@ -60,12 +60,12 @@ if(isset($_GET["page"]) && $_GET["page"]!== ""){
 
   if($page === "orders"){
     $delete = "DELETE FROM orders WHERE order_id = ?";
-    $stmt = mysqli_stmt_init($connect);
-    if(!mysqli_stmt_prepare($stmt, $delete)){
+    
+    if(!$stmt = $connect->prepare($delete)){
         echo "<div style='color:red'>SQL Error Occured!!</div>";
     }else{
-        mysqli_stmt_bind_param($stmt,"i", $id);
-        mysqli_stmt_execute($stmt);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         header("location:tables.php?page=orders");
     }
   }
@@ -77,12 +77,12 @@ if(isset($_GET["page"]) && $_GET["page"]!== ""){
 
   if($page === "contacts"){
     $delete = "DELETE FROM contacts WHERE contact_id = ?";
-    $stmt = mysqli_stmt_init($connect);
-    if(!mysqli_stmt_prepare($stmt, $delete)){
+    
+    if(!$stmt = $connect->prepare($delete)){
         echo "<div style='color:red'>SQL Error Occured!!</div>";
     }else{
-        mysqli_stmt_bind_param($stmt,"i", $id);
-        mysqli_stmt_execute($stmt);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
         header("location:tables.php?page=contacts");
     }
   }
