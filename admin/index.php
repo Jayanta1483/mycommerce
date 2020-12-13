@@ -9,37 +9,36 @@ if (isset($_POST["login"])) {
     $email = mysqli_real_escape_string($connect, $_POST["email"]);
     $password = mysqli_real_escape_string($connect, $_POST["pwd"]);
 
-    $sql = "select * from admin_user where email = ?;";
+    $sql = "select * from admin_user where email = ?";
 
     // CREATE A PREPARED STATEMENT
     $stmt = $connect->prepare($sql);
 
-   
+
     //BIND PARAMETERS TO placeholder
     $stmt->bind_param("s", $email);
 
     //RUN PARAMETERS INSIDE DATABASE
     $stmt->execute();
-    $result = $stmt->get_result();
+    //$result = $stmt->get_result();
+    $stmt->bind_result($adm_id, $adm_email, $adm_pass);
+
+    $em_msg = $pass_msg = "";
+
+    while ($stmt->fetch()) {
 
 
-    $em_msg = $pass_msg = $res_pass = "";
+        if (empty($adm_email)) {
 
-    while ($res = $result->fetch_assoc()) {
-        $res_email = $res["email"];
-        $res_pass = $res["password"];
-    }
+            header("location:index.php?e=em");
+        } elseif ($password !== $adm_pass) {
 
-    if (empty($res_email)) {
-        
-        header("location:index.php?e=em");
-    } elseif ($password !== $res_pass) {
-       
-        header("location:index.php?e=pw");
-    } else {
-        $_SESSION["login"] = "yes";
-        $_SESSION["email"] = $email;
-        header("location:tables.php?page=catagories");
+            header("location:index.php?e=pw");
+        } else {
+            $_SESSION["login"] = "yes";
+            $_SESSION["email"] = $email;
+            header("location:tables.php?page=catagories");
+        }
     }
 }
 
