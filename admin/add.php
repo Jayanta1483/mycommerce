@@ -258,12 +258,12 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     $cat_status = mysqli_real_escape_string($connect, $_POST["cat_status"]);
 
                                     $insert = "INSERT INTO catagories(cat_id, cat_name, cat_status) VALUES (NULL,?,?)";
-                                    $stmt = mysqli_stmt_init($connect);
-                                    if (!mysqli_stmt_prepare($stmt, $insert)) {
+                                    
+                                    if (!$stmt = $connect->prepare($insert)) {
                                         echo "<div style='color:red'>SQL Error Occured!!</div>";
                                     } else {
-                                        mysqli_stmt_bind_param($stmt, "si", $cat_name, $cat_status);
-                                        mysqli_stmt_execute($stmt);
+                                        $stmt->bind_param("si", $cat_name, $cat_status);
+                                        $stmt->execute();
                                         header("location:tables.php?page=catagories");
                                     }
                                 }
@@ -308,12 +308,12 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     $cat_fk = mysqli_real_escape_string($connect, $_POST["cat_fk"]);
 
                                     $insert = "INSERT INTO products(product_id, cat_fk, prod_name, prod_mrp, prod_price, prod_qty, prod_desc, prod_status) VALUES (NULL ,? ,? ,? ,? ,? ,? ,?)";
-                                    $stmt = mysqli_stmt_init($connect);
-                                    if(!mysqli_stmt_prepare($stmt, $insert)){
+                                    
+                                    if(!$stmt = $connect->prepare($insert)){
                                         echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                     }else{
-                                        mysqli_stmt_bind_param($stmt, "isiiisi",  $cat_fk, $prod_name, $prod_mrp, $prod_price, $prod_qty,  $prod_desc, $prod_status);
-                                        mysqli_stmt_execute($stmt);
+                                        $stmt->bind_param("isiiisi",  $cat_fk, $prod_name, $prod_mrp, $prod_price, $prod_qty,  $prod_desc, $prod_status);
+                                        $stmt->execute();
                                         header("location:tables.php?page=products");
                                     }
 

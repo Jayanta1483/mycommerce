@@ -30,13 +30,13 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
 if($page === "catagories"){
   $status_update = "UPDATE catagories SET cat_status = ? WHERE cat_id =?";  
 
-  $stmt_status = mysqli_stmt_init($connect);
-    if (!mysqli_stmt_prepare($stmt_status, $status_update)) {
+  
+    if (!$stmt_status = $connect->prepare($status_update)) {
         echo "<div style='color:red;'>SQL Error Occured!!</div>";
         die();
     } else {
-        mysqli_stmt_bind_param($stmt_status, "ii", $status, $id);
-        mysqli_stmt_execute($stmt_status);
+        $stmt_status->bind_param("ii", $status, $id);
+        $stmt_status->execute($stmt_status);
        
     }
 }
@@ -44,13 +44,13 @@ if($page === "catagories"){
 if($page === "products"){
 $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";  
 
-  $stmt_status = mysqli_stmt_init($connect);
-    if (!mysqli_stmt_prepare($stmt_status, $status_update)) {
+  
+    if (!$stmt_status = $connect->prepare($status_update)) {
         echo "<div style='color:red;'>SQL Error Occured!!</div>";
         die();
     } else {
-        mysqli_stmt_bind_param($stmt_status, "ii", $status, $id);
-        mysqli_stmt_execute($stmt_status);
+        $stmt_status->bind_param("ii", $status, $id);
+        $stmt_status->execute();
        
     }
 }
@@ -256,16 +256,16 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                 // For select query and Display data on edit page
 
                                 $sql = "select * from catagories where cat_id = ?";
-                                $stmt = mysqli_stmt_init($connect);
-                                if (!mysqli_stmt_prepare($stmt, $sql)) {
+        
+                                if (!$stmt = $connect->prepare($stmt, $sql)) {
                                     echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                     die();
                                 } else {
-                                    mysqli_stmt_bind_param($stmt, "i", $id);
-                                    mysqli_stmt_execute($stmt);
-                                    $result = mysqli_stmt_get_result($stmt);
+                                    $stmt->bind_param("i", $id);
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
 
-                                    while ($row = mysqli_fetch_assoc($result)) {
+                                    while ($row = $result->fetch_assoc()) {
                                         $cat_name = $row["cat_name"];
                                         $cat_status = $row["cat_status"];
                                     }
@@ -280,13 +280,13 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                     $name = mysqli_real_escape_string($connect, $_POST["cat_name"]);
 
                                     $update = "UPDATE catagories SET cat_name = ?, cat_status = ? WHERE cat_id =?";
-                                    $stmt_update = mysqli_stmt_init($connect);
-                                    if (!mysqli_stmt_prepare($stmt_update, $update)) {
+                                    
+                                    if (!$stmt_update = $connect->prepare($update)) {
                                         echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                         die();
                                     } else {
-                                        mysqli_stmt_bind_param($stmt_update, "sii", $name,$status, $id);
-                                        mysqli_stmt_execute($stmt_update);
+                                        $stmt_update->bind_param("sii", $name,$status, $id);
+                                        $stmt_update->execute();
                                         header("location:tables.php?page=catagories");
                                     }
                                 }
@@ -328,16 +328,16 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                 // For select query and Display data on edit page
 
                                 $sql = "select * from products where product_id = ?";
-                                $stmt = mysqli_stmt_init($connect);
-                                if (!mysqli_stmt_prepare($stmt, $sql)) {
+                                
+                                if (!$stmt = $connect->prepare($sql)) {
                                     echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                     die();
                                 } else {
-                                    mysqli_stmt_bind_param($stmt, "i", $id);
+                                    $stmt->bind_param( "i", $id);
                                     mysqli_stmt_execute($stmt);
-                                    $result = mysqli_stmt_get_result($stmt);
+                                    $result = $stmt->get_result();
 
-                                    while ($row = mysqli_fetch_assoc($result)) {
+                                    while ($row = $result->fetch_assoc()) {
                                         $prod_name = $row["prod_name"];
                                         $cat_fk = $row["cat_fk"];
                                         $prod_mrp = $row["prod_mrp"];
@@ -363,13 +363,13 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                     //$p_name = mysqli_real_escape_string($connect, $_POST["prod_name"]);
 
                                     $update = "UPDATE products SET cat_fk= ?,prod_name= ?,prod_mrp= ?,prod_price= ?,prod_qty=?,prod_image=?,prod_desc=? WHERE product_id = ?";
-                                    $stmt_update = mysqli_stmt_init($connect);
-                                    if (!mysqli_stmt_prepare($stmt_update, $update)) {
+                                    
+                                    if (!$stmt_update->prepare($update)) {
                                         echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                         die();
                                     } else {
-                                        mysqli_stmt_bind_param($stmt_update, "isiiissi", $c_fk, $p_name, $p_mrp, $p_price, $p_qty, $p_image, $p_desc, $id);
-                                        mysqli_stmt_execute($stmt_update);
+                                        $stmt_update->bind_param("isiiissi", $c_fk, $p_name, $p_mrp, $p_price, $p_qty, $p_image, $p_desc, $id);
+                                        $stmt_update->execute();
                                         header("location:tables.php?page=products");
                                     }
                                 }
