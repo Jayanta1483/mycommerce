@@ -18,18 +18,16 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
         }
         if ($_GET["page"] === "catagories") {
             $update = "UPDATE catagories SET cat_status = ? WHERE cat_id=?";
-            $stmt = mysqli_stmt_init($connect);
-            mysqli_stmt_prepare($stmt, $update);
-            mysqli_stmt_bind_param($stmt, "ii", $status, $id);
-            mysqli_stmt_execute($stmt);
+            $stmt = $connect->prepare($update);
+            $stmt->bind_param ("ii", $status, $id);
+            $stmt->execute();
         }
 
         if ($_GET["page"] === "products") {
             $update = "UPDATE products SET prod_status = ? WHERE prod_id=?";
-            $stmt = mysqli_stmt_init($connect);
-            mysqli_stmt_prepare($stmt, $update);
-            mysqli_stmt_bind_param($stmt, "ii", $status, $id);
-            mysqli_stmt_execute($stmt);
+            $stmt = $connect->prepare($update);
+            $stmt->bind_param("ii", $status, $id);
+            $stmt->execute();
         }
     }
 }

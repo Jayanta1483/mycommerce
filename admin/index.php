@@ -12,22 +12,20 @@ if (isset($_POST["login"])) {
     $sql = "select * from admin_user where email = ?;";
 
     // CREATE A PREPARED STATEMENT
-    $stmt = mysqli_stmt_init($connect);
+    $stmt = $connect->prepare($sql);
 
-    //PREPARED THE PREPARE STATEMENT
-    mysqli_stmt_prepare($stmt, $sql);
-
+   
     //BIND PARAMETERS TO placeholder
-    mysqli_stmt_bind_param($stmt, "s", $email);
+    $stmt->bind_param("s", $email);
 
     //RUN PARAMETERS INSIDE DATABASE
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
 
     $em_msg = $pass_msg = $res_pass = "";
 
-    while ($res = mysqli_fetch_assoc($result)) {
+    while ($res = $result->fetch_assoc()) {
         $res_email = $res["email"];
         $res_pass = $res["password"];
     }
