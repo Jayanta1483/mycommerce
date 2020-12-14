@@ -39,6 +39,8 @@ if($page === "catagories"){
         $stmt_status->execute();
        
     }
+
+    $stmt_status->close();
 }
 //************************************************ FOR PRODUCTS ************************************************************************************************
 if($page === "products"){
@@ -53,6 +55,8 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
         $stmt_status->execute();
        
     }
+
+    $stmt_status->close();
 }
 
 };
@@ -271,6 +275,8 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                     }
                                 }
 
+                                $stmt->close();
+
                                 //For update query and update data
 
                                 
@@ -287,8 +293,10 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                     } else {
                                         $stmt_update->bind_param("sii", $name,$status, $id);
                                         $stmt_update->execute();
+                                        $stmt_update->close();
                                         header("location:tables.php?page=catagories");
                                     }
+
                                 }
 
 
@@ -347,6 +355,8 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                         $prod_image = $row["prod_image"];
                                         $prod_status = $row["prod_status"];
                                     }
+
+                                    $stmt->close();
                                 }
 
                                 //For update query and update data
@@ -364,14 +374,16 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
 
                                     $update = "UPDATE products SET cat_fk= ?,prod_name= ?,prod_mrp= ?,prod_price= ?,prod_qty=?,prod_image=?,prod_desc=? WHERE product_id = ?";
                                     
-                                    if (!$stmt_update->prepare($update)) {
+                                    if (!$stmt_update = $connect->prepare($update)) {
                                         echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                         die();
                                     } else {
                                         $stmt_update->bind_param("isiiissi", $c_fk, $p_name, $p_mrp, $p_price, $p_qty, $p_image, $p_desc, $id);
                                         $stmt_update->execute();
+                                        $stmt_update->close();
                                         header("location:tables.php?page=products");
                                     }
+
                                 }
 
 
@@ -433,7 +445,7 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                         <button class="btn btn-primary btn-lg" name="sub-prod">SUBMIT</button>
                                     </div>
                                 </form>
-                            <?php } ?>
+                            <?php } $connect->close(); ?>
                         </div>
                     </div>
 
