@@ -18,6 +18,7 @@ if(isset($_GET["page"]) && $_GET["page"]!== ""){
     }else{
         $stmt->bind_param("i", $id);
         $stmt->execute();
+        $stmt->close();
         header("location:tables.php?page=catagories");
     }
   }
@@ -34,6 +35,7 @@ if(isset($_GET["page"]) && $_GET["page"]!== ""){
     }else{
         $stmt->bind_param("i", $id);
         $stmt->execute();
+        $stmt->close();
         header("location:tables.php?page=products");
     }
   }
@@ -50,6 +52,7 @@ if(isset($_GET["page"]) && $_GET["page"]!== ""){
     }else{
         $stmt->bind_param("i", $id);
         $stmt->execute();
+        $stmt->close();
         header("location:tables.php?page=customers");
     }
   }
@@ -66,6 +69,7 @@ if(isset($_GET["page"]) && $_GET["page"]!== ""){
     }else{
         $stmt->bind_param("i", $id);
         $stmt->execute();
+        $stmt->close();
         header("location:tables.php?page=orders");
     }
   }
@@ -83,6 +87,11 @@ if(isset($_GET["page"]) && $_GET["page"]!== ""){
     }else{
         $stmt->bind_param("i", $id);
         $stmt->execute();
+        $stmt->close();
         header("location:tables.php?page=contacts");
     }
   }
+
+
+
+  $connect->close();
