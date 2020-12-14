@@ -266,6 +266,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                         $stmt->execute();
                                         header("location:tables.php?page=catagories");
                                     }
+                                    $stmt->close();
                                 }
 
 
@@ -316,6 +317,8 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                         $stmt->execute();
                                         header("location:tables.php?page=products");
                                     }
+
+                                    $stmt->close();
 
                                 }
 
@@ -425,16 +428,16 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             <tbody>
                                 <?php
                                 $sql = "select * from catagories";
-                                $query = mysqli_query($connect, $sql);
+                                $query = $connect->query($sql);
                                 
 
-                                while($res = mysqli_fetch_assoc($query)){
+                                while($res = $query->fetch_assoc()){
                                 ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($res["cat_id"]);  ?></td>
                                     <td><?php echo htmlspecialchars($res["cat_name"]);  ?></td>
                                 </tr>
-                                <?php } ?>
+                                <?php } $connect->close();?>
                             </tbody>
                         </table>
                     </div>
