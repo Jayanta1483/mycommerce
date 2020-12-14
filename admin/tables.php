@@ -227,7 +227,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                             if ($page === "catagories") {
                                 $sql = "select * from catagories";
-                                $query = mysqli_query($connect, $sql); ?>
+                                $query = $connect->query($sql); ?>
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
@@ -242,7 +242,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                         <tbody>
                                             <?php
                                             $i = 1;
-                                            while ($result = mysqli_fetch_array($query)) { ?>
+                                            while ($result = $query->fetch_array()) { ?>
                                                 <tr>
                                                     <td class="text-center"><?php echo $i; ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars(ucwords($result["cat_name"])); ?></td>
@@ -292,7 +292,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             <?php
                             if ($page === "products") {
                                 $sql = "SELECT catagories.cat_name, products.product_id, products.prod_name, products.prod_image, products.prod_desc, products.prod_mrp,products.prod_price,products.prod_qty,products.prod_status FROM catagories RIGHT JOIN products ON catagories.cat_id = products.cat_fk ORDER BY catagories.cat_name";
-                                $query = mysqli_query($connect, $sql); ?>
+                                $query = $connect->query($sql); ?>
 
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -314,7 +314,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                         <tbody>
                                             <?php
                                             $i = 1;
-                                            while ($row = mysqli_fetch_assoc($query)) { ?>
+                                            while ($row = $query->fetch_assoc()) { ?>
                                                 <tr>
                                                     <td class="text-center"><?php echo $i; ?></td>
                                                     <td class="text-center"><?php echo htmlspecialchars(ucwords($row["cat_name"])); ?></td>
@@ -369,7 +369,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             <?php
                             if ($page === "customers") {
                                 $sql = "select * from customers";
-                                $query = mysqli_query($connect, $sql);
+                                $query = $connect->query($sql);
                             ?>
 
 
@@ -389,7 +389,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                         <tbody>
                                             <?php
                                             $i = 1;
-                                            while ($row = mysqli_fetch_assoc($query)) { ?>
+                                            while ($row = $query->fetch_assoc()) { ?>
                                                 <tr class="text-center">
                                                     <td><?php echo $i; ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["cust_fname"])) . " " . htmlspecialchars(ucwords($row["cust_lname"])); ?></td>
@@ -432,7 +432,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             if ($page === "orders") {
 
                                 $sql = "SELECT customers.cust_fname, customers.cust_lname, customers.cust_email, products.prod_name, orders.order_id, orders.order_qty, orders.order_time FROM customers JOIN orders ON orders.customers_fk = customers.cust_id JOIN products ON products.product_id = orders.product_fk";
-                                $query = mysqli_query($connect, $sql);
+                                $query = $connect->query($sql);
                             ?>
 
                                 <div class="table-responsive">
@@ -451,7 +451,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                         <tbody>
                                             <?php
                                             $i = 1;
-                                            while ($row = mysqli_fetch_assoc($query)) { ?>
+                                            while ($row = $query->fetch_assoc()) { ?>
                                                 <tr class="text-center">
                                                     <td><?php echo $i; ?></td>
                                                     <td><?php echo htmlspecialchars(ucwords($row["cust_fname"])) . " " . htmlspecialchars(ucwords($row["cust_lname"])); ?></td>
@@ -493,7 +493,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             if ($page === "contacts") {
 
                                 $sql = "SELECT customers.cust_fname, customers.cust_lname, customers.cust_email, customers.cust_mobile, contacts.contact_id, contacts.comments, contacts.time FROM customers JOIN contacts ON customers.cust_id = contacts.customers_fk ORDER BY customers.cust_fname";
-                                $query = mysqli_query($connect, $sql);
+                                $query = $connect->query($sql);
                             ?>
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -511,7 +511,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                         <tbody>
                                             <?php
                                             $i = 1;
-                                            while ($row = mysqli_fetch_assoc($query)) {
+                                            while ($row = $query->fetch_assoc()) {
 
                                             ?>
 
@@ -543,7 +543,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                                     </div>
                                                 </div>
                                             <?php $i++;
-                                            } ?>
+                                            } $connect->close();?>
                                         </tbody>
                                     </table>
                                 </div>

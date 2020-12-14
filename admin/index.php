@@ -40,6 +40,8 @@ if (isset($_POST["login"])) {
             header("location:tables.php?page=catagories");
         }
     }
+
+    $stmt->close();
 }
 
 ?>
@@ -194,3 +196,8 @@ if (isset($_POST["login"])) {
 </body>
 
 </html>
+<?php
+
+$connect->close();
+
+?>
