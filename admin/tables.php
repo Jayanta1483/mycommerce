@@ -271,7 +271,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                <button type="button" class="btn btn-danger"><a href="delete.php?page=catagories&id=<?php echo htmlspecialchars($result['cat_id']); ?>" style="text-decoration:none;color:white;">Yes</a></button>
+                                                                <button type="button" class="btn btn-danger" id="delBtn" value="catagories&id=<?php echo htmlspecialchars($result['cat_id']); ?>">Yes</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -597,6 +597,55 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+function displayRecords(){
+
+}
+
+
+
+
+
+
+
+const del = document.querySelector("#delBtn");
+let data = del.value;
+let url = `delete.php?${data}`;
+
+del.addEventListener("click",()=>{
+    fetch(url).then(response=> response.text())
+})
+
+
+
+
+
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
