@@ -321,10 +321,10 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                         $file = $photo["name"];
                                         $file = str_replace(' ', '', $file);
                                         $file_name = pathinfo($file, PATHINFO_FILENAME);
-                                        var_dump(basename($file));
+                                        
                                         $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
                                         $file_name = $file_name . "_" . date('d-m-Y h-m-sa') . "." . $file_ext;
-                                        //$file_name = basename($file);
+                                        
                                         $file_size = $photo["size"];
                                         $file_temp = $photo["tmp_name"];
 
@@ -334,7 +334,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                         $mime_allowed = array("image/jpeg", "image/png", "image/webp");
                                         $ext_allowed = array("jpg", "jpeg", "png", "webp");
                                         $folder = "upload/" .$file_name;
-                                         //var_dump($folder);
+                                        
                                         if ($file_size > 2000000) {
 
                                             $error = "File size is larger than recomended!!";
@@ -351,7 +351,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             $image_validation = true;
                                             $error = "";
                                             move_uploaded_file($file_temp, $folder);
-                                            //var_dump(realpath($folder));
+                                        
                                         }
                                     } else {
                                         $file_name = "placeholder-item.webp";
@@ -367,8 +367,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             $stmt->bind_param("isiiisis",  $cat_fk, $prod_name, $prod_mrp, $prod_price, $prod_qty,  $prod_desc, $prod_status, $file_name);
                                             $stmt->execute();
                                             $stmt->close();
-                                            //var_dump($file_temp);
-                                            //header("location:tables.php?page=products");
+                                            header("location:tables.php?page=products");
                                         }
                                     }
 
