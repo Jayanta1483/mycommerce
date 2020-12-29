@@ -13,8 +13,8 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
 }
 
 
-   
-    
+
+
 
 if (isset($_GET["type"]) && $_GET["type"] !== "") {
     $type = $_GET["type"];
@@ -26,39 +26,36 @@ if (isset($_GET["type"]) && $_GET["type"] !== "") {
         $status = 0;
     }
 
-//********************************************** FOR CATAGORIES **********************************************************************************************
-if($page === "catagories"){
-  $status_update = "UPDATE catagories SET cat_status = ? WHERE cat_id =?";  
+    //********************************************** FOR CATAGORIES **********************************************************************************************
+    if ($page === "catagories") {
+        $status_update = "UPDATE catagories SET cat_status = ? WHERE cat_id =?";
 
-  
-    if (!$stmt_status = $connect->prepare($status_update)) {
-        echo "<div style='color:red;'>SQL Error Occured!!</div>";
-        die();
-    } else {
-        $stmt_status->bind_param("ii", $status, $id);
-        $stmt_status->execute();
-       
+
+        if (!$stmt_status = $connect->prepare($status_update)) {
+            echo "<div style='color:red;'>SQL Error Occured!!</div>";
+            die();
+        } else {
+            $stmt_status->bind_param("ii", $status, $id);
+            $stmt_status->execute();
+        }
+
+        $stmt_status->close();
     }
+    //************************************************ FOR PRODUCTS ************************************************************************************************
+    if ($page === "products") {
+        $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
 
-    $stmt_status->close();
-}
-//************************************************ FOR PRODUCTS ************************************************************************************************
-if($page === "products"){
-$status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";  
 
-  
-    if (!$stmt_status = $connect->prepare($status_update)) {
-        echo "<div style='color:red;'>SQL Error Occured!!</div>";
-        die();
-    } else {
-        $stmt_status->bind_param("ii", $status, $id);
-        $stmt_status->execute();
-       
+        if (!$stmt_status = $connect->prepare($status_update)) {
+            echo "<div style='color:red;'>SQL Error Occured!!</div>";
+            die();
+        } else {
+            $stmt_status->bind_param("ii", $status, $id);
+            $stmt_status->execute();
+        }
+
+        $stmt_status->close();
     }
-
-    $stmt_status->close();
-}
-
 };
 
 
@@ -260,7 +257,7 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                 // For select query and Display data on edit page
 
                                 $sql = "select * from catagories where cat_id = ?";
-        
+
                                 if (!$stmt = $connect->prepare($sql)) {
                                     echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                     die();
@@ -279,24 +276,23 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
 
                                 //For update query and update data
 
-                                
+
 
                                 if (isset($_POST["submit"])) {
 
                                     $name = mysqli_real_escape_string($connect, $_POST["cat_name"]);
 
                                     $update = "UPDATE catagories SET cat_name = ?, cat_status = ? WHERE cat_id =?";
-                                    
+
                                     if (!$stmt_update = $connect->prepare($update)) {
                                         echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                         die();
                                     } else {
-                                        $stmt_update->bind_param("sii", $name,$status, $id);
+                                        $stmt_update->bind_param("sii", $name, $status, $id);
                                         $stmt_update->execute();
                                         $stmt_update->close();
                                         header("location:tables.php?page=catagories");
                                     }
-
                                 }
 
 
@@ -312,12 +308,12 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                                 <tr>
                                                     <th>STATUS</th>
                                                     <td class="text-center" style="float:right;"><?php
-                                                                                if ($cat_status == 1) {
-                                                                                    echo "<a href='?page=catagories&type=status&operation=deactive&id=$id' target='_self' style='color:green;text-decoration:none'>ACTIVE</a>";
-                                                                                } else {
-                                                                                    echo "<a href='?page=catagories&type=status&operation=active&id=$id' target='_self' style='color:red;text-decoration:none'>DEACTIVE</a>";
-                                                                                }
-                                                                                ?></td>
+                                                                                                    if ($cat_status == 1) {
+                                                                                                        echo "<a href='?page=catagories&type=status&operation=deactive&id=$id' target='_self' style='color:green;text-decoration:none'>ACTIVE</a>";
+                                                                                                    } else {
+                                                                                                        echo "<a href='?page=catagories&type=status&operation=active&id=$id' target='_self' style='color:red;text-decoration:none'>DEACTIVE</a>";
+                                                                                                    }
+                                                                                                    ?></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -336,12 +332,12 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                 // For select query and Display data on edit page
 
                                 $sql = "select * from products where product_id = ?";
-                                
+
                                 if (!$stmt = $connect->prepare($sql)) {
                                     echo "<div style='color:red;'>SQL Error Occured!!</div>";
                                     die();
                                 } else {
-                                    $stmt->bind_param( "i", $id);
+                                    $stmt->bind_param("i", $id);
                                     mysqli_stmt_execute($stmt);
                                     $result = $stmt->get_result();
 
@@ -361,6 +357,8 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
 
                                 //For update query and update data
 
+                                $error = $image_validation = "";
+
                                 if (isset($_POST["sub-prod"])) {
 
                                     $p_name = mysqli_real_escape_string($connect, $_POST["prod_name"]);
@@ -369,26 +367,61 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                     $p_price = mysqli_real_escape_string($connect, $_POST["prod_price"]);
                                     $p_qty = mysqli_real_escape_string($connect, $_POST["prod_qty"]);
                                     $p_desc = mysqli_real_escape_string($connect, $_POST["prod_desc"]);
-                                    $p_image = mysqli_real_escape_string($connect, $_POST["prod_image"]);
-                                    //$p_name = mysqli_real_escape_string($connect, $_POST["prod_name"]);
+                                    $p_image = $_FILES["prod_image"];
+                                    date_default_timezone_set("Asia/Kolkata");
+                                    $file_error = $p_image['error'];
+                                    $file = $p_image['name'];
+                                    $file = str_replace(' ', '', $file);
+                                    $file_name = pathinfo($file, PATHINFO_FILENAME);
+                                    $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                                    $file_name = $file_name . "_" . date('d-m-y h-m-sa') . "." . $file_ext;
+                                    $file_temp = $p_image['tmp_name'];
+                                    $file_size = $p_image['size'];
 
-                                    $update = "UPDATE products SET cat_fk= ?,prod_name= ?,prod_mrp= ?,prod_price= ?,prod_qty=?,prod_image=?,prod_desc=? WHERE product_id = ?";
-                                    
-                                    if (!$stmt_update = $connect->prepare($update)) {
-                                        echo "<div style='color:red;'>SQL Error Occured!!</div>";
-                                        die();
+                                    $file_info = @getimagesize($file_temp);
+                                    $file_mime = $file_info['mime'];
+                                    $mime_arr = array("image/jpeg", "image/png");
+                                    $ext_arr = array("jpeg", "jpg", "png");
+                                    $folder = "upload/" . $file_name;
+
+                                    if (!$file_error > 0) {
+                                        if ($file_size > 2000000) {
+                                            $error = "File size is greater than recomended!!";
+                                            $image_validation = false;
+                                        } else if (!in_array($file_ext, $ext_arr)) {
+                                            $error = "This file extension is not allowed!!";
+                                            $image_validation = false;
+                                        } else if (!in_array($file_mime, $mime_arr)) {
+                                            $error = "This file mime is not allowed!!";
+                                            $image_validation = false;
+                                        } else {
+                                            $error = "";
+                                            $image_validation = true;
+                                            move_uploaded_file($file_temp, $folder);
+                                        }
                                     } else {
-                                        $stmt_update->bind_param("isiiissi", $c_fk, $p_name, $p_mrp, $p_price, $p_qty, $p_image, $p_desc, $id);
-                                        $stmt_update->execute();
-                                        $stmt_update->close();
-                                        header("location:tables.php?page=products");
+                                        $file_name = "placeholder-item.webp";
                                     }
 
+
+                                    if ($file_error == 4 || $image_validation == true) {
+                                        $update = "UPDATE products SET cat_fk= ?,prod_name= ?,prod_mrp= ?,prod_price= ?,prod_qty=?,prod_image=?,prod_desc=? WHERE product_id = ?";
+
+                                        if (!$stmt_update = $connect->prepare($update)) {
+                                            echo "<div style='color:red;'>SQL Error Occured!!</div>";
+                                            die();
+                                        } else {
+                                            $stmt_update->bind_param("isiiissi", $c_fk, $p_name, $p_mrp, $p_price, $p_qty, $file_name, $p_desc, $id);
+                                            $stmt_update->execute();
+                                            $stmt_update->close();
+                                            header("location:tables.php?page=products");
+                                        }
+                                    }
                                 }
 
 
                             ?>
-                                <form method="POST">
+                                <form method="POST" enctype="multipart/form-data">
                                     <!-- <div class="form-row">
                                         <div class="form-group col-sm">
                                             <label>Edit Product Name</label>
@@ -400,7 +433,10 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                             <tbody>
                                                 <tr>
                                                     <th>IMAGE</th>
-                                                    <td style="float: right;"><img src="<?php echo 'pr-upload/'.$prod_image; ?>" width="80px" height="100px" id="image"><br><input type="file" name="prod_image" id="image-input"></td>
+                                                    <td style="float: right;"><img src="<?php echo 'upload/' . $prod_image; ?>" width="80px" height="100px" id="image"><br><input type="file" name="prod_image" id="image-input"></td>
+                                                    <?php if ($image_validation == false) {
+                                                        echo "<p class='text-center text-danger'>" . $error . "</p>";
+                                                    }; ?>
                                                 </tr>
                                                 <tr>
                                                     <th>PRODUCT NAME</th>
@@ -443,7 +479,8 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                         <button class="btn btn-primary btn-lg" name="sub-prod">SUBMIT</button>
                                     </div>
                                 </form>
-                            <?php } $connect->close(); ?>
+                            <?php }
+                            $connect->close(); ?>
                         </div>
                     </div>
 
