@@ -258,7 +258,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     $cat_status = mysqli_real_escape_string($connect, $_POST["cat_status"]);
 
                                     $insert = "INSERT INTO catagories(cat_id, cat_name, cat_status) VALUES (NULL,?,?)";
-                                    
+
                                     if (!$stmt = $connect->prepare($insert)) {
                                         echo "<div style='color:red'>SQL Error Occured!!</div>";
                                     } else {
@@ -299,6 +299,9 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                             <?php
                             if ($page === 'products') {
 
+
+                                $error = $image_validation = "";
+
                                 if (isset($_POST["sub-prod"])) {
                                     $prod_name = mysqli_real_escape_string($connect, $_POST["prod_name"]);
                                     $prod_mrp = mysqli_real_escape_string($connect, $_POST["prod_mrp"]);
@@ -307,24 +310,74 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                     $prod_status = mysqli_real_escape_string($connect, $_POST["prod_status"]);
                                     $prod_desc = mysqli_real_escape_string($connect, $_POST["prod_desc"]);
                                     $cat_fk = mysqli_real_escape_string($connect, $_POST["cat_fk"]);
+                                    $photo = $_FILES["prod_image"];
 
-                                    $insert = "INSERT INTO products(product_id, cat_fk, prod_name, prod_mrp, prod_price, prod_qty, prod_desc, prod_status) VALUES (NULL ,? ,? ,? ,? ,? ,? ,?)";
-                                    
-                                    if(!$stmt = $connect->prepare($insert)){
-                                        echo "<div style='color:red;'>SQL Error Occured!!</div>";
-                                    }else{
-                                        $stmt->bind_param("isiiisi",  $cat_fk, $prod_name, $prod_mrp, $prod_price, $prod_qty,  $prod_desc, $prod_status);
-                                        $stmt->execute();
-                                        header("location:tables.php?page=products");
+                                    date_default_timezone_set("Asia/Kolkata");
+                                    $file_error = $photo["error"];
+
+                                    if (!$file_error > 0) {
+
+
+                                        $file = $photo["name"];
+                                        $file = str_replace(' ', '', $file);
+                                        $file_name = pathinfo($file, PATHINFO_FILENAME);
+                                        var_dump(basename($file));
+                                        $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                                        $file_name = $file_name . "_" . date('d/m/Y h-m-sa') . "." . $file_ext;
+                                        $file_name = basename($file);
+                                        $file_size = $photo["size"];
+                                        $file_temp = $photo["tmp_name"];
+
+
+                                        $file_info = @getimagesize($file_temp);
+                                        $mime_type = $file_info['mime'];
+                                        $mime_allowed = array("image/jpeg", "image/png", "image/webp");
+                                        $ext_allowed = array("jpg", "jpeg", "png", "webp");
+                                        $folder = "upload/" . basename($file);
+                                         //var_dump($folder);
+                                        if ($file_size > 2000000) {
+
+                                            $error = "File size is larger than recomended!!";
+                                            $image_validation = false;
+                                        } else if (!in_array($file_ext, $ext_allowed)) {
+
+                                            $error = "This file extension is not allowed!!";
+                                            $image_validation = false;
+                                        } else if (!in_array($mime_type, $mime_allowed)) {
+
+                                            $error = "This file mime is not allowed!!";
+                                            $image_validation = false;
+                                        } else {
+                                            $image_validation = true;
+                                            $error = "";
+                                            move_uploaded_file($file_temp, $folder);
+                                            //var_dump(realpath($folder));
+                                        }
+                                    } else {
+                                        $file_name = "placeholder-item.webp";
                                     }
 
-                                    $stmt->close();
+                                    if ($file_error == 4 || $image_validation == true) {
 
+                                        $insert = "INSERT INTO products(product_id, cat_fk, prod_name, prod_mrp, prod_price, prod_qty, prod_desc, prod_status, prod_image) VALUES (NULL ,? ,? ,? ,? ,? ,? ,?, ?)";
+                                        
+                                        if (!$stmt = $connect->prepare($insert)) {
+                                            echo "<div style='color:red;'>SQL Error Occured!!</div>";
+                                        } else {
+                                            $stmt->bind_param("isiiisis",  $cat_fk, $prod_name, $prod_mrp, $prod_price, $prod_qty,  $prod_desc, $prod_status, $file_name);
+                                            $stmt->execute();
+                                            $stmt->close();
+                                            //var_dump($file_temp);
+                                            //header("location:tables.php?page=products");
+                                        }
+                                    }
+
+                                    
                                 }
 
 
                             ?>
-                                <form method="POST">
+                                <form method="POST" enctype="multipart/form-data">
                                     <!-- <div class="form-row">
                                         <div class="form-group col-sm">
                                             <label>Edit Product Name</label>
@@ -336,9 +389,10 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                             <tbody>
                                                 <tr>
                                                     <th>IMAGE</th>
-                                                    <td style="float: right;"><img <?php
-                                                                                    if (!empty($p_image)) {
-                                                                                    ?> src="<?php echo $p_image; ?>" <?php } else { ?> src="placeholder-item.webp" <?php } ?>width="80px" height="100px" id="image"><br><input type="file" name="prod_image" id="image-input"></td>
+                                                    <td style="float: right;"><img src="placeholder-item.webp" width="80px" height="100px" id="image"><br><input type="file" name="prod_image" id="image-input"></td>
+                                                    <?php if ($image_validation == false) {
+                                                        echo "<p class='text-center text-danger'>" . $error . "</p>";
+                                                    }; ?>
                                                 </tr>
                                                 <tr>
                                                     <th>PRODUCT NAME</th>
@@ -429,15 +483,16 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                 <?php
                                 $sql = "select * from catagories";
                                 $query = $connect->query($sql);
-                                
 
-                                while($res = $query->fetch_assoc()){
+
+                                while ($res = $query->fetch_assoc()) {
                                 ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($res["cat_id"]);  ?></td>
-                                    <td><?php echo htmlspecialchars($res["cat_name"]);  ?></td>
-                                </tr>
-                                <?php } $connect->close();?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($res["cat_id"]);  ?></td>
+                                        <td><?php echo htmlspecialchars($res["cat_name"]);  ?></td>
+                                    </tr>
+                                <?php }
+                                $connect->close(); ?>
                             </tbody>
                         </table>
                     </div>

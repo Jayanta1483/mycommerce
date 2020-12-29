@@ -400,9 +400,7 @@ $status_update = "UPDATE products SET prod_status = ? WHERE product_id =?";
                                             <tbody>
                                                 <tr>
                                                     <th>IMAGE</th>
-                                                    <td style="float: right;"><img <?php
-                                                                                    if (!empty($p_image)) {
-                                                                                    ?> src="<?php echo $p_image; ?>" <?php } else { ?> src="placeholder-item.webp" <?php } ?>width="80px" height="100px" id="image"><br><input type="file" name="prod_image" id="image-input"></td>
+                                                    <td style="float: right;"><img src="<?php echo 'pr-upload/'.$prod_image; ?>" width="80px" height="100px" id="image"><br><input type="file" name="prod_image" id="image-input"></td>
                                                 </tr>
                                                 <tr>
                                                     <th>PRODUCT NAME</th>
