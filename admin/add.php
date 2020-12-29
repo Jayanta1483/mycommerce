@@ -323,8 +323,8 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                         $file_name = pathinfo($file, PATHINFO_FILENAME);
                                         var_dump(basename($file));
                                         $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-                                        $file_name = $file_name . "_" . date('d/m/Y h-m-sa') . "." . $file_ext;
-                                        $file_name = basename($file);
+                                        $file_name = $file_name . "_" . date('d-m-Y h-m-sa') . "." . $file_ext;
+                                        //$file_name = basename($file);
                                         $file_size = $photo["size"];
                                         $file_temp = $photo["tmp_name"];
 
@@ -333,7 +333,7 @@ if (isset($_GET["page"]) && $_GET["page"] !== "") {
                                         $mime_type = $file_info['mime'];
                                         $mime_allowed = array("image/jpeg", "image/png", "image/webp");
                                         $ext_allowed = array("jpg", "jpeg", "png", "webp");
-                                        $folder = "upload/" . basename($file);
+                                        $folder = "upload/" .$file_name;
                                          //var_dump($folder);
                                         if ($file_size > 2000000) {
 
