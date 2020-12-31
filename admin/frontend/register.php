@@ -136,7 +136,11 @@ require "connection.php";
                                         <div id="bankTransrerColl">
                                             <div class="panel-body">
                                                 <form class="form-horizontal">
-                                                    div
+                                                    <div class="form-group text-center">
+                                                        <img src="customer_avatar.jpg" alt="" id="custProfile" width="100px" height="100px" style="cursor: pointer;" >
+                                                        <label for=""style="display:block;">Profile Image</label>
+                                                        <input type="file" name="cust-image" id="cust-image" style="display: none;">
+                                                    </div>
 
                                                     <div class="form-group pd-none">
                                                         <label for="frName" class="col-sm-3 control-label text-darkness">Your first name</label>
