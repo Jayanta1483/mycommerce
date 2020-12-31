@@ -23,7 +23,39 @@ $(".p-viewer").click(()=>{
 })
 
 
+//For Sending Data to Database using Ajax
+console.log($('#cust-image').prop('files')[0])
 
+$("#submit").click(()=>{
+    let imageFile = $('#cust-image').prop('files')[0];
+    
+    let form_data = new FormData();
+    form_data.append('file',imageFile);
+    form_data.append('op','insert')
+    form_data.append('fname',$("#fname").val());
+    form_data.append('lname',$("#lname").val());
+    form_data.append('email',$("#email").val());
+    form_data.append('mobile',$("#mobile").val());
+    form_data.append('logid',$("#logid").val());
+    form_data.append('pwd',$("#pwd").val());
+    form_data.append('adr',$("#adr").val());
+
+    // form_data.forEach(element=>console.log(element))
+    //console.log($('#cust-image').prop('files'))
+    $.ajax({
+        type:"POST",
+        url:"backend.php",
+        contentType:false,
+        processData:false,
+        data:form_data,
+        success:function(response){
+        $("#myForm")[0].reset(); 
+        $("#custProfile").attr("src", "customer_avatar.jpg");
+            alert(response);
+        }
+
+    })
+})
 
 
 

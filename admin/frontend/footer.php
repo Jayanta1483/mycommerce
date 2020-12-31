@@ -182,7 +182,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <span class="copy">
-                                    © 2016 Komotto by ThemeDron. All rights reserved.
+                                    © <?php echo date("Y");    ?> by Jayanta Sarkar. All rights reserved.
                                 </span>
                             </div>
                            

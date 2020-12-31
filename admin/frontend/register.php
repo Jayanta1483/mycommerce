@@ -42,20 +42,20 @@ require "connection.php";
     <style>
         .p-viewer{
             position: absolute;
-            top: 1px;
+            top: 0;
             right: 15px;
             display: inline-block;
             width: 50px;
             height: 50px;
             /* border: 1px solid black; */
-            border-radius: 3px;
+            border-radius: 0 3px 3px 0;
             background-color: #e6e6e6;
             cursor: pointer;
             text-align: center;
         }
         #eye{
           color: red;
-           margin: 15px;
+           margin: 17px;
            
         }
     </style>
@@ -143,20 +143,20 @@ require "connection.php";
 
                             <div class="col-md-9">
 
-                                <div class="panel-group" id="accordion">
+                                <div class="panel-group" >
 
                                     <div class="panel panel-default">
                                         <div class="panel-heading" id="profileInfo">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#bankTransrerColl">
-                                                    <span class="panel-indicator"></span>
-                                                    Profile info
+                                                <a>
+                                                    <!-- <span class="panel-indicator"></span> -->
+                                                    CUSTOMER PROFILE INFORMATION
                                                 </a>
                                             </h4>
                                         </div>
                                         <div id="bankTransrerColl">
                                             <div class="panel-body">
-                                                <form class="form-horizontal">
+                                                <form class="form-horizontal" id="myForm" enctype="multipart/form-data">
                                                     <div class="form-group text-center">
                                                         <img src="customer_avatar.jpg" alt="" id="custProfile" width="100px" height="100px" style="cursor: pointer;" >
                                                         <label for=""style="display:block;">Profile Image</label>
@@ -211,6 +211,9 @@ require "connection.php";
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control" id="adr" name="adr">
                                                         </div>
+                                                    </div>
+                                                    <div class="from-group pd-none text-center">
+                                                        <buttom class="btn btn-primary" name="submit" id="submit">SUBMIT</buttom>
                                                     </div>
                                                 </form>
                                             </div>
@@ -413,7 +416,8 @@ require "connection.php";
     <!-- Bootstrap core JavaScript
         ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery.min.js"></script>
+    <!-- <script src="assets/js/jquery.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/owl.carousel.min.js"></script><!-- OWL Carousel -->
@@ -427,7 +431,7 @@ require "connection.php";
 
     <!-- Google API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_MAPS_API_KEY&libraries=places&callback=initAutocomplete" async defer></script><!-- / Google API -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    
     <script src="myJquery.js"></script>
 
 
