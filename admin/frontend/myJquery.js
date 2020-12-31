@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     $("#custProfile").click(() => $("#cust-image").trigger("click"))
     $("#cust-image").on("change", (e) => {
         
@@ -9,4 +10,22 @@ $(document).ready(function () {
            
 }
     })
+
+
+$(".p-viewer").click(()=>{
+    if($("#pwd").attr("type")=="password"){
+        $("#pwd").attr("type", "text");
+        $("#eye").css("color", "#33ff33");
+    }else{
+        $("#pwd").attr("type", "password");
+        $("#eye").css("color", "red");
+    }
+})
+
+
+
+
+
+
+
 })

@@ -31,6 +31,7 @@ require "connection.php";
 
     <!-- Icons -->
     <link href="assets/fonts/icofont/icofont.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/46b79071a9.js" crossorigin="anonymous"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -38,6 +39,26 @@ require "connection.php";
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
+    <style>
+        .p-viewer{
+            position: absolute;
+            top: 1px;
+            right: 15px;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            /* border: 1px solid black; */
+            border-radius: 3px;
+            background-color: #e6e6e6;
+            cursor: pointer;
+            text-align: center;
+        }
+        #eye{
+          color: red;
+           margin: 15px;
+           
+        }
+    </style>
 </head>
 
 <body>
@@ -180,7 +201,8 @@ require "connection.php";
                                                     <div class="form-group pd-none">
                                                         <label for="password" class="col-sm-3 control-label text-darkness">Enter your password</label>
                                                         <div class="col-sm-8">
-                                                            <input type="password" class="form-control" id="password" name="pwd">
+                                                            <input type="password" class="form-control" id="pwd" name="pwd">
+                                                            <span class="p-viewer border border-dark"><i class="fas fa-eye" id="eye"></i></span>
                                                         </div>
                                                     </div>
 
