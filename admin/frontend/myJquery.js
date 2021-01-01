@@ -50,20 +50,30 @@ $(document).ready(function () {
             processData: false,
             data: form_data,
             success: function (response) {
-                if (response !== "error") {
+                let res = JSON.parse(response);
+                if (res.type == 'image') {
+                    $('#imageError').html(res.msg).fadeIn('slow');
+                    setTimeout(()=>{
+                        $('#imageError').fadeOut();
+                        
+                    }, 2500)
+                    
+                } 
+                else if(response == "error"){
+                    $('#profileAlert').html(`<h5 class="alert alert-danger" role="alert">Ooops.!!...Some Error Occured!!</h5>`).fadeIn('slow');
+                    setTimeout(()=>{
+                        $('#profileAlert').fadeOut();
+                        
+                    }, 2500)
+                }
+                else {
+                    
                     $("#myForm")[0].reset();
                     $("#custProfile").attr("src", "customer_avatar.jpg");
                     console.log(response)
                     $('#profileAlert').html(`<h5 class="alert alert-success" role="alert">Congrats ${JSON.parse(response)}....You have Successfully Registered!!</h5>`).fadeIn('slow');
                     setTimeout(()=>{
                         $('#profileAlert').fadeOut();
-                    }, 2500)
-                    
-                } else {
-                    $('#profileAlert').html(`<h5 class="alert alert-danger" role="alert">Ooops.!!...Some Error Occured!!</h5>`).fadeIn('slow');
-                    setTimeout(()=>{
-                        $('#profileAlert').fadeOut();
-                        
                     }, 2500)
                     
                 }

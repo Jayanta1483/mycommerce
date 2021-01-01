@@ -168,6 +168,7 @@ require "connection.php";
                                                         <img src="customer_avatar.jpg" alt="" id="custProfile" width="100px" height="100px" style="cursor: pointer;" >
                                                         <label for=""style="display:block;">Profile Image</label>
                                                         <input type="file" name="cust-image" id="cust-image" style="display: none;">
+                                                        <p id="imageError" class="text-center" style="color:red;display:none;"></p>
                                                     </div>
 
                                                     <div class="form-group pd-none">
