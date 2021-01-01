@@ -201,6 +201,7 @@ require "connection.php";
                                                         <label for="slLogin" class="col-sm-3 control-label text-darkness">Select User Id</label>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control" id="logid" name="logid">
+                                                            <p class="text-center" style="display: none;" id="idMsg"></p>
                                                         </div>
                                                     </div>
 

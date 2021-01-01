@@ -2,13 +2,14 @@
 require "connection.php";
 
 if (isset($_POST['op']) && $_POST['op'] == "insert") {
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $email = $_POST['email'];
-    $mobile = $_POST['mobile'];
-    $user_id = $_POST['logid'];
-    $pwd = password_hash($_POST['pwd'], PASSWORD_BCRYPT);
-    $address = $_POST['adr'];
+    $fname = mysqli_real_escape_string($connect, $_POST['fname']);
+    $lname = mysqli_real_escape_string($connect, $_POST['lname']);
+    $email = mysqli_real_escape_string($connect, $_POST['email']);
+    $mobile = mysqli_real_escape_string($connect, $_POST['mobile']);
+    $user_id = mysqli_real_escape_string($connect, $_POST['logid']);
+    $pwd = mysqli_real_escape_string($connect, $_POST['pwd']);
+    $pwd = password_hash($pwd, PASSWORD_BCRYPT);
+    $address = mysqli_real_escape_string($connect, $_POST['adr']);
 
     if (isset($_FILES['file']) && $_FILES['file'] !== "") {
         $photo = $_FILES['file'];
@@ -57,13 +58,32 @@ if (isset($_POST['op']) && $_POST['op'] == "insert") {
             $sel_stmt->execute();
             $sel_stmt->bind_result($fn);
             while ($sel_stmt->fetch()) {
-                echo json_encode($fn);
+                echo json_encode(htmlspecialchars($fn));
             }
         }
     } else {
         $error = array("type"=>$err_type, "msg"=>$err_msg);
         echo json_encode($error);
     }
-} else {
-    echo "error";
+} 
+// else {
+//     echo "error";
+// }
+
+
+// FOR USER ID VERIFICATION
+
+if(isset($_POST['ui']) && $_POST['ui']!== ""){
+    $ui = mysqli_real_escape_string($connect, $_POST['ui']);
+    $select = "select * from customers where user_id = ?";
+    $stmt = $connect->prepare($select);
+    $stmt->bind_param("s", $ui);
+    $stmt->execute();
+    $stmt->store_result();
+    if(!$stmt->num_rows > 0){
+        echo "<span style='color:green;'>User Id is Available!!</span>";
+    }else{
+        echo "<span style='color:red;'>User Id is Not Available!!</span>";
+    }
+    
 }
