@@ -54,13 +54,13 @@ $(document).ready(function () {
                     $("#myForm")[0].reset();
                     $("#custProfile").attr("src", "customer_avatar.jpg");
                     console.log(response)
-                    $('#profileAlert').toggleClass('alert-danger alert-success').html(`Welcome ${JSON.parse(response)}....You have Successfully Registered!!`).fadeIn('slow');
+                    $('#profileAlert').html(`<h5 class="alert alert-success" role="alert">Congrats ${JSON.parse(response)}....You have Successfully Registered!!</h5>`).fadeIn('slow');
                     setTimeout(()=>{
                         $('#profileAlert').fadeOut();
                     }, 2500)
                     
                 } else {
-                    $('#profileAlert').addClass('alert-success alert-danger').html(`Ooops.!!...Some Error Occured!!`).fadeIn('slow');
+                    $('#profileAlert').html(`<h5 class="alert alert-danger" role="alert">Ooops.!!...Some Error Occured!!</h5>`).fadeIn('slow');
                     setTimeout(()=>{
                         $('#profileAlert').fadeOut();
                         

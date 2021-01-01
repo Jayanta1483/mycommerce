@@ -12,7 +12,20 @@ if (isset($_POST['op']) && $_POST['op'] == "insert") {
 
     if (isset($_FILES['file']) && $_FILES['file'] !== "") {
         $photo = $_FILES['file'];
-        $file_name = $photo['name'];
+        $file = $photo['name'];
+        $file = str_replace(' ','',$file);
+        $file_name = pathinfo($file, PATHINFO_FILENAME);
+        $file_ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+        $file_name = $file_name.'_'.date('d-m-Y h-m-sa').'.'.$file_ext;
+        $file_size = $photo['size'];
+        $temp_file = $photo['tmp_name'];
+        $file_info = @getimagesize($temp_file);
+        $mime_file = $file_info['mime'];
+        $ext_arr = array('jpg', 'jpeg', 'png', 'webp');
+        $mime_arr = array('image/jpeg', 'image/png', 'image/webp');
+
+        
+
     } else {
         $file_name = "customer_avatar.jpg";
     }

@@ -162,7 +162,7 @@ require "connection.php";
                                         </div>
                                         <div id="bankTransrerColl">
                                             <div class="panel-body" >
-                                            <div class="alert alert-danger" role="alert" id="profileAlert" style="display:none;"></div>
+                                            <div   id="profileAlert" class="alert text-center text-capitalize" style="display:none;"></div>
                                                 <form class="form-horizontal" id="myForm" enctype="multipart/form-data">
                                                     <div class="form-group text-center">
                                                         <img src="customer_avatar.jpg" alt="" id="custProfile" width="100px" height="100px" style="cursor: pointer;" >
