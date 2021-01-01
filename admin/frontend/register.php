@@ -39,6 +39,7 @@ require "connection.php";
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
+    
     <style>
         .p-viewer{
             position: absolute;
@@ -57,6 +58,11 @@ require "connection.php";
           color: red;
            margin: 17px;
            
+        }
+
+        div#messageModal{
+            background-color: rgba(0,0,0,0);
+            
         }
     </style>
 </head>
@@ -155,7 +161,8 @@ require "connection.php";
                                             </h4>
                                         </div>
                                         <div id="bankTransrerColl">
-                                            <div class="panel-body">
+                                            <div class="panel-body" >
+                                            <div class="alert alert-danger" role="alert" id="profileAlert" style="display:none;"></div>
                                                 <form class="form-horizontal" id="myForm" enctype="multipart/form-data">
                                                     <div class="form-group text-center">
                                                         <img src="customer_avatar.jpg" alt="" id="custProfile" width="100px" height="100px" style="cursor: pointer;" >
@@ -418,6 +425,7 @@ require "connection.php";
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- <script src="assets/js/jquery.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/owl.carousel.min.js"></script><!-- OWL Carousel -->

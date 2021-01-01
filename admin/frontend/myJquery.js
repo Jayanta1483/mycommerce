@@ -41,6 +41,8 @@ $(document).ready(function () {
         form_data.append('adr', $("#adr").val());
 
         
+
+        
         $.ajax({
             type: "POST",
             url: "backend.php",
@@ -51,9 +53,19 @@ $(document).ready(function () {
                 if (response !== "error") {
                     $("#myForm")[0].reset();
                     $("#custProfile").attr("src", "customer_avatar.jpg");
-                    alert(`Welcome ${JSON.parse(response)} You have Registerd Successfully!!`);
+                    console.log(response)
+                    $('#profileAlert').toggleClass('alert-danger alert-success').html(`Welcome ${JSON.parse(response)}....You have Successfully Registered!!`).fadeIn('slow');
+                    setTimeout(()=>{
+                        $('#profileAlert').fadeOut();
+                    }, 2500)
+                    
                 } else {
-                    alert("Some Error Occured!!")
+                    $('#profileAlert').addClass('alert-success alert-danger').html(`Ooops.!!...Some Error Occured!!`).fadeIn('slow');
+                    setTimeout(()=>{
+                        $('#profileAlert').fadeOut();
+                        
+                    }, 2500)
+                    
                 }
             }
 

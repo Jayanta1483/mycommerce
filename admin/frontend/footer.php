@@ -182,7 +182,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <span class="copy">
-                                    © <?php echo date("Y");    ?> by Jayanta Sarkar. All rights reserved.
+                                    © <?php date_default_timezone_set("Asia/Kolkata"); echo date("Y");    ?> by Jayanta Sarkar. All rights reserved.
                                 </span>
                             </div>
                            
