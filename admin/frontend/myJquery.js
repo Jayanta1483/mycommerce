@@ -96,6 +96,13 @@ $(document).ready(function () {
 
                     }, 2500)
                 }
+                else if (res.type == 'pw') {
+                    $('#pwMsg').html(res.msg).fadeIn('slow');
+                    setTimeout(() => {
+                        $('#pwMsg').fadeOut();
+
+                    }, 2500)
+                }
                 // else if (res.type == 'id') {
                 //     $('#idMsg').html(res.msg).fadeIn('slow');
                 //     setTimeout(() => {

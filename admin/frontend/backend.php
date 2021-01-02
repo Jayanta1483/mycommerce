@@ -46,7 +46,13 @@ if (isset($_POST['op']) && $_POST['op'] == "insert") {
         $user_id = mysqli_real_escape_string($connect, $_POST['logid']);
         
         $pwd = mysqli_real_escape_string($connect, $_POST['pwd']);
-        $pwd = password_hash($pwd, PASSWORD_BCRYPT);
+        if(strlen($pwd) < 6){
+            $err_type = "pw";
+            $err_msg = "Minimum 6 characters";
+        }else{
+            $pwd = password_hash($pwd, PASSWORD_BCRYPT);
+        }
+        
         $address = mysqli_real_escape_string($connect, $_POST['adr']);
     }
 
@@ -112,9 +118,7 @@ if (isset($_POST['op']) && $_POST['op'] == "insert") {
         echo json_encode($error);
     }
 }
-else {
-    echo "error";
-}
+
 
 
 // FOR USER ID VERIFICATION

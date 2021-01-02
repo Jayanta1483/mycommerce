@@ -216,7 +216,7 @@ require "connection.php";
                                                         <div class="col-sm-8">
                                                             <input type="password" class="form-control" id="pwd" name="pwd">
                                                             <span class="p-viewer border border-dark"><i class="fas fa-eye" id="eye"></i></span>
-                                                            <p id="pwMsg" class="text-center" style="display:none;"></p>
+                                                            <p id="pwMsg" class="text-center" style="color:red;display:none;"></p>
                                                         </div>
                                                     </div>
 
