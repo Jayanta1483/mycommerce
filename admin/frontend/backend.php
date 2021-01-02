@@ -1,15 +1,61 @@
 <?php
 require "connection.php";
+require "functions.php";
 
 if (isset($_POST['op']) && $_POST['op'] == "insert") {
-    $fname = mysqli_real_escape_string($connect, $_POST['fname']);
-    $lname = mysqli_real_escape_string($connect, $_POST['lname']);
-    $email = mysqli_real_escape_string($connect, $_POST['email']);
-    $mobile = mysqli_real_escape_string($connect, $_POST['mobile']);
-    $user_id = mysqli_real_escape_string($connect, $_POST['logid']);
-    $pwd = mysqli_real_escape_string($connect, $_POST['pwd']);
-    $pwd = password_hash($pwd, PASSWORD_BCRYPT);
-    $address = mysqli_real_escape_string($connect, $_POST['adr']);
+
+    $err_type = "";
+    $err_msg = "";
+
+    if (empty($_POST['fname']) || empty($_POST['lname']) || empty($_POST['email']) || empty($_POST['mobile']) || empty($_POST['logid']) || empty($_POST['pwd']) || empty($_POST['adr'])) {
+        $err_type = "emp";
+        $err_msg = "All the firlds are required to be filled";
+    } else {
+        $fname = mysqli_real_escape_string($connect, $_POST['fname']);
+        if (!preg_match("/^[a-zA-Z-' ]*$/", $fname)) {
+            $err_type = "fn";
+            $err_msg = "Only Letters and White space are allowed";
+        }
+        $lname = mysqli_real_escape_string($connect, $_POST['lname']);
+        if (!preg_match("/^[a-zA-Z-' ]*$/", $lname)) {
+            $err_type = "ln";
+            $err_msg = "Only Letters and White space are allowed";
+        }
+
+        $email = mysqli_real_escape_string($connect, $_POST['email']);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $err_type = "em";
+            $err_msg = "Your Email Id is not valid";
+        } else {
+            $select = "select * from customers where cust_email = ?";
+            $stmt = $connect->prepare($select);
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $stmt->store_result();
+            if ($stmt->num_rows > 0) {
+                $err_type = "em";
+                $err_msg = "You have already registered";
+            }
+        }
+
+        $mobile = mysqli_real_escape_string($connect, $_POST['mobile']);
+        if(!preg_match("/^[6-9]\d{9}$/", $mobile)){
+            $err_type = "mb";
+            $err_msg = "This is not a valid mobile number";
+        }
+        $user_id = mysqli_real_escape_string($connect, $_POST['logid']);
+        
+        $pwd = mysqli_real_escape_string($connect, $_POST['pwd']);
+        $pwd = password_hash($pwd, PASSWORD_BCRYPT);
+        $address = mysqli_real_escape_string($connect, $_POST['adr']);
+    }
+
+
+
+
+
+
+
 
     if (isset($_FILES['file']) && $_FILES['file'] !== "") {
         $photo = $_FILES['file'];
@@ -24,7 +70,7 @@ if (isset($_POST['op']) && $_POST['op'] == "insert") {
         $mime_file = $file_info['mime'];
         $ext_arr = array('jpg', 'jpeg', 'png', 'webp');
         $mime_arr = array('image/jpeg', 'image/png', 'image/webp');
-        
+
 
         if ($file_size > 2000000) {
             $err_type = "image";
@@ -36,14 +82,14 @@ if (isset($_POST['op']) && $_POST['op'] == "insert") {
             $err_type = "image";
             $err_msg = "This Mime is Not Allowed";
         } else {
-            $err_type = "";
-            move_uploaded_file($temp_file, "uploads/".$file_name);
+
+            move_uploaded_file($temp_file, "uploads/" . $file_name);
         }
     } else {
         $file_name = "customer_avatar.jpg";
     }
 
-    if ($photo == "" || $err_type == "") {
+    if ($err_type == "") {
 
         $insert = "INSERT INTO `customers`( `cust_fname`, `cust_lname`, `cust_address`, `cust_email`, `cust_mobile`, `user_id`, `password`, `photo`) VALUES (?,?,?,?,?,?,?,?)";
         $stmt = $connect->prepare($insert);
@@ -62,28 +108,34 @@ if (isset($_POST['op']) && $_POST['op'] == "insert") {
             }
         }
     } else {
-        $error = array("type"=>$err_type, "msg"=>$err_msg);
+        $error = array("type" => $err_type, "msg" => $err_msg);
         echo json_encode($error);
     }
-} 
-// else {
-//     echo "error";
-// }
+}
+else {
+    echo "error";
+}
 
 
 // FOR USER ID VERIFICATION
 
-if(isset($_POST['ui']) && $_POST['ui']!== ""){
+
+if (isset($_POST['ui'])) {
+
     $ui = mysqli_real_escape_string($connect, $_POST['ui']);
     $select = "select * from customers where user_id = ?";
     $stmt = $connect->prepare($select);
     $stmt->bind_param("s", $ui);
     $stmt->execute();
     $stmt->store_result();
-    if(!$stmt->num_rows > 0){
-        echo "<span style='color:green;'>User Id is Available!!</span>";
+    if(!preg_match("/^(?=.*[a-z])[a-z0-9]{4,8}$/i", $ui)){
+        echo "<span style='color:red;'>This is not a valid user id</span>";
     }else{
-        echo "<span style='color:red;'>User Id is Not Available!!</span>";
+        if (!$stmt->num_rows > 0) {
+            echo "<span style='color:green;'>User Id is Available!!</span>";
+        } else {
+            echo "<span style='color:red;'>User Id is Not Available!!</span>";
+        }
     }
     
 }

@@ -50,8 +50,17 @@ $(document).ready(function () {
             processData: false,
             data: form_data,
             success: function (response) {
+                console.log(response)
                 let res = JSON.parse(response);
-                if (res.type == 'image') {
+                console.log(res.type, res.msg);
+                if (res.type == 'emp') {
+                    $('#empMsg').html(res.msg).fadeIn('slow');
+                    setTimeout(() => {
+                        $('#empMsg').fadeOut();
+
+                    }, 2500)
+                }
+                else if (res.type == 'image') {
                     $('#imageError').html(res.msg).fadeIn('slow');
                     setTimeout(() => {
                         $('#imageError').fadeOut();
@@ -59,6 +68,41 @@ $(document).ready(function () {
                     }, 2500)
 
                 }
+                else if (res.type == 'fn') {
+                    $('#fnMsg').html(res.msg).fadeIn('slow');
+                    setTimeout(() => {
+                        $('#fnMsg').fadeOut();
+
+                    }, 2500)
+                }
+                else if (res.type == 'ln') {
+                    $('#lnMsg').html(res.msg).fadeIn('slow');
+                    setTimeout(() => {
+                        $('#lnMsg').fadeOut();
+
+                    }, 2500)
+                }
+                else if (res.type == 'em') {
+                    $('#emMsg').html(res.msg).fadeIn('slow');
+                    setTimeout(() => {
+                        $('#emMsg').fadeOut();
+
+                    }, 2500)
+                }
+                else if (res.type == 'mb') {
+                    $('#mbMsg').html(res.msg).fadeIn('slow');
+                    setTimeout(() => {
+                        $('#mbMsg').fadeOut();
+
+                    }, 2500)
+                }
+                // else if (res.type == 'id') {
+                //     $('#idMsg').html(res.msg).fadeIn('slow');
+                //     setTimeout(() => {
+                //         $('#idMsg').fadeOut();
+
+                //     }, 2500)
+                // }
                 else if (response == "error") {
                     $('#profileAlert').html(`<h5 class="alert alert-danger" role="alert">Ooops.!!...Some Error Occured!!</h5>`).fadeIn('slow');
                     setTimeout(() => {
@@ -85,19 +129,21 @@ $(document).ready(function () {
 
 
     // For Checking User Id Availability
-
+    $('#logid').on('focus',()=>alert("minmum 4 and maximum 8 charactres, can be all alphabetic or alphanumeric, can't have special characters"))
     $('#logid').on('blur', function () {
+        
         let val = $('#logid').val();
         if (val !== "") {
             $.post(
                 "backend.php",
                 { ui: val },
                 function (response) {
-
+                    
                     $('#idMsg').html(response).fadeIn();
-                    setTimeout(() => {
-                        $('#idMsg').fadeOut();
+                    setTimeout(()=>{
+                        $('#idMsg').fadeOut('slow');
                     }, 2500)
+                        
                 }
             )
         }

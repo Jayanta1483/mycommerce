@@ -173,8 +173,9 @@ require "connection.php";
 
                                                     <div class="form-group pd-none">
                                                         <label for="frName" class="col-sm-3 control-label text-darkness">Your first name</label>
-                                                        <div class="col-sm-8">
+                                                        <div class="col-sm-8" >
                                                             <input type="text" class="form-control" id="fname" name="fname">
+                                                            <p id="fnMsg" class="text-center" style="color:red;display:none;"></p>
                                                         </div>
                                                     </div>
 
@@ -182,18 +183,21 @@ require "connection.php";
                                                         <label for="lnName" class="col-sm-3 control-label text-darkness">Your last name</label>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control" id="lname" name="lname">
+                                                            <p id="lnMsg" class="text-center" style="color:red;display:none;"></p>  
                                                         </div>
                                                     </div>
                                                     <div class="form-group pd-none">
                                                         <label for="email" class="col-sm-3 control-label text-darkness">Enter your email</label>
                                                         <div class="col-sm-8">
                                                             <input type="email" class="form-control" id="email" name="email">
+                                                            <p id="emMsg" class="text-center" style="color:red;display:none;"></p>
                                                         </div>
                                                     </div>
                                                     <div class="form-group pd-none">
                                                         <label for="mobile" class="col-sm-3 control-label text-darkness">Enter your mobile no.</label>
                                                         <div class="col-sm-8">
                                                             <input type="number" class="form-control" id="mobile" name="mobile">
+                                                            <p id="mbMsg" class="text-center" style="color:red;display:none;"></p>
                                                         </div>
                                                     </div>
 
@@ -201,7 +205,7 @@ require "connection.php";
                                                         <label for="slLogin" class="col-sm-3 control-label text-darkness">Select User Id</label>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control" id="logid" name="logid">
-                                                            <p class="text-center" style="display: none;" id="idMsg"></p>
+                                                            <p class="text-center" style="color:red;display:none;" id="idMsg"></p>
                                                         </div>
                                                     </div>
 
@@ -212,6 +216,7 @@ require "connection.php";
                                                         <div class="col-sm-8">
                                                             <input type="password" class="form-control" id="pwd" name="pwd">
                                                             <span class="p-viewer border border-dark"><i class="fas fa-eye" id="eye"></i></span>
+                                                            <p id="pwMsg" class="text-center" style="display:none;"></p>
                                                         </div>
                                                     </div>
 
@@ -219,9 +224,11 @@ require "connection.php";
                                                         <label for="autocomplete" class="col-sm-3 control-label text-darkness">Address</label>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control" id="adr" name="adr">
+                                                            <p id="adMsg" class="text-center" style="color:red;display:none;"></p>
                                                         </div>
                                                     </div>
                                                     <div class="from-group pd-none text-center">
+                                                    <p id="empMsg" class="text-center" style="color:red;display:none;"></p>
                                                         <buttom class="btn btn-primary" name="submit" id="submit">SUBMIT</buttom>
                                                     </div>
                                                 </form>
