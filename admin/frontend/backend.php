@@ -166,3 +166,23 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
         echo "id";
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$connect->close();
+?>
