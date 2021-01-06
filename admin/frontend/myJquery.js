@@ -11,7 +11,7 @@ $(document).ready(function () {
         }
     })
 
-
+// FOR REGISTRSTION PAGE
     $(".p-viewer").click(() => {
         if ($("#pwd").attr("type") == "password") {
             $("#pwd").attr("type", "text");
@@ -22,6 +22,11 @@ $(document).ready(function () {
         }
     })
 
+    //FOR LOGIN MODAL
+    $('.p-viewer-log').click(()=>{
+        ($('#log-pwd').attr('type') == "password") ? $('#log-pwd').attr('type','text') : $('#log-pwd').attr('type','password');
+        $('#log-eye').toggleClass('fa-eye fa-eye-slash');
+    })
 
     //For Sending Data to Database using Ajax
     console.log($('#cust-image').prop('files')[0])

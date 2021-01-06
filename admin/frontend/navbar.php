@@ -308,12 +308,13 @@
                             <div class="col-md-5 col-md-offset-1 form-fields">
                                 <form>
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Email address</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                                        <label for="exampleInputEmail1">User Id</label>
+                                        <input type="text" class="form-control" id="userid" placeholder="User Id">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group log-pw-con">
                                         <label for="exampleInputPassword1">Password</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                        <input type="password" class="form-control" id="log-pwd" placeholder="Password">
+                                        <span class="p-viewer-log"><i class="fas fa-eye" id="log-eye"></i></span>
                                     </div>
                                     <div class="checkbox padding">
                                         <input type="checkbox" id="inputCheckBox">
