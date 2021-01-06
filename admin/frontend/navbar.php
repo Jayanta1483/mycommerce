@@ -306,14 +306,14 @@
                             </div>
 
                             <div class="col-md-5 col-md-offset-1 form-fields">
-                                <form>
+                                <form id="logForm" method="post">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">User Id</label>
-                                        <input type="text" class="form-control" id="userid" placeholder="User Id">
+                                        <input type="text" class="form-control" id="userid" name="log" placeholder="User Id">
                                     </div>
                                     <div class="form-group log-pw-con">
                                         <label for="exampleInputPassword1">Password</label>
-                                        <input type="password" class="form-control" id="log-pwd" placeholder="Password">
+                                        <input type="password" class="form-control" id="log-pwd" name="lpw" placeholder="Password">
                                         <span class="p-viewer-log"><i class="fas fa-eye" id="log-eye"></i></span>
                                     </div>
                                     <div class="checkbox padding">
@@ -327,7 +327,7 @@
                                         </label>
                                     </div>
                                     <span class="sdw-wrap">
-                                        <button type="submit" class="sdw-hover btn btn-material btn-yellow btn-lg ripple-cont">Login</button>
+                                        <button type="button" class="sdw-hover btn btn-yellow btn-lg ripple-cont" id="log-sub">Login</button>
                                         <span class="sdw"></span>
                                     </span>
 

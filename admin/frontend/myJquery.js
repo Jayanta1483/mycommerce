@@ -162,4 +162,50 @@ $(document).ready(function () {
     })
 
 
+//FOR LOGIN AJAX 
+$('#log-sub').click(()=>{
+    
+    $.post(
+        "backend.php",
+        $('#logForm').serialize(),
+        function(response){
+           switch(response){
+               case "id":
+                   alert("Invalid User Id...Please try again!!");
+                   break;
+                   case "pw":
+                       alert("Invalid Password...Please try again!!");
+                       break;
+                       default :
+                       $('#logForm')[0].reset();
+                       alert(`Welcome ${response} You have successfully logged in!!`);
+                       
+           }
+        }
+
+    )
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 })

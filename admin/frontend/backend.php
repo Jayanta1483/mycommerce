@@ -1,6 +1,6 @@
 <?php
 require "connection.php";
-require "functions.php";
+//require "functions.php";
 
 if (isset($_POST['op']) && $_POST['op'] == "insert") {
 
@@ -39,20 +39,20 @@ if (isset($_POST['op']) && $_POST['op'] == "insert") {
         }
 
         $mobile = mysqli_real_escape_string($connect, $_POST['mobile']);
-        if(!preg_match("/^[6-9]\d{9}$/", $mobile)){
+        if (!preg_match("/^[6-9]\d{9}$/", $mobile)) {
             $err_type = "mb";
             $err_msg = "This is not a valid mobile number";
         }
         $user_id = mysqli_real_escape_string($connect, $_POST['logid']);
-        
+
         $pwd = mysqli_real_escape_string($connect, $_POST['pwd']);
-        if(strlen($pwd) < 6){
+        if (strlen($pwd) < 6) {
             $err_type = "pw";
             $err_msg = "Minimum 6 characters";
-        }else{
+        } else {
             $pwd = password_hash($pwd, PASSWORD_BCRYPT);
         }
-        
+
         $address = mysqli_real_escape_string($connect, $_POST['adr']);
     }
 
@@ -132,14 +132,37 @@ if (isset($_POST['ui'])) {
     $stmt->bind_param("s", $ui);
     $stmt->execute();
     $stmt->store_result();
-    if(!preg_match("/^(?=.*[a-z])[a-z0-9]{4,8}$/i", $ui)){
+    if (!preg_match("/^(?=.*[a-z])[a-z0-9]{4,8}$/i", $ui)) {
         echo "<span style='color:red;'>This is not a valid user id</span>";
-    }else{
+    } else {
         if (!$stmt->num_rows > 0) {
-            echo "<span style='color:green;'>User Id is Available!!</span>";
+            "<span style='color:green;'>User Id is Available!!</span>";
         } else {
             echo "<span style='color:red;'>User Id is Not Available!!</span>";
         }
     }
-    
+}
+
+//FOR LOGIN VERIFICATION
+if (isset($_POST['log']) && !empty($_POST['log'])) {
+
+    $id = mysqli_real_escape_string($connect, $_POST['log']);
+    $password = mysqli_real_escape_string($connect, $_POST['lpw']);
+    $select = "select cust_fname, password from customers where user_id = ?";
+    $stmt = $connect->prepare($select);
+    $stmt->bind_param('s', $id);
+    $stmt->execute();
+    $stmt->bind_result($fn, $pass);
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        while ($stmt->fetch()) {
+            if (!password_verify($password, $pass)) {
+                echo "pw";
+            } else {
+                echo htmlspecialchars($fn);
+            }
+        }
+    } else {
+        echo "id";
+    }
 }
