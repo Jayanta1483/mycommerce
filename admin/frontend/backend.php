@@ -6,7 +6,7 @@ if (isset($_POST['csrf']) && isset($_POST['op']) && $_POST['op'] == "insert") {
 
     $err_type = "";
     $err_msg = "";
-    
+
     if (!hash_equals($_SESSION['key'], $_POST['csrf'])) {
         $err_type = "tk";
         $err_msg = "Invalid Token!!";
@@ -153,24 +153,31 @@ if (isset($_POST['ui'])) {
 
 if (isset($_POST['log']) && !empty($_POST['log'])) {
 
-    $id = mysqli_real_escape_string($connect, $_POST['log']);
-    $password = mysqli_real_escape_string($connect, $_POST['lpw']);
-    $select = "select cust_fname, password from customers where user_id = ?";
-    $stmt = $connect->prepare($select);
-    $stmt->bind_param('s', $id);
-    $stmt->execute();
-    $stmt->bind_result($fn, $pass);
-    $stmt->store_result();
-    if ($stmt->num_rows > 0) {
-        while ($stmt->fetch()) {
-            if (!password_verify($password, $pass)) {
-                echo "pw";
-            } else {
-                echo htmlspecialchars($fn);
-            }
+    if (isset($_POST['csrf-log'])) {
+        if(!hash_equals($_SESSION['key'], $_POST['csrf-log'])){
+            echo "tk";
         }
     } else {
-        echo "id";
+
+        $id = mysqli_real_escape_string($connect, $_POST['log']);
+        $password = mysqli_real_escape_string($connect, $_POST['lpw']);
+        $select = "select cust_fname, password from customers where user_id = ?";
+        $stmt = $connect->prepare($select);
+        $stmt->bind_param('s', $id);
+        $stmt->execute();
+        $stmt->bind_result($fn, $pass);
+        $stmt->store_result();
+        if ($stmt->num_rows > 0) {
+            while ($stmt->fetch()) {
+                if (!password_verify($password, $pass)) {
+                    echo "pw";
+                } else {
+                    echo htmlspecialchars($fn);
+                }
+            }
+        } else {
+            echo "id";
+        }
     }
 }
 

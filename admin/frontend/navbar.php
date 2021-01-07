@@ -307,9 +307,10 @@
 
                             <div class="col-md-5 col-md-offset-1 form-fields">
                                 <form id="logForm" method="post">
+                                <input type="hidden" name="csrf-log" id="csrf-log" value="<?php echo csrf_token(); ?>">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">User Id</label>
-                                        <input type="text" class="form-control" id="userid" name="log" placeholder="User Id">
+                                        <label for="exampleInputEmail1">User ID</label>
+                                        <input type="text" class="form-control" id="userid" name="log" placeholder="User ID">
                                     </div>
                                     <div class="form-group log-pw-con">
                                         <label for="exampleInputPassword1">Password</label>

@@ -11,7 +11,7 @@ $(document).ready(function () {
         }
     })
 
-// FOR REGISTRSTION PAGE
+    // FOR REGISTRSTION PAGE
     $(".p-viewer").click(() => {
         if ($("#pwd").attr("type") == "password") {
             $("#pwd").attr("type", "text");
@@ -23,8 +23,8 @@ $(document).ready(function () {
     })
 
     //FOR LOGIN MODAL
-    $('.p-viewer-log').click(()=>{
-        ($('#log-pwd').attr('type') == "password") ? $('#log-pwd').attr('type','text') : $('#log-pwd').attr('type','password');
+    $('.p-viewer-log').click(() => {
+        ($('#log-pwd').attr('type') == "password") ? $('#log-pwd').attr('type', 'text') : $('#log-pwd').attr('type', 'password');
         $('#log-eye').toggleClass('fa-eye fa-eye-slash');
     })
 
@@ -37,7 +37,7 @@ $(document).ready(function () {
         let form_data = new FormData();
         form_data.append('file', imageFile);
         form_data.append('op', 'insert')
-        form_data.append('csrf',$('#csrf').val());
+        form_data.append('csrf', $('#csrf').val());
         form_data.append('fname', $("#fname").val());
         form_data.append('lname', $("#lname").val());
         form_data.append('email', $("#email").val());
@@ -115,8 +115,8 @@ $(document).ready(function () {
                         $('#profileAlert').fadeOut();
 
                     }, 2500)
-                                 
-                  }
+
+                }
                 else if (response == "error") {
                     $('#profileAlert').html(`<h5 class="alert alert-danger" role="alert">Ooops.!!...Some Error Occured!!</h5>`).fadeIn('slow');
                     setTimeout(() => {
@@ -143,50 +143,53 @@ $(document).ready(function () {
 
 
     // For Checking User Id Availability
-    $('#logid').on('focus',()=>alert("minmum 4 and maximum 8 charactres, can be all alphabetic or alphanumeric, can't have special characters"))
+    $('#logid').on('focus', () => alert("minmum 4 and maximum 8 charactres, can be all alphabetic or alphanumeric, can't have special characters"))
     $('#logid').on('blur', function () {
-        
+
         let val = $('#logid').val();
         if (val !== "") {
             $.post(
                 "backend.php",
                 { ui: val },
                 function (response) {
-                    
+
                     $('#idMsg').html(response).fadeIn();
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         $('#idMsg').fadeOut('slow');
                     }, 2500)
-                        
+
                 }
             )
         }
     })
 
 
-//FOR LOGIN AJAX 
-$('#log-sub').click(()=>{
-    
-    $.post(
-        "backend.php",
-        $('#logForm').serialize(),
-        function(response){
-           switch(response){
-               case "id":
-                   alert("Invalid User Id...Please try again!!");
-                   break;
-                   case "pw":
-                       alert("Invalid Password...Please try again!!");
-                       break;
-                       default :
-                       $('#logForm')[0].reset();
-                       alert(`Welcome ${response} You have successfully logged in!!`);
-                       
-           }
-        }
+    //FOR LOGIN AJAX 
+    $('#log-sub').click(() => {
 
-    )
-})
+        $.post(
+            "backend.php",
+            $('#logForm').serialize(),
+            function (response) {
+                switch (response) {
+                    case "tk":
+                        alert("Invalid Token!!");
+                        break;
+                    case "id":
+                        alert("Invalid User Id...Please try again!!");
+                        break;
+                    case "pw":
+                        alert("Invalid Password...Please try again!!");
+                        break;
+                    default:
+                        $('#logForm')[0].reset();
+                        alert(`Welcome ${response} You have successfully logged in!!`);
+
+                }
+            }
+
+        )
+    })
 
 
 
