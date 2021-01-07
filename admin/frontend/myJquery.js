@@ -37,6 +37,7 @@ $(document).ready(function () {
         let form_data = new FormData();
         form_data.append('file', imageFile);
         form_data.append('op', 'insert')
+        form_data.append('csrf',$('#csrf').val());
         form_data.append('fname', $("#fname").val());
         form_data.append('lname', $("#lname").val());
         form_data.append('email', $("#email").val());
@@ -108,13 +109,14 @@ $(document).ready(function () {
 
                     }, 2500)
                 }
-                // else if (res.type == 'id') {
-                //     $('#idMsg').html(res.msg).fadeIn('slow');
-                //     setTimeout(() => {
-                //         $('#idMsg').fadeOut();
+                else if (res.type == 'tk') {
+                    $('#profileAlert').html(`<h5 class="alert alert-danger" role="alert">${res.msg}</h5>`).fadeIn('slow');
+                    setTimeout(() => {
+                        $('#profileAlert').fadeOut();
 
-                //     }, 2500)
-                // }
+                    }, 2500)
+                                 
+                  }
                 else if (response == "error") {
                     $('#profileAlert').html(`<h5 class="alert alert-danger" role="alert">Ooops.!!...Some Error Occured!!</h5>`).fadeIn('slow');
                     setTimeout(() => {

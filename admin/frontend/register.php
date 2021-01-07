@@ -1,6 +1,6 @@
 <?php
 require "connection.php";
-
+require "functions.php";
 
 ?>
 
@@ -164,7 +164,7 @@ require "connection.php";
                                             <div class="panel-body" >
                                             <div   id="profileAlert" class="alert text-center text-capitalize" style="display:none;"></div>
                                                 <form class="form-horizontal" id="myForm" enctype="multipart/form-data">
-                                                <input type="text" name="" id="">
+                                                <input type="hidden" name="csrf" id="csrf" value="<?php echo csrf_token(); ?>">
                                                     <div class="form-group text-center">
                                                         <img src="customer_avatar.jpg" alt="" id="custProfile" width="100px" height="100px" style="cursor: pointer;" >
                                                         <label for=""style="display:block;">Profile Image</label>
