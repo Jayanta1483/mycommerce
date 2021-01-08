@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    console.log("Welcome index")
+    //FOR REGISTRATION PAGE
 
     $("#custProfile").click(() => $("#cust-image").trigger("click"))
     $("#cust-image").on("change", (e) => {
@@ -10,6 +12,21 @@ $(document).ready(function () {
 
         }
     })
+
+    //FOR EDIT PAGE
+
+$('#cust-Profile').click(()=> $('#cust_image').trigger('click'));
+$('#cust_image').on('change', (e)=>{
+    let file = e.target.files[0];
+    $('#cust-Profile').attr('src', window.URL.createObjectURL(file)); 
+})
+
+
+
+
+
+
+
 
     // FOR REGISTRSTION PAGE
     $(".p-viewer").click(() => {
@@ -29,7 +46,7 @@ $(document).ready(function () {
     })
 
     //For Sending Data to Database using Ajax
-    console.log($('#cust-image').prop('files')[0])
+    //console.log($('#cust-image').prop('files')[0])
 
     $("#submit").click(() => {
         let imageFile = $('#cust-image').prop('files')[0];
@@ -175,21 +192,21 @@ $(document).ready(function () {
                 switch (response) {
                     case "tk":
                         $('#logMsg').html('<h4 class="alert alert-danger" role="alert">Invalid Token!!</h4>').fadeIn();
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             $('#logMsg').fadeOut('slow');
                         }, 2500)
                         //alert("");
                         break;
                     case "id":
                         $('#logMsg').html('<h4 class="alert alert-danger" role="alert">Invalid User Id...Please try again!!</h4>').fadeIn();
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             $('#logMsg').fadeOut('slow');
                         }, 2500)
                         //alert("Invalid User Id...Please try again!!");
                         break;
                     case "pw":
                         $('#logMsg').html('<h4 class="alert alert-danger" role="alert">Invalid Password...Please try again!!</h4>').fadeIn();
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             $('#logMsg').fadeOut('slow');
                         }, 2500)
                         //alert("Invalid Password...Please try again!!");
@@ -199,13 +216,13 @@ $(document).ready(function () {
                         let res = JSON.parse(response);
                         alert(res.ph)
                         $('#logMsg').html(`<h4 class="alert alert-success" role="alert">Welcome ${res.fn} !!</h4>`).fadeIn();
-                        $('#p-mg').attr('src','customer_avatar.jpg');
+                        $('img').attr("src", "customer_avatar.jpg");
                         location.reload();
-                        setTimeout(()=>{
+                        setTimeout(() => {
                             $('#log-close').trigger("click");
                             $('#logMsg').fadeOut();
                         }, 2000)
-                        //alert(`Welcome ${response} You have successfully logged in!!`);
+                    //alert(`Welcome ${response} You have successfully logged in!!`);
 
                 }
             }
@@ -214,22 +231,35 @@ $(document).ready(function () {
     })
 
 
-// SIGN OUT AJAX
+    // SIGN OUT AJAX
 
-$('#signOut').click(()=>{
-    
-    alert("working")
-    $.get(
-        "backend.php",
-        {op:'signout'},
-        (response)=>{
-            alert(response);
-            location.reload();
+    $('#signOut').click(() => {
+
+        $.get(
+            "backend.php",
+            { op: 'signout' },
+            () => location.reload()
+            
+        )
+    })
+
+    //PROFILE DISPLAY
+
+    $.post(
+        'backend.php',
+        { op: 'update', id:$('#id').val() },
+        function (response) {
+            let res = JSON.parse(response);
+            console.log(res)
+            $('#cust-Profile').attr('src', 'uploads/'+res.ph);
+            $('#f-name').val(res.fn);
+            $('#l-name').val(res.ln);
+            $('#e-mail').val(res.em);
+            $('#mo-bile').val(res.mb);
+            $('#log-id').val(res.uid);
+            $('#a-dr').val(res.adr);
         }
     )
-})
-
-
 
 
 

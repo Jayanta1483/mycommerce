@@ -42,6 +42,7 @@ if (isset($_POST['csrf']) && isset($_POST['op']) && $_POST['op'] == "insert") {
                     $err_type = "em";
                     $err_msg = "You have already registered";
                 }
+                $stmt->close();
             }
 
             $mobile = mysqli_real_escape_string($connect, $_POST['mobile']);
@@ -118,6 +119,7 @@ if (isset($_POST['csrf']) && isset($_POST['op']) && $_POST['op'] == "insert") {
             while ($sel_stmt->fetch()) {
                 echo json_encode(htmlspecialchars($fn));
             }
+            $stmt->close();
             unset($_SESSION['key']);
         }
     } else {
@@ -147,7 +149,9 @@ if (isset($_POST['ui'])) {
         } else {
             echo "<span style='color:red;'>User Id is Not Available!!</span>";
         }
+        
     }
+    $stmt->close();
 }
 
 //FOR LOGIN VERIFICATION
@@ -158,11 +162,11 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
 
         $id = mysqli_real_escape_string($connect, $_POST['log']);
         $password = mysqli_real_escape_string($connect, $_POST['lpw']);
-        $select = "select cust_fname, password, photo from customers where user_id = ?";
+        $select = "select cust_id, cust_fname, password, photo from customers where user_id = ?";
         $stmt = $connect->prepare($select);
         $stmt->bind_param('s', $id);
         $stmt->execute();
-        $stmt->bind_result($fn, $pass, $ph);
+        $stmt->bind_result($id, $fn, $pass, $ph);
         $stmt->store_result();
         if ($stmt->num_rows > 0) {
             while ($stmt->fetch()) {
@@ -170,7 +174,10 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
                     echo "pw";
                 } else {
 
-                    $_SESSION['log'] = $fn;
+                    $_SESSION['log'] = array(
+                        'fn'=>$fn,
+                         'id'=>$id
+                    );
                     session_regenerate_id(false);
                     $data = array("fn"=> $fn, "ph"=>$ph);
                     echo json_encode($data);
@@ -180,6 +187,7 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
         } else {
             echo "id";
         }
+        $stmt->close();
     
 }
 
@@ -193,7 +201,29 @@ if(isset($_REQUEST['op'])){
     }
 }
 
+//PROFILE DISPLAY
 
+if(isset($_POST['op']) && $_POST['op'] == 'update'){
+    $id = $_POST['id'];
+    $select = "SELECT `cust_fname`, `cust_lname`, `cust_address`, `cust_email`, `cust_mobile`, `user_id`, `photo` FROM `customers` WHERE `cust_id` = ?";
+    $stmt = $connect->prepare($select);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->bind_result($fn, $ln, $adr, $em, $mb, $uid, $ph);
+    while($stmt->fetch()){
+        $data = array(
+            'fn' => $fn,
+            'ln' => $ln,
+            'adr' => $adr,
+            'em' => $em,
+            'mb' => $mb,
+            'uid' => $uid,
+            'ph' => $ph       
+        );
+    }
+
+    echo json_encode($data);
+}
 
 
 

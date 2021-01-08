@@ -48,11 +48,13 @@
                                 </a>
                             <?php  }    ?>
                         </li>
-                        <li>
-                            <a href="register.php" target="_blank">
-                                <b>Sing up</b>
-                            </a>
-                        </li>
+                        <?php if (empty($_SESSION['log'])) { ?>
+                            <li>
+                                <a href="register.php" target="_blank">
+                                    <b>Sing up</b>
+                                </a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>
@@ -71,9 +73,11 @@
                                 <!-- New message badge -->
                                 <span class="badge bg-blue hidden-xs hidden-sm"></span>
 
-                              
-                                    
-                                <img id="p-mg" src="customer_avatar.jpg" alt="" width="50" height="50" style="border-radius: 50%;">
+                                <span class="icon">
+                                    <i class="icofont icofont-user-alt-4 text-blue"></i>
+                                </span>
+
+                                <!-- <img id="p-img" src="customer_avatar.jpg" alt="" class="img-profile rounded-circle"> -->
 
                                 <!-- img src="images/profile/profile-img.jpg" alt="" -->
                             </span>
@@ -81,9 +85,9 @@
                             <!-- Info -->
                             <span class="info">
                                 <!-- Name -->
-                                
-                                <span class="name text-uppercase"><?php echo htmlspecialchars($_SESSION['log']); ?></span>
-                                <a href="#">edit profile</a>
+
+                                <span class="name text-uppercase"><?php echo htmlspecialchars($_SESSION['log']['fn']); ?></span>
+                                <a href="edit.php">edit profile</a>
                             </span>
                         </span>
                     </li>
