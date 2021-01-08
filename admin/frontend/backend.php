@@ -118,6 +118,7 @@ if (isset($_POST['csrf']) && isset($_POST['op']) && $_POST['op'] == "insert") {
             while ($sel_stmt->fetch()) {
                 echo json_encode(htmlspecialchars($fn));
             }
+            unset($_SESSION['key']);
         }
     } else {
         $error = array("type" => $err_type, "msg" => $err_msg);
@@ -153,11 +154,7 @@ if (isset($_POST['ui'])) {
 
 if (isset($_POST['log']) && !empty($_POST['log'])) {
 
-    if (isset($_POST['csrf-log'])) {
-        if(!hash_equals($_SESSION['key'], $_POST['csrf-log'])){
-            echo "tk";
-        }
-    } else {
+    
 
         $id = mysqli_real_escape_string($connect, $_POST['log']);
         $password = mysqli_real_escape_string($connect, $_POST['lpw']);
@@ -172,13 +169,15 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
                 if (!password_verify($password, $pass)) {
                     echo "pw";
                 } else {
+                    $_SESSION['log'] = $fn;
+                    session_regenerate_id(false);
                     echo htmlspecialchars($fn);
                 }
             }
         } else {
             echo "id";
         }
-    }
+    
 }
 
 

@@ -171,19 +171,36 @@ $(document).ready(function () {
             "backend.php",
             $('#logForm').serialize(),
             function (response) {
+                console.log(response)
                 switch (response) {
                     case "tk":
-                        alert("Invalid Token!!");
+                        $('#logMsg').html('<h4 class="alert alert-danger" role="alert">Invalid Token!!</h4>').fadeIn();
+                        setTimeout(()=>{
+                            $('#logMsg').fadeOut('slow');
+                        }, 2500)
+                        //alert("");
                         break;
                     case "id":
-                        alert("Invalid User Id...Please try again!!");
+                        $('#logMsg').html('<h4 class="alert alert-danger" role="alert">Invalid User Id...Please try again!!</h4>').fadeIn();
+                        setTimeout(()=>{
+                            $('#logMsg').fadeOut('slow');
+                        }, 2500)
+                        //alert("Invalid User Id...Please try again!!");
                         break;
                     case "pw":
-                        alert("Invalid Password...Please try again!!");
+                        $('#logMsg').html('<h4 class="alert alert-danger" role="alert">Invalid Password...Please try again!!</h4>').fadeIn();
+                        setTimeout(()=>{
+                            $('#logMsg').fadeOut('slow');
+                        }, 2500)
+                        //alert("Invalid Password...Please try again!!");
                         break;
                     default:
                         $('#logForm')[0].reset();
-                        alert(`Welcome ${response} You have successfully logged in!!`);
+                        $('#logMsg').html(`<h4 class="alert alert-success" role="alert">Welcome ${response} !!</h4>`).fadeIn();
+                        setTimeout(()=>{
+                            $('#logMsg').fadeOut('slow');
+                        }, 2500)
+                        //alert(`Welcome ${response} You have successfully logged in!!`);
 
                 }
             }

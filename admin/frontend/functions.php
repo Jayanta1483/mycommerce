@@ -1,5 +1,6 @@
 <?php
 session_start();
+session_regenerate_id(true);
 
 function csrf_token(){
     $token = bin2hex(random_bytes(32));
@@ -7,6 +8,7 @@ function csrf_token(){
     $_SESSION['key'] = $token;
     return $token;
 }
+
 
 
 ?>
