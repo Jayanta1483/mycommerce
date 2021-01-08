@@ -38,9 +38,15 @@
 
                     <ul class="list-btn-group">
                         <li>
-                            <a href="#" data-toggle="modal" data-target="#myModal">
-                                Sing in
-                            </a>
+                            <?php if (empty($_SESSION['log'])) { ?>
+                                <a href="#" data-toggle="modal" data-target="#myModal">
+                                    Sing in
+                                </a>
+                            <?php } else {  ?>
+                                <a href="#" id="signOut">
+                                    Sing out
+                                </a>
+                            <?php  }    ?>
                         </li>
                         <li>
                             <a href="register.php" target="_blank">
@@ -54,37 +60,40 @@
             <ul class="nav navbar-nav navbar-right info-panel">
 
                 <!-- Profile -->
-                <li class="profile">
-                    <span class="wrap">
+                <?php
+                if (!empty($_SESSION['log'])) { ?>
+                    <li class="profile">
+                        <span class="wrap">
 
-                        <!-- Image -->
-                        <span class="image bg-white">
+                            <!-- Image -->
+                            <span class="image bg-white text-center">
 
-                            <!-- New message badge -->
-                            <span class="badge bg-blue hidden-xs hidden-sm">5</span>
+                                <!-- New message badge -->
+                                <span class="badge bg-blue hidden-xs hidden-sm"></span>
 
-                            <span class="icon">
-                                <i class="icofont icofont-user-alt-4 text-blue"></i>
+                              
+                                    
+                                <img id="p-mg" src="customer_avatar.jpg" alt="" width="50" height="50" style="border-radius: 50%;">
+
+                                <!-- img src="images/profile/profile-img.jpg" alt="" -->
                             </span>
 
-                            <!--img src="images/profile/profile-img.jpg" alt=""-->
+                            <!-- Info -->
+                            <span class="info">
+                                <!-- Name -->
+                                
+                                <span class="name text-uppercase"><?php echo htmlspecialchars($_SESSION['log']); ?></span>
+                                <a href="#">edit profile</a>
+                            </span>
                         </span>
-
-                        <!-- Info -->
-                        <span class="info">
-                            <!-- Name -->
-                            <span class="name text-uppercase">John Doe</span>
-                            <a href="#">edit profile</a>
-                        </span>
-                    </span>
-                </li>
-
+                    </li>
+                <?php } ?>
                 <!-- Cart -->
                 <li class="cart">
 
                     <a href="#" class="cart-icon hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 
-                        <span class="badge bg-blue">3</span>
+                        <span class="badge bg-blue"></span>
 
                         <i class="icofont icofont-cart-alt"></i>
                     </a>
@@ -213,7 +222,7 @@
 
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="index.html">
+                    <a href="index.php">
                         home
                     </a>
                 </li>
@@ -264,7 +273,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
+                <button type="button" class="close" data-dismiss="modal" id="log-close">
                     <span aria-hidden="true">
                         <i class="icofont icofont-close-line"></i>
                     </span>
@@ -301,7 +310,7 @@
 
                     <div class="col-md-5 col-md-offset-1 form-fields">
                         <div id="logMsg"></div>
-                        
+
                         <form id="logForm" method="post">
                             <input type="hidden" name="csrf-log" id="csrf-log" value="">
                             <div class="form-group">

@@ -196,10 +196,15 @@ $(document).ready(function () {
                         break;
                     default:
                         $('#logForm')[0].reset();
-                        $('#logMsg').html(`<h4 class="alert alert-success" role="alert">Welcome ${response} !!</h4>`).fadeIn();
+                        let res = JSON.parse(response);
+                        alert(res.ph)
+                        $('#logMsg').html(`<h4 class="alert alert-success" role="alert">Welcome ${res.fn} !!</h4>`).fadeIn();
+                        $('#p-mg').attr('src','customer_avatar.jpg');
+                        location.reload();
                         setTimeout(()=>{
-                            $('#logMsg').fadeOut('slow');
-                        }, 2500)
+                            $('#log-close').trigger("click");
+                            $('#logMsg').fadeOut();
+                        }, 2000)
                         //alert(`Welcome ${response} You have successfully logged in!!`);
 
                 }
@@ -209,7 +214,20 @@ $(document).ready(function () {
     })
 
 
+// SIGN OUT AJAX
 
+$('#signOut').click(()=>{
+    
+    alert("working")
+    $.get(
+        "backend.php",
+        {op:'signout'},
+        (response)=>{
+            alert(response);
+            location.reload();
+        }
+    )
+})
 
 
 

@@ -1,5 +1,6 @@
 <?php
 require "connection.php";
+require "functions.php";
 
 ?>
 
@@ -4703,7 +4704,9 @@ require "connection.php";
     <!-- Bootstrap core JavaScript
         ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="myJquery.js"></script>
+    <!-- <script src="assets/js/jquery.min.js"></script> -->
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/owl.carousel.min.js"></script><!-- OWL Carousel -->
@@ -4714,6 +4717,7 @@ require "connection.php";
     <script src="assets/js/jquery.TDTimer.min.js"></script><!-- Timer -->
     <script src="assets/js/selectize.min.js"></script><!-- Select customize -->
     <script src="js/main.min.js"></script>
+    
 </body>
 
 </html>

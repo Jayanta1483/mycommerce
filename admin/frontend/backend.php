@@ -158,20 +158,23 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
 
         $id = mysqli_real_escape_string($connect, $_POST['log']);
         $password = mysqli_real_escape_string($connect, $_POST['lpw']);
-        $select = "select cust_fname, password from customers where user_id = ?";
+        $select = "select cust_fname, password, photo from customers where user_id = ?";
         $stmt = $connect->prepare($select);
         $stmt->bind_param('s', $id);
         $stmt->execute();
-        $stmt->bind_result($fn, $pass);
+        $stmt->bind_result($fn, $pass, $ph);
         $stmt->store_result();
         if ($stmt->num_rows > 0) {
             while ($stmt->fetch()) {
                 if (!password_verify($password, $pass)) {
                     echo "pw";
                 } else {
+
                     $_SESSION['log'] = $fn;
                     session_regenerate_id(false);
-                    echo htmlspecialchars($fn);
+                    $data = array("fn"=> $fn, "ph"=>$ph);
+                    echo json_encode($data);
+                    
                 }
             }
         } else {
@@ -181,7 +184,14 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
 }
 
 
+// FOR SIGNOUT
 
+if(isset($_REQUEST['op'])){
+    if($_REQUEST['op'] == 'signout'){
+        session_destroy();
+        echo "signout";
+    }
+}
 
 
 
