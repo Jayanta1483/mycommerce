@@ -58,7 +58,7 @@ if(empty($_SESSION['log'])){
             cursor: pointer;
             text-align: center;
         }
-        #eye{
+        #eye1,#eye2{
           color: red;
            margin: 17px;
            
@@ -216,16 +216,16 @@ if(empty($_SESSION['log'])){
                                                     <div class="form-group pd-none">
                                                         <label for="password" class="col-sm-3 control-label text-darkness">Enter current password</label>
                                                         <div class="col-sm-8">
-                                                            <input type="password" class="form-control" id="p-wd" name="p-wd">
-                                                            <span class="p-viewer border border-dark"><i class="fas fa-eye" id="eye"></i></span>
+                                                            <input type="password" class="form-control pwd" id="p-wd" name="p-wd">
+                                                            <span class="p-viewer border border-dark" id="pw1"><i class="fas fa-eye" id="eye1"></i></span>
                                                             <p id="pw-Msg" class="text-center" style="color:red;display:none;"></p>
                                                         </div>
                                                     </div>
                                                     <div class="form-group pd-none">
                                                         <label for="password" class="col-sm-3 control-label text-darkness">Enter new password</label>
                                                         <div class="col-sm-8">
-                                                            <input type="password" class="form-control" id="cpwd" name="cpwd">
-                                                            <span class="p-viewer border border-dark"><i class="fas fa-eye" id="eye"></i></span>
+                                                            <input type="password" class="form-control pwd" id="cpwd" name="cpwd" placeholder="To Change Password"      disabled>
+                                                            <span class="p-viewer border border-dark" id="pw2"><i class="fas fa-eye" id="eye2"></i></span>
                                                             <p id="cpw-Msg" class="text-center" style="color:red;display:none;"></p>
                                                         </div>
                                                     </div>

@@ -3,9 +3,9 @@ $(document).ready(function () {
     //FOR REGISTRATION PAGE
 
     $("#custProfile").click(() => $("#cust-image").trigger("click"))
-    $("#cust-image").on("change", (e) => {
+    $("#cust-image").on("change", () => {
 
-        let file = e.target.files[0];
+        let file = $(this).files[0];
         if (file) {
             $("#custProfile").attr("src", window.URL.createObjectURL(file));
 
@@ -15,11 +15,11 @@ $(document).ready(function () {
 
     //FOR EDIT PAGE
 
-$('#cust-Profile').click(()=> $('#cust_image').trigger('click'));
-$('#cust_image').on('change', (e)=>{
-    let file = e.target.files[0];
-    $('#cust-Profile').attr('src', window.URL.createObjectURL(file)); 
-})
+    $('#cust-Profile').click(() => $('#cust_image').trigger('click'));
+    $('#cust_image').on('change', () => {
+        let file = $(this).files[0];
+        $('#cust-Profile').attr('src', window.URL.createObjectURL(file));
+    })
 
 
 
@@ -45,8 +45,12 @@ $('#cust_image').on('change', (e)=>{
         $('#log-eye').toggleClass('fa-eye fa-eye-slash');
     })
 
+
+
+
+
     //For Sending Data to Database using Ajax
-    //console.log($('#cust-image').prop('files')[0])
+
 
     $("#submit").click(() => {
         let imageFile = $('#cust-image').prop('files')[0];
@@ -195,26 +199,25 @@ $('#cust_image').on('change', (e)=>{
                         setTimeout(() => {
                             $('#logMsg').fadeOut('slow');
                         }, 2500)
-                        //alert("");
+
                         break;
                     case "id":
                         $('#logMsg').html('<h4 class="alert alert-danger" role="alert">Invalid User Id...Please try again!!</h4>').fadeIn();
                         setTimeout(() => {
                             $('#logMsg').fadeOut('slow');
                         }, 2500)
-                        //alert("Invalid User Id...Please try again!!");
+
                         break;
                     case "pw":
                         $('#logMsg').html('<h4 class="alert alert-danger" role="alert">Invalid Password...Please try again!!</h4>').fadeIn();
                         setTimeout(() => {
                             $('#logMsg').fadeOut('slow');
                         }, 2500)
-                        //alert("Invalid Password...Please try again!!");
+
                         break;
                     default:
                         $('#logForm')[0].reset();
                         let res = JSON.parse(response);
-                        alert(res.ph)
                         $('#logMsg').html(`<h4 class="alert alert-success" role="alert">Welcome ${res.fn} !!</h4>`).fadeIn();
                         $('img').attr("src", "customer_avatar.jpg");
                         location.reload();
@@ -222,7 +225,7 @@ $('#cust_image').on('change', (e)=>{
                             $('#log-close').trigger("click");
                             $('#logMsg').fadeOut();
                         }, 2000)
-                    //alert(`Welcome ${response} You have successfully logged in!!`);
+
 
                 }
             }
@@ -239,7 +242,7 @@ $('#cust_image').on('change', (e)=>{
             "backend.php",
             { op: 'signout' },
             () => location.reload()
-            
+
         )
     })
 
@@ -247,11 +250,11 @@ $('#cust_image').on('change', (e)=>{
 
     $.post(
         'backend.php',
-        { op: 'update', id:$('#id').val() },
+        { op: 'update', id: $('#id').val() },
         function (response) {
             let res = JSON.parse(response);
             console.log(res)
-            $('#cust-Profile').attr('src', 'uploads/'+res.ph);
+            $('#cust-Profile').attr('src', 'uploads/' + res.ph);
             $('#f-name').val(res.fn);
             $('#l-name').val(res.ln);
             $('#e-mail').val(res.em);
@@ -262,7 +265,28 @@ $('#cust_image').on('change', (e)=>{
     )
 
 
+    //PASSWORD VALIDATION FOR EDIT PAGE
 
+    $('#p-wd').on('blur', function()  {
+        let val = $(this).val();
+        let id = $('#id').val();
+        $.post(
+            "backend.php",
+            { op: 'pchk', pw: val, id: id },
+            (response) => {
+                
+                if(response == 0){
+                    $('#pw-Msg').text('Wrong Password..try again !!').fadeIn();
+                    setTimeout(() => {
+                        $('#pw-Msg').fadeOut();
+                    }, 2000)
+                }else{
+                    $('#cpwd').removeAttr('disabled');
+                }
+                
+            }
+        )
+    })
 
 
 

@@ -178,7 +178,7 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
                         'fn'=>$fn,
                          'id'=>$id
                     );
-                    session_regenerate_id(false);
+                    session_regenerate_id(true);
                     $data = array("fn"=> $fn, "ph"=>$ph);
                     echo json_encode($data);
                     
@@ -204,7 +204,7 @@ if(isset($_REQUEST['op'])){
 //PROFILE DISPLAY
 
 if(isset($_POST['op']) && $_POST['op'] == 'update'){
-    $id = $_POST['id'];
+    $id = mysqli_real_escape_string($connect,  $_POST['id']);
     $select = "SELECT `cust_fname`, `cust_lname`, `cust_address`, `cust_email`, `cust_mobile`, `user_id`, `photo` FROM `customers` WHERE `cust_id` = ?";
     $stmt = $connect->prepare($select);
     $stmt->bind_param("i", $id);
@@ -226,6 +226,23 @@ if(isset($_POST['op']) && $_POST['op'] == 'update'){
 }
 
 
+//FOR PASSWORD CONFIRM EDIT PAGE 
+if(isset($_POST['op']) && $_POST['op'] =='pchk'){
+    $id = mysqli_real_escape_string($connect,  $_POST['id']);
+    $pass = mysqli_real_escape_string($connect, $_POST['pw']);
+   $select = "SELECT `password` FROM `customers` WHERE `cust_id` = ?";
+   $stmt = $connect->prepare($select);
+   $stmt->bind_param('i', $id);
+   $stmt->execute();
+   $stmt->bind_result($password);
+   $stmt->fetch();
+   if(!password_verify($pass, $password)){
+       echo 0;
+   }else{
+       echo 1;
+   }
+
+}
 
 
 
