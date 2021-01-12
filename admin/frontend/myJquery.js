@@ -16,8 +16,8 @@ $(document).ready(function () {
     //FOR EDIT PAGE
 
     $('#cust-Profile').click(() => $('#cust_image').trigger('click'));
-    $('#cust_image').on('change', () => {
-        let file = $(this).files[0];
+    $('#cust_image').on('change', function(e)  {
+        let file = e.target.files[0];
         $('#cust-Profile').attr('src', window.URL.createObjectURL(file));
     })
 
@@ -250,7 +250,7 @@ $(document).ready(function () {
 
     $.post(
         'backend.php',
-        { op: 'update', id: $('#id').val() },
+        { op: 'display', id: $('#id').val() },
         function (response) {
             let res = JSON.parse(response);
             console.log(res)
@@ -267,31 +267,32 @@ $(document).ready(function () {
 
     //PASSWORD VALIDATION FOR EDIT PAGE
 
-    $('#p-wd').on('blur', function()  {
+    $('#p-wd').on('blur', function () {
         let val = $(this).val();
         let id = $('#id').val();
         $.post(
             "backend.php",
             { op: 'pchk', pw: val, id: id },
             (response) => {
-                
-                if(response == 0){
-                    $('#pw-Msg').text('Wrong Password..try again !!').fadeIn();
+
+                if (response == 0) {
+                    $('#pw-Msg').text('You are changing the password').fadeIn();
                     setTimeout(() => {
                         $('#pw-Msg').fadeOut();
                     }, 2000)
-                }else{
-                    $('#cpwd').removeAttr('disabled');
+                } else {
+                    $('#pw-Msg').text('Correct Password').fadeIn();
+                    setTimeout(() => {
+                        $('#pw-Msg').fadeOut();
+                    }, 2000)
                 }
-                
+
             }
         )
     })
 
 
-
-
-
+   
 
 
 

@@ -1,10 +1,24 @@
 <?php
 require "connection.php";
-require "functions.php";
+ require "functions.php";
+// session_start();
 
-if(empty($_SESSION['log'])){
-    header('Location:index.php');
+if (empty($_SESSION['log'])) {
+    header('Location:register.php');
 }
+
+$id = $_SESSION['log']['id'];
+$select = "select cust_fname from customers where cust_id = ?";
+$stmt = $connect->prepare($select);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$stmt->bind_result($fn);
+$stmt->fetch();
+
+
+
+
+
 
 ?>
 
@@ -22,7 +36,7 @@ if(empty($_SESSION['log'])){
     <meta name="author" content="">
     <!--link rel="icon" href="#"-->
 
-    <title></title>
+    <title><?php echo $fn; ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -43,9 +57,9 @@ if(empty($_SESSION['log'])){
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
-    
+
     <style>
-        .p-viewer{
+        .p-viewer {
             position: absolute;
             top: 0;
             right: 15px;
@@ -58,13 +72,13 @@ if(empty($_SESSION['log'])){
             cursor: pointer;
             text-align: center;
         }
-        #eye1,#eye2{
-          color: red;
-           margin: 17px;
-           
-        }
 
-        
+        #eye1,
+        #eye2 {
+            color: red;
+            margin: 17px;
+
+        }
     </style>
 </head>
 
@@ -110,7 +124,7 @@ if(empty($_SESSION['log'])){
 
                                 <!-- Header -->
                                 <h1 class="header text-uppercase">
-                                    New user
+                                     <?php  echo $fn; ?>
                                     <span>
                                         Update Profile
                                     </span>
@@ -150,7 +164,7 @@ if(empty($_SESSION['log'])){
 
                             <div class="col-md-9">
 
-                                <div class="panel-group" >
+                                <div class="panel-group">
 
                                     <div class="panel panel-default">
                                         <div class="panel-heading" id="profileInfo">
@@ -162,20 +176,20 @@ if(empty($_SESSION['log'])){
                                             </h4>
                                         </div>
                                         <div id="bankTransrerColl">
-                                            <div class="panel-body" >
-                                            <div   id="profile-alert" class="alert text-center text-capitalize" style="display:none;"></div>
-                                                <form class="form-horizontal" id="editForm" enctype="multipart/form-data">
-                                                <input type="hidden" name="id" id="id" value="<?php echo $_SESSION['log']['id']; ?>">
+                                            <div class="panel-body">
+                                                <div id="profile-alert" class="alert text-center text-capitalize" style="display:none;"></div>
+                                                <form class="form-horizontal" id="editForm" enctype="multipart/form-data" action="backend.php" method="POST">
+                                                    <input type="hidden" name="id" id="id" value="<?php echo htmlspecialchars($_SESSION['log']['id']); ?>">
                                                     <div class="form-group text-center">
-                                                        <img src="uploads/customer_avatar.jpg" alt="" id="cust-Profile" width="100px" height="100px" style="cursor: pointer;" >
-                                                        <label for=""style="display:block;">Profile Image</label>
+                                                        <img src="uploads/customer_avatar.jpg" alt="" id="cust-Profile" width="100px" height="100px" style="cursor: pointer;">
+                                                        <label for="" style="display:block;">Profile Image</label>
                                                         <input type="file" name="cust_image" id="cust_image" style="display: none;">
                                                         <p id="image-Error" class="text-center" style="color:red;display:none;"></p>
                                                     </div>
 
                                                     <div class="form-group pd-none">
                                                         <label for="frName" class="col-sm-3 control-label text-darkness">Your first name</label>
-                                                        <div class="col-sm-8" >
+                                                        <div class="col-sm-8">
                                                             <input type="text" class="form-control text-capitalize" id="f-name" name="f-name">
                                                             <p id="fn-Msg" class="text-center" style="color:red;display:none;"></p>
                                                         </div>
@@ -185,7 +199,7 @@ if(empty($_SESSION['log'])){
                                                         <label for="lnName" class="col-sm-3 control-label text-darkness">Your last name</label>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control text-capitalize" id="l-name" name="l-name">
-                                                            <p id="ln-Msg" class="text-center" style="color:red;display:none;"></p>  
+                                                            <p id="ln-Msg" class="text-center" style="color:red;display:none;"></p>
                                                         </div>
                                                     </div>
                                                     <div class="form-group pd-none">
@@ -198,7 +212,7 @@ if(empty($_SESSION['log'])){
                                                     <div class="form-group pd-none">
                                                         <label for="mobile" class="col-sm-3 control-label text-darkness">Enter your mobile no.</label>
                                                         <div class="col-sm-8">
-                                                            <input type="number" class="form-control" id="mo-bile" name="mo-bile">
+                                                            <input type="text" class="form-control" id="mo-bile" name="mo-bile">
                                                             <p id="mb-Msg" class="text-center" style="color:red;display:none;"></p>
                                                         </div>
                                                     </div>
@@ -214,19 +228,11 @@ if(empty($_SESSION['log'])){
 
 
                                                     <div class="form-group pd-none">
-                                                        <label for="password" class="col-sm-3 control-label text-darkness">Enter current password</label>
+                                                        <label for="password" class="col-sm-3 control-label text-darkness">Enter your password</label>
                                                         <div class="col-sm-8">
                                                             <input type="password" class="form-control pwd" id="p-wd" name="p-wd">
                                                             <span class="p-viewer border border-dark" id="pw1"><i class="fas fa-eye" id="eye1"></i></span>
                                                             <p id="pw-Msg" class="text-center" style="color:red;display:none;"></p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group pd-none">
-                                                        <label for="password" class="col-sm-3 control-label text-darkness">Enter new password</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="password" class="form-control pwd" id="cpwd" name="cpwd" placeholder="To Change Password"      disabled>
-                                                            <span class="p-viewer border border-dark" id="pw2"><i class="fas fa-eye" id="eye2"></i></span>
-                                                            <p id="cpw-Msg" class="text-center" style="color:red;display:none;"></p>
                                                         </div>
                                                     </div>
 
@@ -238,178 +244,15 @@ if(empty($_SESSION['log'])){
                                                         </div>
                                                     </div>
                                                     <div class="from-group pd-none text-center">
-                                                    <p id="emp-Msg" class="text-center" style="color:red;display:none;"></p>
-                                                        <buttom class="btn btn-primary" name="sub-mit" id="sub-mit">SUBMIT</buttom>
+                                                        <p id="emp-Msg" class="text-center" style="color:red;display:none;"></p>
+                                                        <button class="btn btn-primary" name="sub-mit" id="sub-mit" type="submit">SUBMIT</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- <div class="panel panel-default">
-                                        <div class="panel-heading" id="addressSet">
-                                            <h4 class="panel-title">
-                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                                    <span class="panel-indicator"></span>
-                                                    Address settings
-                                                </a>
-                                            </h4>
-                                        </div>
-                                         <div id="collapseTwo" class="panel-collapse collapse">
-                                            <div class="panel-body"> -->
 
-                                    <!-- <form class="form-horizontal"> -->
-
-                                    <!-- Authocompille -->
-
-
-
-                                    <!-- / Authocompille -->
-
-                                    <!-- <div class="form-group pd-sm">
-                                                        <div class="col-sm-offset-3 col-sm-7">
-                                                            <div class="checkbox padding">
-                                                                <input type="checkbox" id="chackAddress" checked>
-                                                                <label for="chackAddress">
-                                                                    <span class="checkbox-input">
-                                                                        <span class="off">yes</span>
-                                                                        <span class="on">no</span>
-                                                                    </span>
-                                                                    this delively addres is valid
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div> -->
-
-                                    <!-- </form> -->
-
-                                    <!-- 
-                                            </div>
-                                        </div>
-                                    </div> -->
-
-                                    <!-- <div class="panel panel-default"> -->
-                                    <!-- <div class="panel-heading" id="headingTwo">
-                                            <h4 class="panel-title">
-                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#creditCard">
-                                                    <span class="panel-indicator"></span>
-                                                    Credit card payment
-                                                </a>
-                                            </h4>
-                                        </div> -->
-                                    <!-- <div id="creditCard" class="panel-collapse collapse">
-                                            <div class="panel-body"> -->
-
-                                    <!-- <div class="col-xs-2"> -->
-
-                                    <!-- <div class="form-group pd-none">
-                                                        <div class="checkbox vers-2 pd-none">
-                                                            <input type="radio" name="group1" id="item-check-1">
-                                                            <label for="item-check-1">
-                                                                <i class="icofont icofont-check-alt"></i>
-                                                                <span class="text-icon icofont icofont-american-express"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div> -->
-
-                                    <!-- <div class="form-group pd-none">
-                                                        <div class="checkbox vers-2 pd-none">
-                                                            <input type="radio" name="group1" id="item-check-2">
-                                                            <label for="item-check-2">
-                                                                <i class="icofont icofont-check-alt"></i>
-                                                                <span class="text-icon icofont icofont-visa"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div> -->
-
-                                    <!-- <div class="form-group pd-none">
-                                                        <div class="checkbox vers-2 pd-none">
-                                                            <input type="radio" name="group1" id="item-check-3">
-                                                            <label for="item-check-3">
-                                                                <i class="icofont icofont-check-alt"></i>
-                                                                <span class="text-icon icofont icofont-mastercard"></span>
-                                                            </label>
-                                                        </div>
-                                                    </div> -->
-                                    <!-- </div> -->
-
-                                    <!-- <div class="col-xs-10 col-sm-5">
-                                                    <div class="form-group">
-                                                        <label for="cardHolder">Card holder first name</label>
-                                                        <input type="password" class="form-control" id="cardHolder">
-                                                    </div>
-                                                </div> -->
-
-                                    <!-- <div class="col-xs-10 col-sm-5">
-                                                    <div class="form-group">
-                                                        <label for="cardHolderLast">Card holder last name</label>
-                                                        <input type="password" class="form-control" id="cardHolderLast">
-                                                    </div>
-                                                </div> -->
-
-                                    <!-- <div class="col-xs-10 col-sm-6">
-                                                    <div class="form-group">
-                                                        <label for="cardNum">Card number</label>
-                                                        <input type="password" class="form-control" id="cardNum">
-                                                    </div>
-                                                </div> -->
-
-                                    <!-- <div class="col-xs-5 col-sm-2">
-                                                    <div class="form-group">
-                                                        <label for="expiryDate">Expiry Date</label>
-                                                        <input type="password" class="form-control" id="expiryDate">
-                                                    </div>
-                                                </div> -->
-
-                                    <!-- <div class="col-xs-5 col-sm-2">
-                                                    <div class="form-group">
-                                                        <label for="cvc">CVV/CVC</label>
-                                                        <input type="password" class="form-control" id="cvc">
-                                                    </div>
-                                                </div> -->
-
-                                    <!-- <div class="col-xs-12">
-                                                    <div class="form-group row">
-                                                        <div class="col-sm-offset-2 col-sm-8">
-                                                            <button type="button" class="btn btn-primary btn-material">
-                                                                <span class="body">Save method</span>
-                                                                <i class="icon icofont icofont-check-circled"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-                                    <!-- </div>
-                                        </div> -->
-                                    <!-- </div>  -->
-
-                                    <!-- <div class="panel panel-default">
-                                        <div class="panel-heading" id="headingOne">
-                                            <h4 class="panel-title">
-                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#payPall">
-                                                    <span class="panel-indicator"></span>
-                                                    PayPal account
-                                                </a>
-                                            </h4>
-                                        </div> -->
-                                    <!-- <div id="payPall" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <form class="form-horizontal">
-                                                    <div class="form-group pd-none">
-                                                        <label for="PayPal" class="col-sm-3 control-label text-darkness">PayPal account</label>
-                                                        <div class="col-sm-8">
-                                                            <input type="text" class="form-control" id="PayPal">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <div class="col-sm-offset-3 col-sm-7">
-                                                            <a href="#" class="sdw-hover btn btn-material btn-yellow ripple-cont">Next</a>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div> -->
-                                    <!-- </div>  -->
                                 </div>
                             </div>
                         </div>
@@ -458,7 +301,7 @@ if(empty($_SESSION['log'])){
 
     <!-- Google API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_MAPS_API_KEY&libraries=places&callback=initAutocomplete" async defer></script><!-- / Google API -->
-    
+
     <script src="myJquery.js"></script>
 
 

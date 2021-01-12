@@ -1,7 +1,9 @@
 <?php
 require "connection.php";
 require "functions.php";
-
+if(!empty($_SESSION['log'])){
+     header('Location:edit.php');
+}
 ?>
 
 
@@ -197,7 +199,7 @@ require "functions.php";
                                                     <div class="form-group pd-none">
                                                         <label for="mobile" class="col-sm-3 control-label text-darkness">Enter your mobile no.</label>
                                                         <div class="col-sm-8">
-                                                            <input type="number" class="form-control" id="mobile" name="mobile">
+                                                            <input type="text" class="form-control" id="mobile" name="mobile">
                                                             <p id="mbMsg" class="text-center" style="color:red;display:none;"></p>
                                                         </div>
                                                     </div>

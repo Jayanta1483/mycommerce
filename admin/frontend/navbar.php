@@ -86,12 +86,12 @@
                             <span class="info">
                                 <!-- Name -->
 
-                                <span class="name text-uppercase"><?php echo htmlspecialchars($_SESSION['log']['fn']); ?></span>
+                                <span class="name text-uppercase"><?php echo $fn; ?></span>
                                 <a href="edit.php">edit profile</a>
                             </span>
                         </span>
                     </li>
-                <?php } ?>
+                
                 <!-- Cart -->
                 <li class="cart">
 
@@ -222,6 +222,7 @@
 
                     </ul>
                 </li>
+                <?php } ?>
             </ul>
 
             <ul class="nav navbar-nav">
