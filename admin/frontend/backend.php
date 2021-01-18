@@ -159,26 +159,37 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
 
 
 
-    $id = mysqli_real_escape_string($connect, $_POST['log']);
+    $uid = mysqli_real_escape_string($connect, $_POST['log']);
     $password = mysqli_real_escape_string($connect, $_POST['lpw']);
-    $select = "select cust_id, cust_fname, password, photo from customers where user_id = ?";
+    
+    $select = "select cust_id, cust_fname, password, cust_email from customers where user_id = ?";
     $stmt = $connect->prepare($select);
-    $stmt->bind_param('s', $id);
+    $stmt->bind_param('s', $uid);
     $stmt->execute();
-    $stmt->bind_result($id, $fn, $pass, $ph);
+    $stmt->bind_result($id, $fn, $pass, $em);
     $stmt->store_result();
     if ($stmt->num_rows > 0) {
         while ($stmt->fetch()) {
             if (!password_verify($password, $pass)) {
                 echo "pw";
             } else {
+                if(isset($_POST['remember'])){
+                    setcookie("ud", $uid, time()+(86400*365));
+                    setcookie("pd", $password, time()+86400);
+                    $_SESSION['log'] = array(
+                        'fn' => $fn,
+                        'id' => $id
+                    );
+                }else{
+                    $_SESSION['log'] = array(
+                        'fn' => $fn,
+                        'id' => $id
+                    );
+                }
 
-                $_SESSION['log'] = array(
-                    'fn' => $fn,
-                    'id' => $id
-                );
+               
                 session_regenerate_id(true);
-                $data = array("fn" => $fn, "ph" => $ph);
+                $data = array("fn" => $fn, "id" => $id);
                 echo json_encode($data);
             }
         }
@@ -193,6 +204,8 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
 
 if (isset($_REQUEST['op'])) {
     if ($_REQUEST['op'] == 'signout') {
+        setcookie("ud", "", time()-86400);
+        setcookie("pd", "", time()-86400);
         session_destroy();
         echo "signout";
     }

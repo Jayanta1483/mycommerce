@@ -38,17 +38,19 @@
 
                     <ul class="list-btn-group">
                         <li>
-                            <?php if (empty($_SESSION['log'])) { ?>
-                                <a href="#" data-toggle="modal" data-target="#myModal">
-                                    Sing in
-                                </a>
-                            <?php } else {  ?>
-                                <a href="#" id="signOut">
-                                    Sing out
-                                </a>
-                            <?php  }    ?>
+
+                            <a href="#" data-toggle="modal" data-target="#myModal">
+                                Sing in
+                            </a>
+
                         </li>
-                        <?php if (empty($_SESSION['log'])) { ?>
+                        <?php if (!empty($_SESSION['log'])) { ?>
+                            <li>
+                                <a href="#" id="signOut">
+                                    <b>Sing out</b>
+                                </a>
+                            </li>
+                        <?php } else { ?>
                             <li>
                                 <a href="register.php" target="_blank">
                                     <b>Sing up</b>
@@ -91,137 +93,137 @@
                             </span>
                         </span>
                     </li>
-                
-                <!-- Cart -->
-                <li class="cart">
 
-                    <a href="#" class="cart-icon hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <!-- Cart -->
+                    <li class="cart">
 
-                        <span class="badge bg-blue"></span>
+                        <a href="#" class="cart-icon hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 
-                        <i class="icofont icofont-cart-alt"></i>
-                    </a>
+                            <span class="badge bg-blue"></span>
 
-                    <a href="#" class="visible-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <i class="icofont icofont-cart-alt"></i>
-                        Shopping cart
-                    </a>
+                            <i class="icofont icofont-cart-alt"></i>
+                        </a>
 
-                    <!-- Dropdown items list -->
-                    <ul class="dropdown-menu">
+                        <a href="#" class="visible-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="icofont icofont-cart-alt"></i>
+                            Shopping cart
+                        </a>
 
-                        <!-- Item -->
-                        <li>
-                            <div class="wrap">
+                        <!-- Dropdown items list -->
+                        <ul class="dropdown-menu">
 
-                                <!-- Image -->
-                                <div class="image">
-                                    <img src="images/shop/img-01.jpg" alt="">
-                                </div>
+                            <!-- Item -->
+                            <li>
+                                <div class="wrap">
 
-                                <!-- Caption -->
-                                <div class="caption">
-                                    <span class="comp-header st-1 text-uppercase">
-                                        T-SHIPT
-                                        <span>
-                                            MEN COLLECTION
+                                    <!-- Image -->
+                                    <div class="image">
+                                        <img src="images/shop/img-01.jpg" alt="">
+                                    </div>
+
+                                    <!-- Caption -->
+                                    <div class="caption">
+                                        <span class="comp-header st-1 text-uppercase">
+                                            T-SHIPT
+                                            <span>
+                                                MEN COLLECTION
+                                            </span>
+                                            <span>
+                                                FAKE BRAND
+                                            </span>
                                         </span>
-                                        <span>
-                                            FAKE BRAND
+
+                                        <span class="price">
+                                            <span class="text-grey-dark">$</span>
+                                            257 <small class="text-grey-dark">.00</small>
                                         </span>
-                                    </span>
+                                    </div>
 
-                                    <span class="price">
-                                        <span class="text-grey-dark">$</span>
-                                        257 <small class="text-grey-dark">.00</small>
-                                    </span>
-                                </div>
-
-                                <!-- Remove btn -->
-                                <span class="remove-btn bg-blue">
-                                    <i class="icofont icofont-bucket"></i>
-                                </span>
-                            </div>
-                        </li>
-
-                        <!-- Item -->
-                        <li>
-                            <div class="wrap">
-
-                                <!-- Image -->
-                                <div class="image">
-                                    <img src="images/shop/img-01.jpg" alt="">
-                                </div>
-
-                                <!-- Caption -->
-                                <div class="caption">
-                                    <span class="comp-header st-1 text-uppercase">
-                                        T-SHIPT
-                                        <span>
-                                            MEN COLLECTION
-                                        </span>
-                                        <span>
-                                            FAKE BRAND
-                                        </span>
-                                    </span>
-
-                                    <span class="price">
-                                        <span class="text-grey-dark">$</span>
-                                        257 <small class="text-grey-dark">.00</small>
+                                    <!-- Remove btn -->
+                                    <span class="remove-btn bg-blue">
+                                        <i class="icofont icofont-bucket"></i>
                                     </span>
                                 </div>
+                            </li>
 
-                                <!-- Remove btn -->
-                                <span class="remove-btn bg-blue">
-                                    <i class="icofont icofont-bucket"></i>
-                                </span>
-                            </div>
-                        </li>
+                            <!-- Item -->
+                            <li>
+                                <div class="wrap">
 
-                        <!-- Item -->
-                        <li>
-                            <div class="wrap">
+                                    <!-- Image -->
+                                    <div class="image">
+                                        <img src="images/shop/img-01.jpg" alt="">
+                                    </div>
 
-                                <!-- Image -->
-                                <div class="image">
-                                    <img src="images/shop/img-01.jpg" alt="">
-                                </div>
-
-                                <!-- Caption -->
-                                <div class="caption">
-                                    <span class="comp-header st-1 text-uppercase">
-                                        T-SHIPT
-                                        <span>
-                                            MEN COLLECTION
+                                    <!-- Caption -->
+                                    <div class="caption">
+                                        <span class="comp-header st-1 text-uppercase">
+                                            T-SHIPT
+                                            <span>
+                                                MEN COLLECTION
+                                            </span>
+                                            <span>
+                                                FAKE BRAND
+                                            </span>
                                         </span>
-                                        <span>
-                                            FAKE BRAND
-                                        </span>
-                                    </span>
 
-                                    <span class="price">
-                                        <span class="text-grey-dark">$</span>
-                                        257 <small class="text-grey-dark">.00</small>
+                                        <span class="price">
+                                            <span class="text-grey-dark">$</span>
+                                            257 <small class="text-grey-dark">.00</small>
+                                        </span>
+                                    </div>
+
+                                    <!-- Remove btn -->
+                                    <span class="remove-btn bg-blue">
+                                        <i class="icofont icofont-bucket"></i>
                                     </span>
                                 </div>
+                            </li>
 
-                                <!-- Remove btn -->
-                                <span class="remove-btn bg-blue">
-                                    <i class="icofont icofont-bucket"></i>
-                                </span>
-                            </div>
-                        </li>
+                            <!-- Item -->
+                            <li>
+                                <div class="wrap">
+
+                                    <!-- Image -->
+                                    <div class="image">
+                                        <img src="images/shop/img-01.jpg" alt="">
+                                    </div>
+
+                                    <!-- Caption -->
+                                    <div class="caption">
+                                        <span class="comp-header st-1 text-uppercase">
+                                            T-SHIPT
+                                            <span>
+                                                MEN COLLECTION
+                                            </span>
+                                            <span>
+                                                FAKE BRAND
+                                            </span>
+                                        </span>
+
+                                        <span class="price">
+                                            <span class="text-grey-dark">$</span>
+                                            257 <small class="text-grey-dark">.00</small>
+                                        </span>
+                                    </div>
+
+                                    <!-- Remove btn -->
+                                    <span class="remove-btn bg-blue">
+                                        <i class="icofont icofont-bucket"></i>
+                                    </span>
+                                </div>
+                            </li>
 
 
-                        <li class="more-btn sdw">
-                            <a href="card-page-step-1.html" class="btn-material btn-primary">
-                                View order <i class="icofont icofont-check-circled"></i>
-                            </a>
-                        </li>
+                            <li class="more-btn sdw">
+                                <a href="card-page-step-1.html" class="btn-material btn-primary">
+                                    View order <i class="icofont icofont-check-circled"></i>
+                                </a>
+                            </li>
 
 
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
                 <?php } ?>
             </ul>
 
@@ -320,15 +322,19 @@
                             <input type="hidden" name="csrf-log" id="csrf-log" value="">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">User ID</label>
-                                <input type="text" class="form-control" id="userid" name="log" placeholder="User ID">
+                                <input type="text" class="form-control" id="userid" name="log" placeholder="User ID" value="<?php if (isset($_COOKIE['ud'])) {
+                                                                                                                                echo $_COOKIE['ud'];
+                                                                                                                            }   ?>">
                             </div>
                             <div class="form-group log-pw-con">
                                 <label for="exampleInputPassword1">Password</label>
-                                <input type="password" class="form-control" id="log-pwd" name="lpw" placeholder="Password">
+                                <input type="password" class="form-control" id="log-pwd" name="lpw" placeholder="Password" value="<?php if (isset($_COOKIE['pd'])) {
+                                                                                                                                        echo $_COOKIE['pd'];
+                                                                                                                                    }   ?>">
                                 <span class="p-viewer-log"><i class="fas fa-eye" id="log-eye"></i></span>
                             </div>
                             <div class="checkbox padding">
-                                <input type="checkbox" id="inputCheckBox">
+                                <input type="checkbox" id="inputCheckBox" name="remember">
                                 <label for="inputCheckBox">
                                     <span class="checkbox-input">
                                         <span class="off">off</span>

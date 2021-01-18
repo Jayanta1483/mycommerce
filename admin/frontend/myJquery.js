@@ -39,6 +39,19 @@ $(document).ready(function () {
         }
     })
 
+
+    //FOR EDIT PAGE
+
+    $(".p-viewer").click(() => {
+        if ($("#p-wd").attr("type") == "password") {
+            $("#p-wd").attr("type", "text");
+            $("#eye1").css("color", "#33ff33");
+        } else {
+            $("#p-wd").attr("type", "password");
+            $("#eye1").css("color", "red");
+        }
+    })
+
     //FOR LOGIN MODAL
     $('.p-viewer-log').click(() => {
         ($('#log-pwd').attr('type') == "password") ? $('#log-pwd').attr('type', 'text') : $('#log-pwd').attr('type', 'password');
