@@ -8,6 +8,8 @@ if (isset($_REQUEST['t'])) {
     if ($stmt = $connect->prepare($update)) {
         $stmt->bind_param("ss", $status, $token);
         $stmt->execute();
+        $stmt->close();
         echo "<h3 style='color:green;text-align:center;'>Your Account has been activated...You can now login to your account.</h3>";
     }
 }
+$connect->close();

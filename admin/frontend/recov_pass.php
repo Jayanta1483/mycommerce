@@ -19,13 +19,14 @@ if(isset($_POST['emsub'])){
         $message = "Dear,Customer your user id is :".$uid." and "."new password is :".$pass.".
         Now you can login to your account.You can change the password afterwards.";
         mail($email, "Password Recovery",$message, "nemojoy2001@gmail.com");
-        echo "<script> alert('Please check your email') </script>";   
+        echo "<script> alert('Please check your email') </script>"; 
+          
     }else{
         echo "<h2 style='color:red;text-align:center;'>Email id is not Valid!!</h2>";
     }
 
 }
-
+$connect->close();
 
 ?>
 <!DOCTYPE html>
