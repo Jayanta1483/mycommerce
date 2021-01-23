@@ -354,7 +354,7 @@
                                 </li>
                                 <li>or</li>
                                 <li>
-                                    <a href="#">restore password</a>
+                                    <a href="recov_pass.php" target="_blank">restore password</a>
                                 </li>
                             </ul>
                         </form>
