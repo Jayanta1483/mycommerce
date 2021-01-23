@@ -285,12 +285,22 @@
                         <i class="icofont icofont-close-line"></i>
                     </span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    Authorization
-                    <span>
-                        required
-                    </span>
-                </h4>
+                <?php
+                if (!isset($_COOKIE['nm'])) { ?>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Authorization
+                        <span>
+                            required
+                        </span>
+                    </h4>
+                <?php } else { ?>
+                    <h4 class="modal-title" id="myModalLabel" style="color:#4db8ff;">
+                        Welcome
+                        <span>
+                            <?php echo $_COOKIE['nm']; ?>
+                        </span>
+                    </h4>
+                <?php } ?>
             </div>
 
             <div class="modal-body">
@@ -326,6 +336,7 @@
                                                                                                                                 echo $_COOKIE['ud'];
                                                                                                                             }   ?>">
                             </div>
+
                             <div class="form-group log-pw-con">
                                 <label for="exampleInputPassword1">Password</label>
                                 <input type="password" class="form-control" id="log-pwd" name="lpw" placeholder="Password" value="<?php if (isset($_COOKIE['pd'])) {
@@ -344,7 +355,7 @@
                                 </label>
                             </div>
                             <span class="sdw-wrap">
-                                <button type="button" class="sdw-hover btn btn-yellow btn-lg ripple-cont" id="log-sub">Login</button>
+                                <button type="button" class="sdw-hover btn btn-yellow btn-lg ripple-cont" id="log-sub" name="log-sub">Login</button>
                                 <span class="sdw"></span>
                             </span>
 

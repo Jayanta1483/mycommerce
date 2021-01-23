@@ -236,8 +236,7 @@ $(document).ready(function () {
                         break;
                     default:
                         $('#logForm')[0].reset();
-                        let res = JSON.parse(response);
-                        $('#logMsg').html(`<h4 class="alert alert-success" role="alert">Welcome ${res.fn} !!</h4>`).fadeIn();
+                        $('#logMsg').html(`<h4 class="alert alert-success" role="alert">Succesfully Logged In !!</h4>`).fadeIn();
                         $('img').attr("src", "customer_avatar.jpg");
                         location.reload();
                         setTimeout(() => {

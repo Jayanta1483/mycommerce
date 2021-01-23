@@ -173,7 +173,7 @@ if (isset($_POST['ui'])) {
 
 //FOR LOGIN VERIFICATION
 
-if (isset($_POST['log']) && !empty($_POST['log'])) {
+if (isset($_POST['log-sub'])) {
 
 
 
@@ -204,9 +204,10 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
                         'fn' => $fn,
                         'id' => $id
                     );
+                   
                 }
 
-
+                setcookie("nm", $fn, time() + (86400 * 365));
                 session_regenerate_id(true);
                 $data = array("fn" => $fn, "id" => $id);
                 echo json_encode($data);
