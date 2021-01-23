@@ -3,9 +3,9 @@ $(document).ready(function () {
     //FOR REGISTRATION PAGE
 
     $("#custProfile").click(() => $("#cust-image").trigger("click"))
-    $("#cust-image").on("change", () => {
+    $("#cust-image").on("change", (e) => {
 
-        let file = $(this).files[0];
+        let file = e.target.files[0];
         if (file) {
             $("#custProfile").attr("src", window.URL.createObjectURL(file));
 
@@ -16,7 +16,7 @@ $(document).ready(function () {
     //FOR EDIT PAGE
 
     $('#cust-Profile').click(() => $('#cust_image').trigger('click'));
-    $('#cust_image').on('change', function(e)  {
+    $('#cust_image').on('change', function (e) {
         let file = e.target.files[0];
         $('#cust-Profile').attr('src', window.URL.createObjectURL(file));
     })
@@ -207,6 +207,12 @@ $(document).ready(function () {
             function (response) {
                 console.log(response)
                 switch (response) {
+                    case "st":
+                        $('#logMsg').html('<h4 class="alert alert-danger" role="alert">Your Account is Inactive!!</h4>').fadeIn();
+                        setTimeout(() => {
+                            $('#logMsg').fadeOut('slow');
+                        }, 2500)
+                        break;
                     case "tk":
                         $('#logMsg').html('<h4 class="alert alert-danger" role="alert">Invalid Token!!</h4>').fadeIn();
                         setTimeout(() => {
@@ -305,7 +311,7 @@ $(document).ready(function () {
     })
 
 
-   
+
 
 
 

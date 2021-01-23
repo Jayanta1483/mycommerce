@@ -103,24 +103,42 @@ if (isset($_POST['csrf']) && isset($_POST['op']) && $_POST['op'] == "insert") {
         }
     }
     if ($err_type == "") {
-
-        $insert = "INSERT INTO `customers`( `cust_fname`, `cust_lname`, `cust_address`, `cust_email`, `cust_mobile`, `user_id`, `password`, `photo`) VALUES (?,?,?,?,?,?,?,?)";
+        $token = bin2hex(random_bytes(15));
+        $status = "inactive";
+        $insert = "INSERT INTO `customers`( `cust_fname`, `cust_lname`, `cust_address`, `cust_email`, `cust_mobile`, `user_id`, `password`, `photo`, `token`, `status`) VALUES (?,?,?,?,?,?,?,?,?,?)";
         $stmt = $connect->prepare($insert);
-        $stmt->bind_param("ssssisss", $fname, $lname, $address, $email, $mobile, $user_id, $pwd, $file_name);
+        $stmt->bind_param("ssssisssss", $fname, $lname, $address, $email, $mobile, $user_id, $pwd, $file_name,$token, $status);
         ($stmt->execute()) ? $execute = true : $execute = false;
 
         if ($execute) {
-            $last_id = $connect->insert_id;
-            $select = "select cust_fname from customers where cust_id = ?";
-            $sel_stmt = $connect->prepare($select);
-            $sel_stmt->bind_param("i", $last_id);
-            $sel_stmt->execute();
-            $sel_stmt->bind_result($fn);
-            while ($sel_stmt->fetch()) {
-                echo json_encode(htmlspecialchars($fn));
-            }
-            $stmt->close();
-            unset($_SESSION['key']);
+
+
+        
+                $last_id = $connect->insert_id;
+                $select = "select cust_fname from customers where cust_id = ?";
+                $sel_stmt = $connect->prepare($select);
+                $sel_stmt->bind_param("i", $last_id);
+                $sel_stmt->execute();
+                $sel_stmt->bind_result($fn);
+                while ($sel_stmt->fetch()) {
+                    echo json_encode(htmlspecialchars($fn));
+                }
+
+                // FOR SENDING EMAIL TO NEWLY REGISTERED CUSTOMER
+
+                $to = $email;
+                $subject = "Registration Confirmation & Account activation";
+                $message = "Congratulation " . htmlspecialchars($fname) . " !! You have Successfully Registered.Your user_id is :" . htmlspecialchars($user_id) . " and password is :" . htmlspecialchars($_POST['pwd']).".
+                            Please click the following link to activate your account: http://localhost/Jayanta/mycommerce/admin/frontend/acc_active.php?t=$token";
+                $header = "nemojoy2001@gmail.com";
+                mail($to, $subject, $message, $header);
+
+
+
+
+                $stmt->close();
+                unset($_SESSION['key']);
+
         }
     } else {
         $error = array("type" => $err_type, "msg" => $err_msg);
@@ -161,37 +179,41 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
 
     $uid = mysqli_real_escape_string($connect, $_POST['log']);
     $password = mysqli_real_escape_string($connect, $_POST['lpw']);
-    
-    $select = "select cust_id, cust_fname, password, cust_email from customers where user_id = ?";
+
+    $select = "select cust_id, cust_fname, password, cust_email, status from customers where user_id = ?";
     $stmt = $connect->prepare($select);
     $stmt->bind_param('s', $uid);
     $stmt->execute();
-    $stmt->bind_result($id, $fn, $pass, $em);
+    $stmt->bind_result($id, $fn, $pass, $em, $status);
     $stmt->store_result();
     if ($stmt->num_rows > 0) {
         while ($stmt->fetch()) {
+         if($status == "active"){
             if (!password_verify($password, $pass)) {
                 echo "pw";
             } else {
-                if(isset($_POST['remember'])){
-                    setcookie("ud", $uid, time()+(86400*365));
-                    setcookie("pd", $password, time()+86400);
+                if (isset($_POST['remember'])) {
+                    setcookie("ud", $uid, time() + (86400 * 365));
+                    setcookie("pd", $password, time() + 86400);
                     $_SESSION['log'] = array(
                         'fn' => $fn,
                         'id' => $id
                     );
-                }else{
+                } else {
                     $_SESSION['log'] = array(
                         'fn' => $fn,
                         'id' => $id
                     );
                 }
 
-               
+
                 session_regenerate_id(true);
                 $data = array("fn" => $fn, "id" => $id);
                 echo json_encode($data);
             }
+        }else{
+            echo "st";
+        }
         }
     } else {
         echo "id";
@@ -204,8 +226,8 @@ if (isset($_POST['log']) && !empty($_POST['log'])) {
 
 if (isset($_REQUEST['op'])) {
     if ($_REQUEST['op'] == 'signout') {
-        setcookie("ud", "", time()-86400);
-        setcookie("pd", "", time()-86400);
+        setcookie("ud", "", time() - 86400);
+        setcookie("pd", "", time() - 86400);
         session_destroy();
         echo "signout";
     }
