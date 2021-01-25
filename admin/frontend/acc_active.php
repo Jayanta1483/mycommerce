@@ -9,7 +9,7 @@ if (isset($_REQUEST['t'])) {
         $stmt->bind_param("ss", $status, $token);
         $stmt->execute();
         $stmt->close();
-        echo "<h3 style='color:green;text-align:center;'>Your Account has been activated...You can now login to your account.</h3>";
+        echo "<h3 style='text-align:center;'><a href='#' style='color:green;'>Your Account has been activated...You can now login to your account.</a></h3>";
     }
 }
 $connect->close();

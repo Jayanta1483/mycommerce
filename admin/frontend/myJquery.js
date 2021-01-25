@@ -200,7 +200,7 @@ $(document).ready(function () {
 
     //FOR LOGIN AJAX 
     $('#log-sub').click(() => {
-
+      console.log($('#logForm').serialize())
         $.post(
             "backend.php",
             $('#logForm').serialize(),
@@ -285,29 +285,29 @@ $(document).ready(function () {
 
     //PASSWORD VALIDATION FOR EDIT PAGE
 
-    $('#p-wd').on('blur', function () {
-        let val = $(this).val();
-        let id = $('#id').val();
-        $.post(
-            "backend.php",
-            { op: 'pchk', pw: val, id: id },
-            (response) => {
+    // $('#p-wd').on('blur', function () {
+    //     let val = $(this).val();
+    //     let id = $('#id').val();
+    //     $.post(
+    //         "backend.php",
+    //         { op: 'pchk', pw: val, id: id },
+    //         (response) => {
 
-                if (response == 0) {
-                    $('#pw-Msg').text('You are changing the password').fadeIn();
-                    setTimeout(() => {
-                        $('#pw-Msg').fadeOut();
-                    }, 2000)
-                } else {
-                    $('#pw-Msg').text('Correct Password').fadeIn();
-                    setTimeout(() => {
-                        $('#pw-Msg').fadeOut();
-                    }, 2000)
-                }
+    //             if (response == 0) {
+    //                 $('#pw-Msg').text('You are changing the password').fadeIn();
+    //                 setTimeout(() => {
+    //                     $('#pw-Msg').fadeOut();
+    //                 }, 2000)
+    //             } else {
+    //                 $('#pw-Msg').text('Correct Password').fadeIn();
+    //                 setTimeout(() => {
+    //                     $('#pw-Msg').fadeOut();
+    //                 }, 2000)
+    //             }
 
-            }
-        )
-    })
+    //         }
+    //     )
+    // })
 
 
 

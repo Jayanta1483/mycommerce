@@ -328,8 +328,8 @@
                     <div class="col-md-5 col-md-offset-1 form-fields">
                         <div id="logMsg"></div>
 
-                        <form id="logForm" method="post">
-                            <input type="hidden" name="csrf-log" id="csrf-log" value="">
+                        <form id="logForm">
+                            <!-- <input type="hidden" name="csrf-log" id="csrf-log" value=""> -->
                             <div class="form-group">
                                 <label for="exampleInputEmail1">User ID</label>
                                 <input type="text" class="form-control" id="userid" name="log" placeholder="User ID" value="<?php if (isset($_COOKIE['ud'])) {
