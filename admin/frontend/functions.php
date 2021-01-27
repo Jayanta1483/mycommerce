@@ -9,6 +9,14 @@ function csrf_token(){
     return $token;
 }
 
-
+function auto_session(){
+    if(isset($_SESSION['LAST_ACTIVITY'])){
+        if((time() - $_SESSION['LAST_ACTIVITY']) > 1200){
+            session_destroy();
+            echo "logout";
+        }
+    }
+}
+ auto_session();
 
 ?>

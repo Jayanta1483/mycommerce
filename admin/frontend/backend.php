@@ -204,7 +204,8 @@ if (isset($_POST['log']) && $_POST['log'] !== "") {
                             'id' => $id
                         );
                     }
-
+                    
+                    $_SESSION['LAST_ACTIVITY'] = time();
                     setcookie("nm", $fn, time() + (86400 * 365));
                     session_regenerate_id(true);
                     $data = array("fn" => $fn, "id" => $id);

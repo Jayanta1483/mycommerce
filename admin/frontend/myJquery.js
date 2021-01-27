@@ -1,5 +1,24 @@
 $(document).ready(function () {
-    console.log("Welcome index")
+   
+// FOR AUTO LOGOUT AFTER A SPECIFIED TIME
+
+function sessionCheck(){
+    $.post(
+     'functions.php',
+     {type :'session'},
+     function(response){
+         if(response == 'logout'){
+             location.reload();
+         }
+     })
+    
+}
+   
+setInterval(sessionCheck, 2000);
+
+
+
+
     //FOR REGISTRATION PAGE
 
     $("#custProfile").click(() => $("#cust-image").trigger("click"))

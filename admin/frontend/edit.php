@@ -3,8 +3,11 @@ require "connection.php";
  require "functions.php";
 // session_start();
 
+// auto_session();
+
 if (empty($_SESSION['log'])) {
     header('Location:register.php');
+    die();
 }
 
 $id = $_SESSION['log']['id'];
