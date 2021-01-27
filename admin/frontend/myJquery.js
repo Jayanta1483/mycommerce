@@ -1,20 +1,20 @@
 $(document).ready(function () {
-   
-// FOR AUTO LOGOUT AFTER A SPECIFIED TIME
 
-function sessionCheck(){
-    $.post(
-     'functions.php',
-     {type :'session'},
-     function(response){
-         if(response == 'logout'){
-             location.reload();
-         }
-     })
-    
-}
-   
-setInterval(sessionCheck, 2000);
+    // FOR AUTO LOGOUT AFTER A SPECIFIED TIME
+
+    function sessionCheck() {
+        $.post(
+            'functions.php',
+            { type: 'session' },
+            function (response) {
+                if (response == 'logout') {
+                    location.reload();
+                }
+            })
+
+    }
+
+    setInterval(sessionCheck, 2000);
 
 
 
@@ -219,7 +219,7 @@ setInterval(sessionCheck, 2000);
 
     //FOR LOGIN AJAX 
     $('#log-sub').click(() => {
-      console.log($('#logForm').serialize())
+        console.log($('#logForm').serialize())
         $.post(
             "backend.php",
             $('#logForm').serialize(),
@@ -253,7 +253,19 @@ setInterval(sessionCheck, 2000);
                         }, 2500)
 
                         break;
-                    default:
+                    case "2":
+                        $('#logMsg').html('<h4 class="alert alert-danger" role="alert">Your attempts are over...Please try again after 30 seconds!!</h4>').fadeIn();
+                        $('#userid,#log-pwd,#log-sub').prop('disabled', true);
+                        setTimeout(() => {
+                            $('#logMsg').fadeOut('slow');
+                        }, 2500)
+                        setTimeout(() => {
+                            $('#userid,#log-pwd,#log-sub').prop('disabled', false);
+                        }, 30000)
+
+                        break;
+                    case "ok":
+
                         $('#logForm')[0].reset();
                         $('#logMsg').html(`<h4 class="alert alert-success" role="alert">Succesfully Logged In !!</h4>`).fadeIn();
                         $('img').attr("src", "customer_avatar.jpg");
@@ -262,6 +274,13 @@ setInterval(sessionCheck, 2000);
                             $('#log-close').trigger("click");
                             $('#logMsg').fadeOut();
                         }, 2000)
+
+                        break;
+                    default:
+                        $('#logMsg').html('<h4 class="alert alert-danger" role="alert">Some Error Occured!!</h4>').fadeIn();
+                        setTimeout(() => {
+                            $('#logMsg').fadeOut('slow');
+                        }, 2500)
 
 
                 }

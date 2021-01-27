@@ -189,7 +189,22 @@ if (isset($_POST['log']) && $_POST['log'] !== "") {
         while ($stmt->fetch()) {
             if ($status == "active") {
                 if (!password_verify($password, $pass)) {
-                    echo "pw";
+                    $ip_addr = get_ip();
+                    $time = time() - 30;
+                    $sel = "select count(*) as total_count from login_logs where try_time > '$time' and ip_add = '$ip_addr'";
+                    $qry = mysqli_query($connect, $sel);
+                    $login_row = mysqli_fetch_assoc($qry);
+                    $total_count = $login_row['total_count'];
+
+                    if ($total_count == 2) {
+                        echo $total_count;
+                    } else {
+
+                        $try_time = time();
+                        $ins = "INSERT INTO login_logs( ip_add, try_time) VALUES ('$ip_addr', '$try_time')";
+                        mysqli_query($connect, $ins);
+                        echo "pw";
+                    }
                 } else {
                     if (isset($_POST['remember'])) {
                         setcookie("ud", $uid, time() + (86400 * 365));
@@ -204,12 +219,12 @@ if (isset($_POST['log']) && $_POST['log'] !== "") {
                             'id' => $id
                         );
                     }
-                    
+
                     $_SESSION['LAST_ACTIVITY'] = time();
                     setcookie("nm", $fn, time() + (86400 * 365));
                     session_regenerate_id(true);
-                    $data = array("fn" => $fn, "id" => $id);
-                    echo json_encode($data);
+                    // $data = array("fn" => $fn, "id" => $id);
+                    echo "ok";
                 }
             } else {
                 echo "st";
