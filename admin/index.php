@@ -1,5 +1,12 @@
 <?php
 session_start();
+if (isset($_SESSION['LOCKED'])) {
+    $diff = time() - $_SESSION['LOCKED'];
+    if ($diff > 10) {
+        unset($_SESSION['LOCKED']);
+        unset($_SESSION['LOGIN_ATTEMPTS']);
+    }
+}
 if (!empty($_SESSION["login"])) {
     header("location:tables.php?page=catagories");
 }
@@ -23,24 +30,27 @@ if (isset($_POST["login"])) {
     //$result = $stmt->get_result();
     $stmt->bind_result($adm_id, $adm_email, $adm_pass);
 
-    $em_msg = $pass_msg = "";
+    $msg = "";
 
-    while ($stmt->fetch()) {
+    $stmt->store_result();
+    if ($stmt->num_rows() > 0) {
+        while ($stmt->fetch()) {
 
-
-        if (empty($adm_email)) {
-
-            header("location:index.php?e=em");
-        } elseif ($password !== $adm_pass) {
-
-            header("location:index.php?e=pw");
-        } else {
-            $_SESSION["login"] = "yes";
-            $_SESSION["email"] = $email;
-            header("location:tables.php?page=catagories");
+            if (!password_verify($password, $adm_pass)) {
+                $_SESSION['LOGIN_ATTEMPTS'] += 1;
+                header("location:index.php?e=pw");
+                
+            } else {
+                $_SESSION["login"] = "yes";
+                $_SESSION["email"] = $email;
+                header("location:tables.php?page=catagories");
+            }
         }
+    } else {
+        $_SESSION['LOGIN_ATTEMPTS'] += 1;
+        header("location:index.php?e=em");
+        
     }
-
     $stmt->close();
 }
 
@@ -113,9 +123,13 @@ if (isset($_POST["login"])) {
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <button class="btn btn-primary btn-user btn-block" name="login">
-                                            Login
-                                        </button>
+                                        <?php
+                                        if (empty($_SESSION['LOGIN_ATTEMPTS']) || $_SESSION['LOGIN_ATTEMPTS'] < 3) {
+                                            $_SESSION['LOCKED'] = time(); ?>
+                                            <button class="btn btn-primary btn-user btn-block" name="login">
+                                                Login
+                                            </button>
+                                        <?php }  ?>
                                         <!-- <hr>
                                         <a href="index.html" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Login with Google
@@ -125,15 +139,21 @@ if (isset($_POST["login"])) {
                                         </a> -->
                                         <?php
                                         if (isset($_GET["e"])) {
+                                            if (isset($_SESSION['LOGIN_ATTEMPTS']) && $_SESSION['LOGIN_ATTEMPTS'] > 2) {
+                                                //echo $_SESSION['LOGIN_ATTEMPTS'];
+                                                echo "<p style='color:red;padding-left:14px;text-align:center;'>Your logins attempts have exceeded...!!</p>";
+                                            } else {
+                                                if ($_GET["e"] === "em") {
+                                                    //echo $_SESSION['LOGIN_ATTEMPTS'];
+                                                    $msg = "Invalid Email Id";
+                                                    echo "<p style='color:red;padding-left:14px;text-align:center;'>$msg</p>";
+                                                }
 
-                                            if ($_GET["e"] === "em") {
-                                                $em_msg = "Invalid Email Id";
-                                                echo "<p style='color:red;padding-left:14px;text-align:center;'>$em_msg</p>";
-                                            }
-
-                                            if ($_GET["e"] === "pw") {
-                                                $pass_msg = "Invalid Password";
-                                                echo "<p style='color:red;padding-left:14px;text-align:center;'>$pass_msg</p>";
+                                                if ($_GET["e"] === "pw") {
+                                                    //echo $_SESSION['LOGIN_ATTEMPTS'];
+                                                    $msg = "Invalid Password";
+                                                    echo "<p style='color:red;padding-left:14px;text-align:center;'>$msg</p>";
+                                                }
                                             }
                                         }
 

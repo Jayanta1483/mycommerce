@@ -189,8 +189,9 @@ if (isset($_POST['log']) && $_POST['log'] !== "") {
         while ($stmt->fetch()) {
             if ($status == "active") {
                 if (!password_verify($password, $pass)) {
-                    $ip_addr = get_ip();
-                    $time = time() - 30;
+                    $ip = get_ip();
+                    $ip_addr = filter_var($ip, FILTER_VALIDATE_IP);
+                    $time = time() - 1800;
                     $sel = "select count(*) as total_count from login_logs where try_time > '$time' and ip_add = '$ip_addr'";
                     $qry = mysqli_query($connect, $sel);
                     $login_row = mysqli_fetch_assoc($qry);
