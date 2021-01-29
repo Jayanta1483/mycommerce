@@ -3,6 +3,7 @@ require "connection.php";
 require "functions.php";
 if(!empty($_SESSION['log'])){
      header('Location:edit.php');
+     die();
 }
 ?>
 

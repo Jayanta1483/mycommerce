@@ -1,6 +1,7 @@
 <?php
 require "connection.php";
 require "functions.php";
+require_once "config.php";
 
 if (isset($_POST['csrf']) && isset($_POST['op']) && $_POST['op'] == "insert") {
 
@@ -244,6 +245,7 @@ if (isset($_REQUEST['op'])) {
     if ($_REQUEST['op'] == 'signout') {
         setcookie("ud", "", time() - 86400);
         setcookie("pd", "", time() - 86400);
+        $g_client->revokeToken();
         session_destroy();
         echo "signout";
     }

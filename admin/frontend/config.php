@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 
 //Include Google Client Library for PHP autoload file
 require_once "vendor/autoload.php";
