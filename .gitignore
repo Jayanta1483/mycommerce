@@ -3,6 +3,10 @@ admin/frontend/assets/
 admin/frontend/images/
 admin/frontend/js/
 admin/frontend/uploads/
+admin/frontend/vendor/
+admin/frontend/composer.json
+admin/frontend/composer.lock
+admin/frontend/google_loginapi.txt
 admin/frontend.rar
 admin/frontend.zip
 admin/css/

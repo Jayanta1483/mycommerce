@@ -326,6 +326,10 @@
                     </div>
 
                     <div class="col-md-5 col-md-offset-1 form-fields">
+                        <div class="d-grid gap-2 col-6 mx-auto text-center g-btn">
+                            <span class="g"><i class="fab fa-google"></i></span><button class="btn btn-primary" type="button"> Login with Google Account</button>
+                        </div>
+                        <hr>
                         <div id="logMsg"></div>
 
                         <form id="logForm">
