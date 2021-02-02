@@ -111,7 +111,6 @@ $(document).ready(function () {
             success: function (response) {
                 console.log(response)
                 let res = JSON.parse(response);
-                console.log(res.type, res.msg);
                 if (res.type == 'emp') {
                     $('#empMsg').html(res.msg).fadeIn('slow');
                     setTimeout(() => {
@@ -182,7 +181,7 @@ $(document).ready(function () {
                     $("#myForm")[0].reset();
                     $("#custProfile").attr("src", "customer_avatar.jpg");
                     console.log(response)
-                    $('#profileAlert').html(`<h5 class="alert alert-success" role="alert">Congrats ${JSON.parse(response)}....You have Successfully Registered!!</h5>`).fadeIn('slow');
+                    $('#profileAlert').html(`<h5 class="alert alert-success" role="alert">Congrats ${JSON.parse(response).fn}....You have Successfully Registered!!</h5>`).fadeIn('slow');
                     setTimeout(() => {
                         $('#profileAlert').fadeOut();
                     }, 2500)

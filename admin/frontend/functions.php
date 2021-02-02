@@ -13,8 +13,10 @@ function csrf_token()
 function auto_session()
 {
     if (isset($_SESSION['LAST_ACTIVITY'])) {
-        if ((time() - $_SESSION['LAST_ACTIVITY']) > 10) {
-            session_destroy();
+        if ((time() - $_SESSION['LAST_ACTIVITY']) > 3600) {
+            // session_destroy();
+            unset($_SESSION['LAST_ACTIVITY']);
+            unset($_SESSION['log']);
             echo "logout";
         }
     }

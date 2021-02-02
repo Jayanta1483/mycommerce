@@ -6,6 +6,7 @@ admin/frontend/uploads/
 admin/frontend/vendor/
 admin/frontend/composer.json
 admin/frontend/composer.lock
+admin/frontend/mailer.php
 admin/frontend/google_loginapi.txt
 admin/frontend.rar
 admin/frontend.zip
